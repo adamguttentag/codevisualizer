@@ -1,0 +1,754 @@
+<style>
+body {
+	background-color: #666;
+	background: url('bokeh.svg');
+	/*
+	Credit where credit is due:
+	Background coded in SVG by Adam Guttentag, based on design by Marc Edwards
+	https://dribbble.com/shots/760031-Faux-Bokeh
+	*/
+	background-size: cover;
+	margin: 0;
+}
+.console {
+	text-align: left;
+	border-radius: 10px;
+	border: solid 5px #555;
+	background-color: #333;
+	padding: 5px 10px;
+	margin: auto;
+	width: 50%;
+	color: #fff;
+	font: 9pt menlo, courier;
+}
+.messageBox {
+	text-align: left;
+	border-radius: 0 10px 10px 0;
+	border-color: #555;
+	border-style: solid;
+	border-width: 5px 5px 5px 0;
+	background-color: #333;
+	padding: 5px 10px;
+    position: fixed;
+    left: -30vw;
+    top: 5vw;
+	width: 25vw;
+
+	color: #fff;
+	font: 10pt arial, courier;
+	opacity: 0.7;
+	transition: left 0.5s ease;
+
+}
+.messageBox:hover {
+	border-color: #666;
+}
+
+#logo {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    height: 7vh;
+}
+#pocketguide {
+    height: 7vh;
+    width: 7vh;
+    border-radius: 10px;
+    background-color: #333;
+    padding: 3px;
+    float: right;
+    border-width: 2px;
+    border-color: #000, #000, #666, #666;
+}
+#progressbars {
+    float: left;
+}
+.dock {
+	width: 100%;
+	background-color: #555;
+	background-image: linear-gradient(to bottom, #222 0%, #333 1%, #555 6%);
+	padding: 5px 10px;
+    position: fixed;
+    bottom: 0px;
+    height: 10vh;
+    overflow-y: scroll;
+}
+#skillBar {
+	width: calc(0% - 2px);
+	background-image: linear-gradient(to bottom, #44cefd 0%, #fff 45%, #fff 55%, #44cefd 100%);
+	border: solid 1px #44cedf;
+}
+#taskBar {
+	width: calc(0% - 2px);
+	background-image: linear-gradient(to bottom, red 0%, #fff 45%, #fff 55%, red 100%);
+	border: solid 1px red;
+}
+#levelBar {
+	width: calc(0% - 2px);
+	background-image: linear-gradient(to bottom, lime 0%, #fff 45%, #fff 55%, lime 100%);
+	border: solid 1px lime;
+}
+.progressI {
+	height: calc(100% - 2px);
+	border-radius: 10px;
+	font: 7pt menlo, courier;
+	line-height: 10px;
+	text-align: center;
+	white-space: nowrap;
+	color: #555;
+	transition: width 1s cubic-bezier(0.270, 0.610, 0.000, 0.905);
+}
+.progressO {
+	width: 400px;
+	height: 10px;
+	border-radius: 12px;
+	background-color: #333;
+	padding: 2px;
+	margin: 1px 0;
+}
+input {
+	border-radius: 10px;
+	margin: auto;
+	width: 100%;
+	background-color: #000;
+	color: #fff;
+	font-family: menlo, courier;
+	border: none;
+	font: 11pt menlo, courier;
+}
+label {
+	color: #ccc;
+}
+body {
+	text-align: center;
+}
+code {
+	color: orange;
+	font-family: menlo, courier;
+	background-color: #000;
+	padding: 3px 8px;
+	border: solid 1px orange;
+	border-radius: 3px;
+}
+em {
+	color: deepSkyBlue;
+	font-style: normal;
+}
+#thesvg {
+	height: 70vh;
+	/* original value width="320px" height="400px" */
+}
+#levelup {
+	opacity: 0;
+	visibility: hidden;
+	margin: auto;
+	position: absolute;
+	top: 0; left: 0; bottom: 0; right: 0;
+	z-index: 100;
+	height: 30vh;
+	width: 50vw;
+	color: #fff;
+	border-radius: 10px;
+	border: solid 5px #555;
+	background-color: #333;
+	padding: 5px 10px;
+	transition: opacity 1s;
+}
+#about {
+	visibility: hidden;
+	margin: auto;
+	position: absolute;
+	top: 0; left: 0; bottom: 0; right: 0;
+	z-index: 100;
+	height: 60vh;
+	width: 50vw;
+	padding: 0;
+	box-shadow: 0px 10px 39px 12px rgba(0,0,0,0.75);
+	font: 12pt arial;
+}
+#aboutLeft {
+	width: 50%;
+	height: 100%;
+	float: left;
+	background-image: url('bokeh.svg');
+	background-size: cover;
+	text-align: center;
+	color: #fff;
+}
+#aboutRight {
+	width: 50%;
+	height: 100%;
+	float: right;
+	background-color: #fff;
+}
+#aboutRight > p {
+	margin: 10px;
+}
+#tool {
+    position: fixed;
+    left: -100px;
+}
+</style>
+
+<div class="messageBox" id="messageBoxLeft" onclick="messageBox.click()">
+This is a test.
+</div>
+
+<svg id="thesvg" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="-80 0 320 200" enable-background="new -80 0 320 200" xml:space="preserve">
+<g id="containerback">
+	<polygon opacity="0.7" fill="#3D7776" stroke="#FFFFFF" stroke-width="0.2788" stroke-linecap="square" stroke-miterlimit="1" points="80,129 98,140.1 80,151.1 62,140.1"/>
+	<polygon opacity="0.3" fill="#3E7C7F" stroke="#FFFFFF" stroke-width="0.2788" stroke-linecap="square" stroke-miterlimit="1" points="62,140.1 80,129 80,45.1 62,56.2"/>
+	<polygon opacity="0.3" fill="#3E7C7F" stroke="#FFFFFF" stroke-width="0.2788" stroke-linecap="square" stroke-miterlimit="1" points="98,140.1 80,129 80,45.1 98,56.2"/>
+	<text x="74" y="158" fill="#F1F2F2" font-family="helvetica" font-size="8">arr</text>
+</g>
+<g id="containerfront">
+	<linearGradient id="fl_10_" gradientUnits="userSpaceOnUse" x1="62" y1="103.6328" x2="80" y2="103.6328">
+		<stop  offset="0" style="stop-color:#B2B7BA"/>
+		<stop  offset="1.000000e-02" style="stop-color:#A2AFB5"/>
+		<stop  offset="3.000000e-02" style="stop-color:#8A949D"/>
+		<stop  offset="4.000000e-02" style="stop-color:#A4B0B5;stop-opacity:0"/>
+		<stop  offset="0.2" style="stop-color:#A7B1B6;stop-opacity:0"/>
+		<stop  offset="0.23" style="stop-color:#8A949D;stop-opacity:0.6"/>
+		<stop  offset="0.34" style="stop-color:#8A949D;stop-opacity:0.4"/>
+		<stop  offset="0.45" style="stop-color:#A7B1B6;stop-opacity:0"/>
+		<stop  offset="0.97" style="stop-color:#A7B1B6;stop-opacity:0"/>
+		<stop  offset="0.98" style="stop-color:#5F6468"/>
+		<stop  offset="0.99" style="stop-color:#919BA4"/>
+		<stop  offset="1" style="stop-color:#848A97"/>
+	</linearGradient>
+
+		<polygon id="fl_5_" opacity="0.7" fill="url(#fl_10_)" stroke="#FFFFFF" stroke-width="0.2788" stroke-linecap="square" stroke-miterlimit="1" points="62,56.2 80,67.2 80,151.1 62,140.1"/>
+	<linearGradient id="fr_10_" gradientUnits="userSpaceOnUse" x1="98" y1="103.6328" x2="80" y2="103.6328">
+		<stop  offset="0" style="stop-color:#B2B7BA"/>
+		<stop  offset="1.000000e-02" style="stop-color:#A2AFB5"/>
+		<stop  offset="3.000000e-02" style="stop-color:#8A949D"/>
+		<stop  offset="4.000000e-02" style="stop-color:#A4B0B5;stop-opacity:0"/>
+		<stop  offset="0.2" style="stop-color:#A7B1B6;stop-opacity:0"/>
+		<stop  offset="0.23" style="stop-color:#8A949D;stop-opacity:0.4"/>
+		<stop  offset="0.34" style="stop-color:#8A949D;stop-opacity:0.6"/>
+		<stop  offset="0.45" style="stop-color:#A7B1B6;stop-opacity:0"/>
+		<stop  offset="0.97" style="stop-color:#A7B1B6;stop-opacity:0"/>
+		<stop  offset="0.98" style="stop-color:#5F6468"/>
+		<stop  offset="0.99" style="stop-color:#919BA4"/>
+		<stop  offset="1" style="stop-color:#848A97"/>
+	</linearGradient>
+	<polygon id="fr_5_" opacity="0.7" fill="url(#fr_10_)" stroke="#FFFFFF" stroke-width="0.2788" stroke-linecap="square" stroke-miterlimit="1" points="98,56.2 80,67.2 80,151.1 98,140.1"/>
+</g>
+</svg>
+
+
+<svg version="1.1" id="logo" onclick="about.show()" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 32.4 38.3" enable-background="new 0 0 32.4 38.3" xml:space="preserve">
+<path id="b_4_" opacity="0.7" fill="#326466" stroke="#fff" stroke-width="0.25" stroke-linecap="square" stroke-miterlimit="1" d="M16.1,18.1 32.1,28.1 16.1,38.1 0.1,28.1z"/>
+<path id="bl_4_" opacity="0.7" fill="#3E7C7F" stroke="#fff" stroke-width="0.25" stroke-linecap="square" stroke-miterlimit="1" d="M0.1,28.1 16.1,18.1 16.1,0.1 0.1,10.1z"/>
+<path id="br_4_" opacity="0.7" fill="#3E7C7F" stroke="#fff" stroke-width="0.25" stroke-linecap="square" stroke-miterlimit="1" d="M32.1,28.1 16.1,18.1 16.1,0.1 32.1,10.1z"/>
+<path id="fl_4_" opacity="0.7" fill="#60BDCC" stroke="#fff" stroke-width="0.25" stroke-linecap="square" stroke-miterlimit="1" d="M0.1,10.1 16.1,20.1 16.1,38.1 0.1,28.1z"/>
+<path id="fr_4_" opacity="0.7" fill="#60BDCC" stroke="#fff" stroke-width="0.25" stroke-linecap="square" stroke-miterlimit="1" d="M32.1,10.1 16.1,20.1 16.1,38.1 32.1,28.1z"/>
+<path id="t_3_" opacity="0.7" fill="#6CD4E5" stroke="#fff" stroke-width="0.25" stroke-linecap="square" stroke-miterlimit="1" d="M16.1,0.1 32.1,10.1 16.1,20.1 0.1,10.1z"/>
+</svg>
+
+
+
+<div class="console">
+	Console: <label for="console"></label><br>
+	<input id="console" onkeydown="kd(event)"><br>
+	<div id="messageConsole"></div>
+</div>
+
+<div class="dock">
+	<div id="progressbars">
+		<div class="progressO">
+			<div class="progressI" id="skillBar"></div>
+		</div>
+		<div class="progressO">
+			<div class="progressI" id="taskBar"></div>
+		</div>
+		<div class="progressO">
+			<div class="progressI" id="levelBar"></div>
+		</div>
+	</div>
+
+
+<svg version="1.1" id="pocketguide" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="387px" height="237.5px" viewBox="0 0 387 237.5" enable-background="new 0 0 387 237.5" xml:space="preserve">
+	<path id="cover" opacity="0.7" fill="#326466" stroke="#fff" d="M29.1,18.6 192.1,12 358.4,17.5 386.5,237 190.2,235.3 0.5,237z"/>
+	<path id="pageside" opacity="0.7" fill="#60BDCC" stroke="#fff" stroke-miterlimit="1" d="M43.5,15L20.4,214.8c0,0,156.5-17.6,170,5.2c0,0,6.5-22.6,175-3.1L346.8,13.4l7.6,6.4L380.6,231c0,0-164.8-20.4-190.3-9c0,0-62.9-14.9-185.7,7L33.7,22L43.5,15z"/>
+	<path id="pagefront_2_" opacity="0.7" fill="#6CD4E5" stroke="#fff" stroke-miterlimit="1" d="M43.5,15C42,28,20.4,214.8,20.4,214.8s156.5-17.6,170,5.2c0,0,6.5-22.6,175-3.1L346.8,13.4c0,0-142.1-24.6-154.7,1C177-11.8,76.5,5.3,43.5,15z"/>
+	<line stroke="#fff" x1="192.1" y1="14.3" x2="190.3" y2="220"/>
+</svg>
+
+
+</div>
+<div id="levelup">
+	<img src="tool.svg" height="100" id="tool"><br><div id="levelupSlot"></div>
+</div>
+<div id="about" onclick="about.hide()">
+	<div id="aboutLeft"><svg width="50%" style="padding-top:5vh;"><use x="0" y="0" xlink:href="#logo"/></svg><h2>Coding Visualizer</h2><p>By Adam Guttentag</p></div>
+	<div id="aboutRight">
+		<h2 style="padding-top:5vh;">See it.<br>Do it.<br>Learn it.<br>Repeat.</h2><p>A proof of concept demonstration utilizing CSS, JavaScript, SVG, Snap.svg and the dopamine reward circuit to teach coding.</p></div>
+</div>
+
+
+
+<script src="snap.svg-min.js"></script>
+<script>
+var myConsole = document.getElementById('console');
+var currentObject;
+var hist = [];
+var ind;
+var objectlabel = '';
+var regex = /arr/;
+var boxNumber = -1;
+//var boxesInArray = -1;
+var currentMessage = -1;
+
+// an object containing 3 arrays representing what variables are inside the array, and which are on either side of it. This is useful for keeping track of where everything is so our visible model acts like a real array
+var arrayModel = {
+	pre : [],
+	in : [],
+	post : []
+};
+
+var score = {
+	level : {
+		score : 0,
+		goal : 1000,
+		name : ['Level 2'],
+		level : 0,
+		bar : document.getElementById('levelBar')
+	},
+	task : {
+		score : 0,
+		goal : 10,
+		name : ['Creating Variables','array.push()'],
+		level : 0,
+		bar : document.getElementById('taskBar')
+	},
+	skill : {
+		score : 0,
+		goal : 1000,
+		name : ['Array Manipulation'],
+		level : 0,
+		bar : document.getElementById('skillBar')
+	}
+};
+
+var ios = [];
+var iosTable = [];
+var boxColors = ['blue','green','red','yellow','orange','white','purple'];
+var boxGeometry = [
+	"M20,128 36,138 20,148 4,138z",
+	"M4,138 20,128 20,110 4,120z",
+	"M36,138 20,128 20,110 36,120z",
+	"M4,120 20,130 20,148 4,138z",
+	"M36,120 20,130 20,148 36,138z",
+	"M20,110 36,120 20,130 4,120z"
+];
+var boxFills = [
+	'#326466',
+	'#3e7c7f',
+	'#3e7c7f',
+	'#60bdcc',
+	'#60bdcc',
+	'#6cd4e5'
+];
+var messages = [
+	[
+		'Creating Variables 1/3',
+		'<p>We\'re going to take a visual look at how to work with JavaScript arrays.</p><p>An <em>array</em> is just a container for a collection of things. Before we can work with <em>arr</em> (the name of the empty array here) we need something to put in our container.</p><ol><li>Create a variable named <em>a</em><li>Set its value to <em>apple</em></ol>Type this command in the Console box:</p><p><code>var a = \'apple\'</code></p>'
+	],
+	[
+		'Creating Variables 2/3',
+		'<p>Fantastic! Now try this:</p><ol><li>Create another variable named <em>b</em><li>Set its value to some other fruit</ol></p><hr size="1"><p><em>Hint<br>When the cursor is in the console, you can press the up arrow on your keyboard to access commands you\'ve entered before.</em></p>'
+	],
+	[
+		'Creating Variables 3/3',
+		'<p>One more should do it.<ol><li>Create a variable named <em>c</em><li>Set its value to another fruit</ol></p>'
+	],
+	[
+		'Pushing Data Into An Array 1/3',
+		'<p>One of the most common ways to add data to an array is to <em>push()</em> it. Try it!</p><p><ol><li>Push <em>a</em> into the array named <em>arr</em></ol></p><p><code>arr.push(a)</code></p>'
+	],
+	[
+		'Pushing Data Into An Array 2/3',
+		'<p>Notice that the variable you pushed into the array is now labelled <em>[0]</em>. That\'s the <em>index</em> of that item in the array.</p><p>It\'s an an automatically-assigned address you can use to find it later, which is pretty cool. I wish my sock drawer did that.</p><p><ol><li>Push another variable into the array</ol></p><p><em>Hint<br>You don\'t have to push b next, you could push c if you want to. Experiment!</em></p>'
+	],
+	[
+		'Pushing Data Into An Array 3/3',
+		'<p>One left to go.<ol><li>Push <em>c</em> into the array</ol></p>'
+	],
+	[
+		'Popping Data Out Of An Array 1/3',
+		'<p>So you\'ve got all your variables in the array. Great. At some point, you\'re going to want to remove things from the array. You can use <em>pop()</em> to remove the last item in an array.<ol><li>Store the value of that item in a new variable called <em>x</em></ol></p><p><code>x = arr.pop()</code></p>'
+	],
+	[
+		'End of Line',
+		'<p>That\'s all the coding I have time for right now. Stay tuned for future updates which will go over <em>shift()</em>, <em>unshift()</em>, <em>splice()</em>, and other favorite JavaScript array methods.</p>'
+	]
+];
+/* TODO, add entries for:
+shift() popping from the bottom of the array
+unshift() pushing to the bottom of the array
+tostring() converting the array to a string of values separated by commas
+join() converting the array to a string of values separated by a specified string [join(' * ')]
+accessing by index with brackets fruits[0]= 'kiwi'
+deleting by index with brackets delete fruits[0]
+splice()
+
+
+*/
+
+//create a Box class
+var Box = function(vLabel,cLabel,boxNumber) {
+	// create a group so we can animate this part of the SVG together
+	this.group = s.g();
+
+	// create an array to store the six sides of the cube we generate in the for loop,
+	// drawing their geometry and fill colors from the boxPaths and boxGeometry arrays
+	this.boxPaths = [];
+	for (var path=0; path<boxGeometry.length; path++) {
+		this.boxPaths[path] = s.path(boxGeometry[path]).attr({
+			fill : boxFills[path],
+			stroke : '#fff',
+			strokeWidth : 0.25,
+			strokeMiterlimit : 1,
+			opacity : 0.3
+		});
+		this.group.add(this.boxPaths[path]);
+	}
+	// add a label for the variable name
+	this.vName = s.text(7, 136, vLabel).attr({
+		fill : '#f1f2f2',
+		fontFamily : 'helvetica',
+		fontSize : 8
+	});
+	this.group.add(this.vName);
+
+	// add a label for the index
+	this.iName = s.text(14, 124, '').attr({
+		fill : '#f1f2f2',
+		fontFamily : 'helvetica',
+		fontSize : 8
+	});
+	this.group.add(this.iName);
+
+	// add a label for the content
+	this.cName = s.text(22, 136, cLabel).attr({
+		fill : '#f1f2f2',
+		fontFamily : 'helvetica',
+		fontSize : 8
+	});
+	this.group.add(this.cName);
+	if (boxNumber > 2) {
+		this.group.transform('T-50,'+(-40*(boxNumber-3)));
+	} else {
+		this.group.transform('T0,'+(-40*boxNumber));
+	}
+	// set opacity to 0 so we can fade in on instantiation
+	this.group.attr({
+		opacity: 0
+	});
+	// set to fade in over 1s on instantiation
+	this.group.animate({
+		opacity: 1
+    }, (1000), mina.easeinout);
+	this.boxNumber = boxNumber;
+};
+
+// stores functions and references related to console messages
+var messageConsole = {
+	// reference to the div where console messages will be displayed
+	box : document.getElementById('messageConsole'),
+	// replace the contents of the messageConsole box with the passed message
+	update: function(message,color) {
+		messageConsole.box.innerHTML = '<span style="color:' + color + ';">' + message + '</span>';
+		// clear the messageConsole after 10 seconds
+		setTimeout(messageConsole.clear, 10000);
+	},
+	// clear the messageConsole when called
+	clear : function() {
+		messageConsole.box.innerHTML = '';
+	}
+};
+
+// stores functions and references related the left message box
+// This area is intended to assign tasks for the user to complete
+// TODO: implement right message box to display instructor video
+var messageBox = {
+	// reference to the div where task messages will be displayed
+	box : document.getElementById('messageBoxLeft'),
+	// state of the div: 1=visible, 0=minimized
+	// may be toggled by user clicks on the div
+	state : 1,
+	// called when a new task is assigned to the user
+	update : function() {
+		// increments currentMessage so the next task is displayed when messageBox.show is called
+		currentMessage += 1;
+		// hides the messageBox to make it more visually apparent that its contents have changed
+		messageBox.hide();
+		// calls messageBox.show after a half-second delay so contents can update offscreen
+		setTimeout(messageBox.show, 500);
+	},
+	// hides the messageBox
+	hide : function() {
+		messageBox.box.style.left = '-30vw';
+	},
+	// minimizes the messageBox so it is out of the way, but still displays enough to be restored onclick
+	min : function() {
+		messageBox.box.style.left = '-26vw';
+	},
+	// shows the messageBox and replaces its contents
+	show : function() {
+		// slides the messageBox so its left edge is at the left edge of the screen
+		messageBox.box.style.left = '0vw';
+		// fills the messageBox with the contents of messages[currentMessage]
+		// the first item in that array is the message title, second is the message body
+		messageBox.box.innerHTML = '<h3>' + messages[currentMessage][0] + '</h3>' + messages[currentMessage][1];
+	},
+	// shows or minimizes the messageBox when user clicks it
+	click : function() {
+		if (messageBox.state == 1) {
+			messageBox.min();
+			messageBox.state = 0;
+		} else {
+			messageBox.show();
+			messageBox.state = 1;
+		}
+	},
+};
+
+
+// when the console box has focus and a key is pressed...
+function kd(evt) {
+	// if the key pressed is the return/enter key...
+	if (evt.keyCode == 13) {
+		// store The Value (tv) of the console text in a nice short variable we're going to use a lot
+		var tv = myConsole.value;
+		// push the entered text into the hist array (console history) so we can retrieve it on demand
+		hist.push(tv);
+		// clear the console so it's ready for new input
+		myConsole.value = '';
+		// set the index of the current command to the length of the hist array
+		ind = hist.length;
+
+		// handle arr.push() //pushing a value into the array
+		if (/arr\.push\(.*\)/.test(tv)) {
+			// parse the variable name from the submitted string
+			var currVar = tv.split(/[()]+/)[1];
+			// throw an error message if user tries to push a nonexistent variable
+			if (arrayModel.pre.indexOf(currVar) == -1) {
+				messageConsole.update('Sorry, I can\'t find a variable named ' + currVar + '. Are you sure you created it?', 'red');
+			} else {
+				// look up the index of the specified variable in iosTable, and use that index to select object in ios as the currentObject
+				currentObject = ios[iosTable.indexOf(currVar)];
+				arrayModel.pre.splice(arrayModel.pre.indexOf(currVar),1);
+				arrayModel.in.push(currVar);
+				//boxesInArray += 1;
+				pushA();
+				messageBox.update();
+				scoreUpdate('skill',25);
+				scoreUpdate('level',25);
+			}
+		// handle _ = arr.pop() //popping a value out of the array and storing in a variable
+		} else if (/.* = arr\.pop\(\)/.test(tv)) {
+			objectlabel = tv.split(/[=]+/)[0];
+			arrayModel.in.splice(arrayModel.pre.indexOf(objectlabel),1);
+			arrayModel.post.push(objectlabel);
+			popA();
+			messageBox.update();
+			scoreUpdate('level',100);
+		// handle var _ = '_' //creating a variable
+		} else if (/var .* = \'.*\'/.test(tv)) {
+			var thesplit = tv.split(/var|[=\']+/);
+			var theVariable = tv.split(/var|[=\']+/)[1].trim();
+			var theContent = tv.split(/var|[=\']+/)[3];
+			if (boxNumber > 4) {
+				messageConsole.update('This demo is limited to 6 variables due to screen space limitations.', 'yellow');
+			} else {
+				boxNumber += 1;
+				ios[boxNumber] = new Box(theVariable,theContent,boxNumber,'ios'+boxNumber,boxColors[boxNumber]);
+				currentObject = ios[boxNumber];
+				arrayModel.pre.push(theVariable);
+				iosTable.push(theVariable);
+				messageBox.update();
+				scoreUpdate('task',3.4);
+				scoreUpdate('level',3.4);
+			}
+		}
+		// Pseudocode: if (currentmessage = x && tv.split.test) {missionaccomplished}
+	}
+	// up arrow scrolls back through history array
+	if (evt.keyCode == 38) {
+		if (ind > 0) {
+			ind -= 1;
+			myConsole.value = hist[ind];
+			myConsole.labels[0].innerHTML = '(history: ' + ind + '/' + (hist.length-1) + ')';
+			console.log(ind);
+			console.log(hist);
+		} else {
+			myConsole.value = '';
+			myConsole.labels[0].innerHTML = '';
+			console.log(ind);
+			console.log(hist);
+		}
+	}
+	// up arrow scrolls forward through history array
+	if (evt.keyCode == 40) {
+		if (ind <= hist.length - 1) {
+			ind += 1;
+			if (ind == hist.length) {
+				ind = hist.length - 1;
+			}
+			myConsole.value = hist[ind];
+			myConsole.labels[0].innerHTML = '(history: ' + ind + '/' + (hist.length-1) + ')';
+			console.log(ind);
+			console.log(hist);
+		} else if (ind > hist.length - 1) {
+			ind = hist.length;
+			console.log(ind);
+			console.log(hist);
+		} else {
+			myConsole.value = '';
+			myConsole.labels[0].innerHTML = '';
+			console.log(ind);
+			console.log(hist);
+		}
+	}
+}
+
+function pushA() {
+	currentObject.group.animate({
+		transform: 't60,-108'
+        }, (900), mina.easeinout, pushB);
+}
+function pushB() {
+	currentObject.group.animate({
+		transform: 't60,'+(-20*(arrayModel.in.length -1))
+        }, (900), mina.easeinout);
+	// change the array index label of this object
+	// note: could also use node.textContent to get to access the text
+	// note: possibly also available: .attr({'#text':'new text'})
+	// todo: test and compare them to see if one has a performance advantage
+	currentObject.iName.node.innerHTML = '[' + (arrayModel.in.length -1) + ']';
+}
+function popA() {
+	currentObject.group.animate({
+		transform: 't60,-108'
+        }, (200), mina.easeinout, popB);
+}
+function popB() {
+	currentObject.iName.node.innerHTML = '';
+	currentObject.group.animate({
+		transform: 't120,0'
+        }, (900), mina.easeinout);
+	currentObject.vName.node.innerHTML = objectlabel;
+}
+
+function scoreUpdate(selectedScore, newValue) {
+	score[selectedScore].score += newValue;
+		if (score[selectedScore].score >= score[selectedScore].goal) {
+		// prevent bar from exceeding its container
+		score[selectedScore].score = score[selectedScore].goal;
+		score[selectedScore].bar.style.width = ((score[selectedScore].score / score[selectedScore].goal) * 398);
+		levelup.show('Level Up!<br>' + score[selectedScore].name[score[selectedScore].level]);
+		score[selectedScore].level += 1;
+		score[selectedScore].bar.innerHTML = score[selectedScore].name[score[selectedScore].level];
+		score[selectedScore].score = 0;
+		score[selectedScore].bar.style.width = ((score[selectedScore].score / score[selectedScore].goal) * 398);
+	} else {
+		score[selectedScore].bar.style.width = ((score[selectedScore].score / score[selectedScore].goal) * 398);
+	}
+}
+
+window.onload = function () {
+	window.s = Snap("#thesvg");
+	messageBox.update();
+	score.task.bar.innerHTML = score.task.name[score.task.level];
+	score.skill.bar.innerHTML = score.skill.name[score.task.level];
+	score.level.bar.innerHTML = score.level.name[score.task.level];
+};
+
+var levelup = {
+	modal : document.getElementById('levelup'),
+	slot : document.getElementById('levelupSlot'),
+	toolIcon : document.getElementById('tool'),
+	show : function(content) {
+		levelup.modal.style.visibility = 'visible';
+		levelup.modal.style.transition = 'opacity 1s, visibility 0s';
+		levelup.slot.innerHTML = content;
+		levelup.modal.style.opacity = 0.8;
+		//setTimeout(levelup.acquireTool, 2000);
+		setTimeout(levelup.hide, 7000);
+	},
+	acquireTool : function() {
+		//levelup.toolIcon.style.transition = '2s';
+		//levelup.toolIcon.style.position = 'absolute';
+		//levelup.toolIcon.style.right = '0px';
+	},
+	hide : function() {
+		levelup.modal.style.transition = 'opacity 3s, visibility 4s';
+		levelup.modal.innerHTML = '';
+		levelup.modal.style.opacity = 0;
+		levelup.modal.style.visibility = 'hidden';
+	},
+};
+var about = {
+	modal : document.getElementById('about'),
+	show : function(content) {
+		about.modal.style.visibility = 'visible';
+	},
+	hide : function() {
+		about.modal.style.visibility = 'hidden';
+	}
+};
+
+
+// Code Sample: Countdown Functionality
+// If a visual countdown followed by a callback is needed,
+// this could do the trick. Perhaps for a timed exercise.
+/*
+var theCallback = function () { alert('done'); };
+function countdown(label, seconds) {
+	var t = s.text(50,50,0);
+	Snap.animate(seconds, 0, function (value) {
+	    t.attr({
+	    	text: label + Math.round(value)
+	    });
+	}, (seconds*1000), theCallback);
+}
+*/
+
+
+	/*var gradientStop1 = levelupBackgroundSvg.select('#gradientStop1');
+	var gradientStop2 = levelupBackgroundSvg.select('#gradientStop2');
+	gradientStop1.animate({
+		offset : 0
+	}, (3000), mina.easeout);
+	gradientStop2.animate({
+		offset : 0
+	}, (3000), mina.easeout);*/
+
+
+/*
+window['group' + skillNumber] = currentSVG.g().attr({
+              id: 'g' + skillNumber
+          });
+
+              var rect = currentSVG.rect([skillNumber * 9], [i * 9], 8, 8);
+              rect.attr({
+                  id: "light" + skillNumber + lightNumber,
+                  // sets the color of the rect to appear dimmed
+                  fill: "#545A61",
+                  // CUSTOMIZATION: sets the initial opacity of the rect to 0 so it can fade in
+                  opacity: 0,
+                  // CUSTOMIZATION: sets custom attributes we can access later via javascript
+                  dataSkillName: bio.skillNames[skillNumber],
+                  dataSkillNumber: skillNumber,
+                  dataSkillLevel: skillLevel,
+                  dataJob: job
+              });
+
+              rect.animate({
+                  opacity: 1
+              }, (lightNumber * 900), mina.easeinout);
+*/
+
+</script>
