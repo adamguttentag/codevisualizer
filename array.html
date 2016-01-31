@@ -50,12 +50,13 @@ body {
     left: 10px;
     height: 7vh;
 }
-#pocketguide {
+.dockButtons {
     height: 7vh;
     width: 7vh;
     border-radius: 10px;
     background-color: #333;
     padding: 3px;
+    margin: 0 5px;
     float: right;
     border-width: 2px;
     border-color: #000, #000, #666, #666;
@@ -98,6 +99,9 @@ body {
 	color: #555;
 	transition: width 1s cubic-bezier(0.270, 0.610, 0.000, 0.905);
 }
+.acquireable {
+	transition: all 2s cubic-bezier(0.270, 0.610, 0.000, 0.905);
+}
 .progressO {
 	width: 400px;
 	height: 10px;
@@ -136,7 +140,6 @@ em {
 }
 #thesvg {
 	height: 70vh;
-	/* original value width="320px" height="400px" */
 }
 #levelup {
 	opacity: 0;
@@ -152,6 +155,7 @@ em {
 	border: solid 5px #555;
 	background-color: #333;
 	padding: 5px 10px;
+	font: 16pt arial;
 	transition: opacity 1s;
 }
 #about {
@@ -185,14 +189,19 @@ em {
 	margin: 10px;
 }
 #tool {
-    position: fixed;
-    left: -100px;
+	visibility: hidden;
+	width: 10vw;
+	transform: scale(1);
+	position: absolute;
+	bottom: 50vh;
+	right: 65vw;
+	z-index: 101;
+	transition: transform 2.3s ease, bottom 1.3s ease, right 1.3s ease;
 }
+
 </style>
 
-<div class="messageBox" id="messageBoxLeft" onclick="messageBox.click()">
-This is a test.
-</div>
+<div class="messageBox" id="messageBoxLeft" onclick="messageBox.click()"></div>
 
 <svg id="thesvg" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="-80 0 320 200" enable-background="new -80 0 320 200" xml:space="preserve">
 <g id="containerback">
@@ -247,6 +256,31 @@ This is a test.
 </svg>
 
 
+<svg version="1.1" id="tool" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 918.3 696.5" enable-background="new 0 0 918.3 696.5" xml:space="preserve">
+<g opacity="0.7">
+<path fill="#60BDCC" stroke="#fff" d="M513.8,111.4 562.8,85.4 562.8,143.4 513.8,167.4z"/>
+<path fill="#60BDCC" stroke="#fff" d="M661.8,434.4 711.8,414.4 562.8,143.4 513.8,167.4z"/>
+<path fill="#60BDCC" stroke="#fff" d="M712.6,465.9 761.6,452.6 711.8,414.4 661.8,434.4z"/>
+<path fill="#60BDCC" stroke="#fff" d="M568.8,82.1 591.4,127.4 562.8,143.4 562.8,85.4z"/>
+<path fill="#60BDCC" stroke="#fff" d="M741.9,400.6 591.4,127.4 562.8,143.4 711.8,414.4z"/>
+<path fill="#60BDCC" stroke="#fff" d="M771.8,446.1 741.9,400.6 711.8,414.4 761.6,452.6z"/>
+<path fill="#6CD4E5" stroke="#fff" d="M716.8,0.4 568.8,82.1 591.4,127.4 746.8,36.4z"/>
+<path fill="#6CD4E5" stroke="#fff" d="M897.8,311.4 741.9,400.6 591.4,127.4 746.8,36.4z"/>
+<path fill="#6CD4E5" stroke="#fff" d="M910.8,365.4 771.8,446.1 741.9,400.6 897.8,311.4z"/>
+<path fill="#60BDCC" stroke="#fff" d="M767.8,29.4 746.8,36.4 716.8,0.4z"/>
+<path fill="#60BDCC" stroke="#fff" d="M910.8,297.4l-13,14l-151-275l21-7C767.8,29.4,891.8,219.4,910.8,297.4z"/>
+<path fill="#60BDCC" stroke="#fff" d="M917.8,354.4 910.8,365.4 897.8,311.4 910.8,297.4z"/>
+<path fill="#326466" stroke="#fff" d="M182.8,513l398-237.5l16-18c0,0,37,19,38,66l-23,3l-396,241l-40,35h-29c0,0-25-17-22-41s8-28,8-28L182.8,513z"/>
+<path fill="#60BDCC" stroke="#fff" d="M306.8,689.4l7-143c0,0-55-48-15-142c9-9,12-11,25-5c0,0,2-26,29-18c0,0,3-30,32-17c0,0-4-42,25-23s43,32,43,32s10-5,20,3s28,41,30,51s4,18-13,35s-19,34-18,43l-19,184H306.8z"/>
+<path fill="#60BDCC" stroke="#fff" d="M147.8,553.4c0,0,19,12,19,24c0,0-22,11-59,41s-67,35-85,77c-5,4-20-16-22-24s8-18,8-18s56-50,82-62S147.8,553.4,147.8,553.4z"/>
+<path fill="#326466" stroke="#fff" d="M166.8,577.4C166.8,577.4,166.8,565.4,166.8,577.4c0,0-22,11-59,41s-67,35-85,77c-5,4,35-15,33-23s42-38,42-38s15-20,41-32S166.8,577.4,166.8,577.4z"/>
+</g>
+</svg>
+
+<!--
+An example of how to easily reuse an SVG that exists somewhere else in the page
+<svg style="padding-top:5vh;" id="tool" class="acquireable"><use x="0" y="0" xlink:href="#logo"/></svg> -->
+
 
 <div class="console">
 	Console: <label for="console"></label><br>
@@ -268,7 +302,7 @@ This is a test.
 	</div>
 
 
-<svg version="1.1" id="pocketguide" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="387px" height="237.5px" viewBox="0 0 387 237.5" enable-background="new 0 0 387 237.5" xml:space="preserve">
+<svg version="1.1" id="pocketguide" class="dockButtons" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="387px" height="237.5px" viewBox="0 0 387 237.5" enable-background="new 0 0 387 237.5" xml:space="preserve">
 	<path id="cover" opacity="0.7" fill="#326466" stroke="#fff" d="M29.1,18.6 192.1,12 358.4,17.5 386.5,237 190.2,235.3 0.5,237z"/>
 	<path id="pageside" opacity="0.7" fill="#60BDCC" stroke="#fff" stroke-miterlimit="1" d="M43.5,15L20.4,214.8c0,0,156.5-17.6,170,5.2c0,0,6.5-22.6,175-3.1L346.8,13.4l7.6,6.4L380.6,231c0,0-164.8-20.4-190.3-9c0,0-62.9-14.9-185.7,7L33.7,22L43.5,15z"/>
 	<path id="pagefront_2_" opacity="0.7" fill="#6CD4E5" stroke="#fff" stroke-miterlimit="1" d="M43.5,15C42,28,20.4,214.8,20.4,214.8s156.5-17.6,170,5.2c0,0,6.5-22.6,175-3.1L346.8,13.4c0,0-142.1-24.6-154.7,1C177-11.8,76.5,5.3,43.5,15z"/>
@@ -276,9 +310,17 @@ This is a test.
 </svg>
 
 
+<svg version="1.1" id="gear" class="dockButtons" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="123px" height="123px" viewBox="0 0 123 123" enable-background="new 0 0 123 123" xml:space="preserve">
+<circle id="blackcircle" opacity="0.7" fill="#326466" cx="61.5" cy="61.5" r="61.5"/>
+<path id="small_gear" opacity="0.7" fill="#60BDCC" d="M91.7,64.7l6.7-1.4l-6.5-2.1l6.5-2.2l-6.7-1.3l6.2-2.9l-6.8-0.5l5.8-3.6L90.1,51l5.3-4.3l-6.8,1.1l4.8-4.9l-6.6,1.8l4.2-5.4l-6.3,2.6l3.6-5.9l-6,3.3l2.8-6.2l-5.6,4l2.1-6.5l-5.1,4.6l1.3-6.7l-4.5,5.2l0.5-6.8l-3.9,5.7l-0.3-6.8l-3.2,6.1l-1-6.8L63,31.2l-1.8-6.6l-1.7,6.6l-2.6-6.3L56,31.7l-3.3-6l-0.1,6.9l-4-5.6l0.7,6.8l-4.6-5.1l1.5,6.7L41,30.9l2.2,6.5l-5.6-3.9l3,6.2l-6.1-3.2l3.7,5.8l-6.4-2.5l4.3,5.3l-6.6-1.7l4.9,4.8l-6.8-0.9l5.4,4.2l-6.9-0.1l5.9,3.5l-6.8,0.7l6.2,2.8l-6.7,1.4l6.5,2.1L24.7,64l6.7,1.3l-6.2,2.9l6.8,0.5l-5.8,3.6L33,72l-5.3,4.3l6.8-1.1l-4.8,4.9l6.6-1.8l-4.2,5.4l6.3-2.6L34.8,87l6-3.3L38.1,90l5.6-4l-2.1,6.5l5.1-4.6l-1.3,6.7l4.5-5.2l-0.5,6.8l3.9-5.7l0.3,6.8l3.2-6.1l1,6.8l2.5-6.4l1.8,6.6l1.7-6.6l2.6,6.3l0.9-6.8l3.3,6l0.1-6.9l4,5.6L74,89l4.6,5.1l-1.5-6.7l5.2,4.5l-2.2-6.5l5.6,3.9l-3-6.2l6.1,3.2l-3.7-5.8l6.4,2.5L87,77.9l6.6,1.7l-4.9-4.8l6.8,0.9l-5.4-4.2l6.9,0.1l-5.9-3.5l6.8-0.7L91.7,64.7z M61.5,89.3c-15.4,0-27.8-12.5-27.8-27.8c0-15.4,12.5-27.8,27.8-27.8c15.4,0,27.8,12.5,27.8,27.8C89.3,76.9,76.9,89.3,61.5,89.3z"/>
+<path id="big_gear" opacity="0.7" fill="#6CD4E5" d="M108.6,66.5l10.5-2.2L108.8,61l10.1-3.4l-10.5-2l9.7-4.6l-10.7-0.8l9.1-5.7l-10.7,0.4l8.3-6.7l-10.6,1.7l7.5-7.6l-10.3,2.9l6.6-8.4l-9.9,4.1l5.5-9.1L93.5,27l4.4-9.7l-8.7,6.2l3.3-10.2l-7.9,7.2L86.7,10l-7,8.1l0.8-10.7l-6,8.8L74.2,5.3l-5,9.5L67.6,4.2l-3.8,10L60.9,3.9l-2.7,10.4l-4-9.9L52.8,15l-5.2-9.4l-0.2,10.7l-6.2-8.7l1.1,10.6l-7.2-7.9l2.3,10.5l-8-7l3.5,10.1l-8.8-6.1l4.6,9.6l-9.5-5l5.7,9l-10-3.9l6.7,8.3l-10.4-2.7l7.6,7.5L8.4,39.2l8.5,6.5L6.2,45.5l9.2,5.5L4.7,52l9.7,4.4L4,58.7L14.2,62L4,65.4l10.5,2L4.9,72l10.7,0.8l-9.1,5.7l10.7-0.4l-8.3,6.7l10.6-1.7L12,90.7l10.3-2.9l-6.6,8.4l9.9-4.1l-5.5,9.1l9.4-5.2l-4.4,9.7l8.7-6.2l-3.3,10.2l7.9-7.2L36.3,113l7-8.1l-0.8,10.7l6-8.8l0.4,10.7l5-9.5l1.6,10.6l3.8-10l2.9,10.3l2.7-10.4l4,9.9l1.4-10.6l5.2,9.4l0.2-10.7l6.2,8.7l-1.1-10.6l7.2,7.9L85.7,102l8,7l-3.5-10.1L99,105l-4.6-9.6l9.5,5l-5.7-9l10,3.9l-6.7-8.3l10.4,2.7l-7.6-7.5l10.6,1.5l-8.5-6.5l10.7,0.2l-9.2-5.5l10.6-1L108.6,66.5z M20.3,46.8C39.8,7.3,74.5,20.5,77.8,22.7c3.3,2.2,1,6.8,1,6.8S65.3,50.7,62.7,54.7c-2.6,4-8.5,4.2-8.5,4.2l-30-2.3C18.5,54.5,20.3,48.3,20.3,46.8z M63.6,61.5c0,1.2-0.9,2.1-2.1,2.1s-2.1-0.9-2.1-2.1s0.9-2.1,2.1-2.1S63.6,60.4,63.6,61.5zM70.3,104c-43.8,4.4-51.1-31.9-51-35.9c0.1-4,5.3-4.5,5.3-4.5s25.1,0.2,29.9,0.3c4.8,0.1,8,5,8,5l13.9,26.7C77.7,101.5,71.5,103.2,70.3,104zM89,95.8c-3.5,2-6.5-2.3-6.5-2.3S70,71.8,67.7,67.5c-2.3-4.2,0.2-9.5,0.2-9.5l16-25.5c4.4-4.1,9,0.4,10.3,1.1C120.2,69.2,92.5,93.8,89,95.8z"/>
+</svg>
+
+
+
 </div>
 <div id="levelup">
-	<img src="tool.svg" height="100" id="tool"><br><div id="levelupSlot"></div>
+	<h2>Tool Unlocked</h2><p><div id="levelupSlot"></div></p>
 </div>
 <div id="about" onclick="about.hide()">
 	<div id="aboutLeft"><svg width="50%" style="padding-top:5vh;"><use x="0" y="0" xlink:href="#logo"/></svg><h2>Coding Visualizer</h2><p>By Adam Guttentag</p></div>
@@ -310,25 +352,54 @@ var arrayModel = {
 var score = {
 	level : {
 		score : 0,
-		goal : 1000,
+		goal : [1000],
 		name : ['Level 2'],
 		level : 0,
 		bar : document.getElementById('levelBar')
 	},
 	task : {
 		score : 0,
-		goal : 10,
-		name : ['Creating Variables','array.push()'],
+		goal : [10,30,50,0],
+		name : ['Creating Variables','Push','Pop','Coming Soon...'],
 		level : 0,
 		bar : document.getElementById('taskBar')
 	},
 	skill : {
 		score : 0,
-		goal : 1000,
+		goal : [1000],
 		name : ['Array Manipulation'],
 		level : 0,
 		bar : document.getElementById('skillBar')
+	},
+	levelledUp : '',
+	update : function(selectedScore, newValue) {
+		// increment score by the amount to be added
+		score[selectedScore].score += newValue;
+		// if the user reaches their goal for the selected score...
+		if (score[selectedScore].score >= score[selectedScore].goal[score[selectedScore].level]) {
+			// store selectedScore in score.levelledUp so it will be available outside this scope
+			score.levelledUp = selectedScore;
+			// prevent progress bar from exceeding its container
+			score[selectedScore].score = score[selectedScore].goal[score[selectedScore].level];
+			// update and animate progress bar to fill its container
+			score.progressbarAnimate(selectedScore);
+			// display levelup modal and pass in the name of the goal completed
+			levelup.show(score[selectedScore].name[score[selectedScore].level]);
+			// increment the level of the selected score to set a new goal for the user
+			score[selectedScore].level += 1;
+			// set the score for the new goal to 0
+			score[selectedScore].score = 0;
+		} else {
+			// update and animate progress bar to its new level
+			score.progressbarAnimate(selectedScore);
+		}
+	},
+	progressbarAnimate : function (selectedScore) {
+		// set width of progress bar to the percentage of the goal represented by the current score
+		// TODO: stop relying on magic number
+		score[selectedScore].bar.style.width = ((score[selectedScore].score / score[selectedScore].goal[score[selectedScore].level]) * 398);
 	}
+
 };
 
 var ios = [];
@@ -377,7 +448,7 @@ var messages = [
 	],
 	[
 		'Popping Data Out Of An Array 1/3',
-		'<p>So you\'ve got all your variables in the array. Great. At some point, you\'re going to want to remove things from the array. You can use <em>pop()</em> to remove the last item in an array.<ol><li>Store the value of that item in a new variable called <em>x</em></ol></p><p><code>x = arr.pop()</code></p>'
+		'<p>So you\'ve got all your variables in the array. Great. At some point, you\'re going to want to remove things from the array. You can use <em>pop()</em> to remove the last item in an array.<ol><li>Pop the last item out of the array and store its value in a new variable called <em>x</em></ol></p><p><code>x = arr.pop()</code></p>'
 	],
 	[
 		'End of Line',
@@ -544,8 +615,7 @@ function kd(evt) {
 				//boxesInArray += 1;
 				pushA();
 				messageBox.update();
-				scoreUpdate('skill',25);
-				scoreUpdate('level',25);
+				score.update('task',10);
 			}
 		// handle _ = arr.pop() //popping a value out of the array and storing in a variable
 		} else if (/.* = arr\.pop\(\)/.test(tv)) {
@@ -554,7 +624,7 @@ function kd(evt) {
 			arrayModel.post.push(objectlabel);
 			popA();
 			messageBox.update();
-			scoreUpdate('level',100);
+			score.update('task',50);
 		// handle var _ = '_' //creating a variable
 		} else if (/var .* = \'.*\'/.test(tv)) {
 			var thesplit = tv.split(/var|[=\']+/);
@@ -569,8 +639,7 @@ function kd(evt) {
 				arrayModel.pre.push(theVariable);
 				iosTable.push(theVariable);
 				messageBox.update();
-				scoreUpdate('task',3.4);
-				scoreUpdate('level',3.4);
+				score.update('task',3.4);
 			}
 		}
 		// Pseudocode: if (currentmessage = x && tv.split.test) {missionaccomplished}
@@ -642,22 +711,39 @@ function popB() {
 	currentObject.vName.node.innerHTML = objectlabel;
 }
 
-function scoreUpdate(selectedScore, newValue) {
+// set width of progress bar to the percentage of the goal represented by the current score
+// called by scoreUpdate()
+/*function progressbarAnimate (selectedScore) {
+	// set width of progress bar to the percentage of the goal represented by the current score
+	// TODO: stop relying on magic number
+	score[selectedScore].bar.style.width = ((score[selectedScore].score / score[selectedScore].goal) * 398);
+}
+*/
+// when a scoring task is performed, update the selected score and progress bar
+// PARAMS: ['level', 'task', 'skill'], amount to be added to existing score
+/*function scoreUpdate(selectedScore, newValue) {
+	// increment score by the amount to be added
 	score[selectedScore].score += newValue;
-		if (score[selectedScore].score >= score[selectedScore].goal) {
-		// prevent bar from exceeding its container
+	// if the user reaches their goal for the selected score...
+	if (score[selectedScore].score >= score[selectedScore].goal) {
+		// prevent progress bar from exceeding its container
 		score[selectedScore].score = score[selectedScore].goal;
-		score[selectedScore].bar.style.width = ((score[selectedScore].score / score[selectedScore].goal) * 398);
-		levelup.show('Level Up!<br>' + score[selectedScore].name[score[selectedScore].level]);
+		// update and animate progress bar to fill its container
+		progressbarAnimate(selectedScore);
+		// display levelup modal and pass in the name of the goal completed
+		levelup.show(score[selectedScore].name[score[selectedScore].level]);
+		// increment the level of the selected score to set a new goal for the user
 		score[selectedScore].level += 1;
+		// change the name of the progress bar to indicate the new goal
 		score[selectedScore].bar.innerHTML = score[selectedScore].name[score[selectedScore].level];
+		// set the score for the new goal to 0
 		score[selectedScore].score = 0;
-		score[selectedScore].bar.style.width = ((score[selectedScore].score / score[selectedScore].goal) * 398);
 	} else {
-		score[selectedScore].bar.style.width = ((score[selectedScore].score / score[selectedScore].goal) * 398);
+		// update and animate progress bar to its new level
+		progressbarAnimate(selectedScore);
 	}
 }
-
+*/
 window.onload = function () {
 	window.s = Snap("#thesvg");
 	messageBox.update();
@@ -675,19 +761,29 @@ var levelup = {
 		levelup.modal.style.transition = 'opacity 1s, visibility 0s';
 		levelup.slot.innerHTML = content;
 		levelup.modal.style.opacity = 0.8;
-		//setTimeout(levelup.acquireTool, 2000);
-		setTimeout(levelup.hide, 7000);
+		// TODO add handler for acquired icon
+		levelup.toolIcon.style.visibility = 'visible';
+		setTimeout(levelup.acquireTool, 3000);
+		setTimeout(levelup.hide, 6000);
 	},
 	acquireTool : function() {
-		//levelup.toolIcon.style.transition = '2s';
-		//levelup.toolIcon.style.position = 'absolute';
-		//levelup.toolIcon.style.right = '0px';
+		levelup.toolIcon.style.transform = 'scale(0)';
+		levelup.toolIcon.style.bottom = 0;
+		levelup.toolIcon.style.right = 0;
 	},
 	hide : function() {
 		levelup.modal.style.transition = 'opacity 3s, visibility 4s';
-		levelup.modal.innerHTML = '';
 		levelup.modal.style.opacity = 0;
 		levelup.modal.style.visibility = 'hidden';
+		// update and animate progress bar to empty its container
+		score.progressbarAnimate(score.levelledUp);
+		// change the name of the progress bar to indicate the new goal
+		score[score.levelledUp].bar.innerHTML = score[score.levelledUp].name[score[score.levelledUp].level];
+		// reset tool icon to initial state
+		levelup.toolIcon.style.visibility = 'hidden';
+		levelup.toolIcon.style.transform = 'scale(1)';
+		levelup.toolIcon.style.bottom = '50vh';
+		levelup.toolIcon.style.right = '65vw';
 	},
 };
 var about = {
@@ -715,16 +811,6 @@ function countdown(label, seconds) {
 	}, (seconds*1000), theCallback);
 }
 */
-
-
-	/*var gradientStop1 = levelupBackgroundSvg.select('#gradientStop1');
-	var gradientStop2 = levelupBackgroundSvg.select('#gradientStop2');
-	gradientStop1.animate({
-		offset : 0
-	}, (3000), mina.easeout);
-	gradientStop2.animate({
-		offset : 0
-	}, (3000), mina.easeout);*/
 
 
 /*
