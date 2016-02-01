@@ -3,6 +3,8 @@
 ## Description
 A visual tool for teaching coding.
 
+![Screenshot](https://github.com/adamguttentag/codevisualizer/blob/master/screenshot.jpg)
+
 ## Live Demo
 Available at [adamguttentag.github.io/codevisualizer/array.html](adamguttentag.github.io/codevisualizer/array.html)
 
