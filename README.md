@@ -6,7 +6,7 @@ A visual tool for teaching coding.
 ![Screenshot](https://github.com/adamguttentag/codevisualizer/blob/master/screenshot.jpg)
 
 ## Live Demo
-Available at [adamguttentag.github.io/codevisualizer/array.html](adamguttentag.github.io/codevisualizer/array.html)
+Available at [adamguttentag.github.io/codevisualizer/array.html](http://adamguttentag.github.io/codevisualizer/array.html)
 
 ## Installation
 1. Visit [the project on GitHub](https://github.com/adamguttentag/codevisualizer), and use one of the following methods to download the files:
