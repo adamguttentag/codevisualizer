@@ -1,7 +1,9 @@
+<html>
+<head>
 <style>
 body {
 	background-color: #666;
-	background: url('bokeh.svg');
+	background: url('img/bokeh.svg');
 	/*
 	Credit where credit is due:
 	Background coded in SVG by Adam Guttentag, based on design by Marc Edwards
@@ -49,6 +51,17 @@ body {
     top: 10px;
     left: 10px;
     height: 7vh;
+}
+#guideClose, #settingsClose {
+    height: 3vh;
+    border-radius: 5px;
+    background-color: #333;
+    margin: 2px 5px;
+    float: right;
+}
+.guideIllustration {
+	width: 40%;
+	float: right;
 }
 .dockButtons {
     height: 7vh;
@@ -101,6 +114,10 @@ body {
 }
 .acquireable {
 	transition: all 2s cubic-bezier(0.270, 0.610, 0.000, 0.905);
+}
+#upButton {
+	height: 14pt;
+	margin-left: 10px;
 }
 .progressO {
 	width: 400px;
@@ -188,6 +205,69 @@ em {
 #aboutRight > p {
 	margin: 10px;
 }
+#settings {
+	visibility: hidden;
+	margin: auto;
+	position: absolute;
+	top: 0; left: 0; bottom: 0; right: 0;
+	z-index: 100;
+	height: 60vh;
+	width: 50vw;
+	padding: 0;
+	box-shadow: 0px 10px 39px 12px rgba(0,0,0,0.75);
+	color: #fff;
+	background-color: #333;
+	opacity: 0.8;
+	font: 12pt arial;
+}
+#guide {
+	visibility: hidden;
+	margin: auto;
+	position: absolute;
+	top: 0; left: 0; bottom: 0; right: 0;
+	z-index: 100;
+	height: 60vh;
+	width: 50vw;
+	padding: 0;
+	box-shadow: 0px 10px 39px 12px rgba(0,0,0,0.75);
+	font: 12pt arial;
+}
+#guideLeft {
+	width: 50%;
+	height: 100%;
+	float: left;
+	text-align: left;
+	background-image: linear-gradient(to left, #222 0%, #fff 4%, #fff 95%, #aaa 100%);
+}
+#guideRight {
+	width: 50%;
+	height: 100%;
+	float: right;
+	text-align: right;
+	background-image: linear-gradient(to right, #222 0%, #fff 4%, #fff 95%, #aaa 100%);
+}
+#guideLeftContent, #guideRightContent {
+	text-align: left;
+	padding: 2vh;
+	font-size: 8pt;
+	border-top: solid #000 1px;
+}
+#guideLeftContent > code {
+	font-size: 7pt;
+	padding: 1px;
+}
+#guideLeftContent > h2 {
+	margin-top: 0;
+}
+.guideTable {
+	width: 100%;
+	font-size: 9pt;
+	border-collapse: collapse;
+}
+.guideTh {
+	color: #fff;
+	background-color: #333;
+}
 #tool {
 	visibility: hidden;
 	width: 10vw;
@@ -198,8 +278,14 @@ em {
 	z-index: 101;
 	transition: transform 2.3s ease, bottom 1.3s ease, right 1.3s ease;
 }
+@media print {
 
+}
 </style>
+
+<title>Code Visualizer</title>
+</head>
+<body>
 
 <div class="messageBox" id="messageBoxLeft" onclick="messageBox.click()"></div>
 
@@ -277,6 +363,8 @@ em {
 </g>
 </svg>
 
+
+
 <!--
 An example of how to easily reuse an SVG that exists somewhere else in the page
 <svg style="padding-top:5vh;" id="tool" class="acquireable"><use x="0" y="0" xlink:href="#logo"/></svg> -->
@@ -302,7 +390,7 @@ An example of how to easily reuse an SVG that exists somewhere else in the page
 	</div>
 
 
-<svg version="1.1" id="pocketguide" class="dockButtons" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="387px" height="237.5px" viewBox="0 0 387 237.5" enable-background="new 0 0 387 237.5" xml:space="preserve">
+<svg version="1.1" id="pocketguide" class="dockButtons" onclick="guide.show()" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="387px" height="237.5px" viewBox="0 0 387 237.5" enable-background="new 0 0 387 237.5" xml:space="preserve">
 	<path id="cover" opacity="0.7" fill="#326466" stroke="#fff" d="M29.1,18.6 192.1,12 358.4,17.5 386.5,237 190.2,235.3 0.5,237z"/>
 	<path id="pageside" opacity="0.7" fill="#60BDCC" stroke="#fff" stroke-miterlimit="1" d="M43.5,15L20.4,214.8c0,0,156.5-17.6,170,5.2c0,0,6.5-22.6,175-3.1L346.8,13.4l7.6,6.4L380.6,231c0,0-164.8-20.4-190.3-9c0,0-62.9-14.9-185.7,7L33.7,22L43.5,15z"/>
 	<path id="pagefront_2_" opacity="0.7" fill="#6CD4E5" stroke="#fff" stroke-miterlimit="1" d="M43.5,15C42,28,20.4,214.8,20.4,214.8s156.5-17.6,170,5.2c0,0,6.5-22.6,175-3.1L346.8,13.4c0,0-142.1-24.6-154.7,1C177-11.8,76.5,5.3,43.5,15z"/>
@@ -310,7 +398,7 @@ An example of how to easily reuse an SVG that exists somewhere else in the page
 </svg>
 
 
-<svg version="1.1" id="gear" class="dockButtons" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="123px" height="123px" viewBox="0 0 123 123" enable-background="new 0 0 123 123" xml:space="preserve">
+<svg version="1.1" id="gear" onclick="settings.show()" class="dockButtons" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="123px" height="123px" viewBox="0 0 123 123" enable-background="new 0 0 123 123" xml:space="preserve">
 <circle id="blackcircle" opacity="0.7" fill="#326466" cx="61.5" cy="61.5" r="61.5"/>
 <path id="small_gear" opacity="0.7" fill="#60BDCC" d="M91.7,64.7l6.7-1.4l-6.5-2.1l6.5-2.2l-6.7-1.3l6.2-2.9l-6.8-0.5l5.8-3.6L90.1,51l5.3-4.3l-6.8,1.1l4.8-4.9l-6.6,1.8l4.2-5.4l-6.3,2.6l3.6-5.9l-6,3.3l2.8-6.2l-5.6,4l2.1-6.5l-5.1,4.6l1.3-6.7l-4.5,5.2l0.5-6.8l-3.9,5.7l-0.3-6.8l-3.2,6.1l-1-6.8L63,31.2l-1.8-6.6l-1.7,6.6l-2.6-6.3L56,31.7l-3.3-6l-0.1,6.9l-4-5.6l0.7,6.8l-4.6-5.1l1.5,6.7L41,30.9l2.2,6.5l-5.6-3.9l3,6.2l-6.1-3.2l3.7,5.8l-6.4-2.5l4.3,5.3l-6.6-1.7l4.9,4.8l-6.8-0.9l5.4,4.2l-6.9-0.1l5.9,3.5l-6.8,0.7l6.2,2.8l-6.7,1.4l6.5,2.1L24.7,64l6.7,1.3l-6.2,2.9l6.8,0.5l-5.8,3.6L33,72l-5.3,4.3l6.8-1.1l-4.8,4.9l6.6-1.8l-4.2,5.4l6.3-2.6L34.8,87l6-3.3L38.1,90l5.6-4l-2.1,6.5l5.1-4.6l-1.3,6.7l4.5-5.2l-0.5,6.8l3.9-5.7l0.3,6.8l3.2-6.1l1,6.8l2.5-6.4l1.8,6.6l1.7-6.6l2.6,6.3l0.9-6.8l3.3,6l0.1-6.9l4,5.6L74,89l4.6,5.1l-1.5-6.7l5.2,4.5l-2.2-6.5l5.6,3.9l-3-6.2l6.1,3.2l-3.7-5.8l6.4,2.5L87,77.9l6.6,1.7l-4.9-4.8l6.8,0.9l-5.4-4.2l6.9,0.1l-5.9-3.5l6.8-0.7L91.7,64.7z M61.5,89.3c-15.4,0-27.8-12.5-27.8-27.8c0-15.4,12.5-27.8,27.8-27.8c15.4,0,27.8,12.5,27.8,27.8C89.3,76.9,76.9,89.3,61.5,89.3z"/>
 <path id="big_gear" opacity="0.7" fill="#6CD4E5" d="M108.6,66.5l10.5-2.2L108.8,61l10.1-3.4l-10.5-2l9.7-4.6l-10.7-0.8l9.1-5.7l-10.7,0.4l8.3-6.7l-10.6,1.7l7.5-7.6l-10.3,2.9l6.6-8.4l-9.9,4.1l5.5-9.1L93.5,27l4.4-9.7l-8.7,6.2l3.3-10.2l-7.9,7.2L86.7,10l-7,8.1l0.8-10.7l-6,8.8L74.2,5.3l-5,9.5L67.6,4.2l-3.8,10L60.9,3.9l-2.7,10.4l-4-9.9L52.8,15l-5.2-9.4l-0.2,10.7l-6.2-8.7l1.1,10.6l-7.2-7.9l2.3,10.5l-8-7l3.5,10.1l-8.8-6.1l4.6,9.6l-9.5-5l5.7,9l-10-3.9l6.7,8.3l-10.4-2.7l7.6,7.5L8.4,39.2l8.5,6.5L6.2,45.5l9.2,5.5L4.7,52l9.7,4.4L4,58.7L14.2,62L4,65.4l10.5,2L4.9,72l10.7,0.8l-9.1,5.7l10.7-0.4l-8.3,6.7l10.6-1.7L12,90.7l10.3-2.9l-6.6,8.4l9.9-4.1l-5.5,9.1l9.4-5.2l-4.4,9.7l8.7-6.2l-3.3,10.2l7.9-7.2L36.3,113l7-8.1l-0.8,10.7l6-8.8l0.4,10.7l5-9.5l1.6,10.6l3.8-10l2.9,10.3l2.7-10.4l4,9.9l1.4-10.6l5.2,9.4l0.2-10.7l6.2,8.7l-1.1-10.6l7.2,7.9L85.7,102l8,7l-3.5-10.1L99,105l-4.6-9.6l9.5,5l-5.7-9l10,3.9l-6.7-8.3l10.4,2.7l-7.6-7.5l10.6,1.5l-8.5-6.5l10.7,0.2l-9.2-5.5l10.6-1L108.6,66.5z M20.3,46.8C39.8,7.3,74.5,20.5,77.8,22.7c3.3,2.2,1,6.8,1,6.8S65.3,50.7,62.7,54.7c-2.6,4-8.5,4.2-8.5,4.2l-30-2.3C18.5,54.5,20.3,48.3,20.3,46.8z M63.6,61.5c0,1.2-0.9,2.1-2.1,2.1s-2.1-0.9-2.1-2.1s0.9-2.1,2.1-2.1S63.6,60.4,63.6,61.5zM70.3,104c-43.8,4.4-51.1-31.9-51-35.9c0.1-4,5.3-4.5,5.3-4.5s25.1,0.2,29.9,0.3c4.8,0.1,8,5,8,5l13.9,26.7C77.7,101.5,71.5,103.2,70.3,104zM89,95.8c-3.5,2-6.5-2.3-6.5-2.3S70,71.8,67.7,67.5c-2.3-4.2,0.2-9.5,0.2-9.5l16-25.5c4.4-4.1,9,0.4,10.3,1.1C120.2,69.2,92.5,93.8,89,95.8z"/>
@@ -320,16 +408,57 @@ An example of how to easily reuse an SVG that exists somewhere else in the page
 
 </div>
 <div id="levelup">
-	<h2>Tool Unlocked</h2><p><div id="levelupSlot"></div></p>
+	<p>Guide Updated:<div id="levelupSlot"></div></p>
 </div>
+
 <div id="about" onclick="about.hide()">
-	<div id="aboutLeft"><svg width="50%" style="padding-top:5vh;"><use x="0" y="0" xlink:href="#logo"/></svg><h2>Coding Visualizer</h2><p>By Adam Guttentag</p></div>
+	<div id="aboutLeft"><svg width="50%" style="padding-top:5vh;"><use x="0" y="0" xlink:href="#logo"/></svg><h2>Code Visualizer</h2><p>By Adam Guttentag</p></div>
 	<div id="aboutRight">
 		<h2 style="padding-top:5vh;">See it.<br>Do it.<br>Learn it.<br>Repeat.</h2><p>A proof of concept demonstration utilizing CSS, JavaScript, SVG, Snap.svg and the dopamine reward circuit to teach coding.</p></div>
 </div>
 
+<div id="guide">
+	<div id="guideLeft"><div><span id="guideLeftPgNm"></span><svg onclick="guide.turnPage(-2)" style="height:4vh;float:left;" viewBox="0 0 10 10"><path fill="#aaa" d="M0,0 10,0 0,10z"/></svg></div><div id="guideLeftContent"></div></div>
+	<div id="guideRight"><div><span id="guideRightPgNm"></span><svg onclick="guide.turnPage(2)" style="height:4vh;float:right;" viewBox="0 0 10 10"><path fill="#aaa" d="M0,0 10,10 10,0z"/></svg><svg onclick="guide.hide()" id="guideClose" viewBox="0 0 10 10"><path stroke="#fff" stroke-width="0.5" d="M0,0 10,10 M0,10 10,0"/></svg></div><div id="guideRightContent"></div></div>
+</div>
+
+<div id="settings">
+	<div style="text-align: right;"><svg onclick="settings.hide()" id="settingsClose" viewBox="0 0 10 10"><path stroke="#fff" stroke-width="0.5" d="M0,0 10,10 M0,10 10,0"/></svg></div>
+	<h2>Settings</h2>
+	Background Image URL: <input id="bgImgUrl" value="bokeh.svg" onchange="settings.background()">
+	Limit to 6 Variables:
+	<select onchange="settings.variableLimitToggle.call(this, value)">
+		<option value="on">on</option>
+		<option value="off">off</option>
+	</select>
+	<hr size=1>
+	<h3>Debug Options</h3>
+	var Guide Entries:
+	<select onchange="settings.debug.call(this, value)">
+		<option value="var 0">0: No Content</option>
+		<option value="var 1">1: Definition</option>
+		<option value="var 2">2: Definition and Syntax</option>
+		<option value="var 3">3: Definition, Syntax and Compatibility</option>
+	</select><br>
+	push Guide Entries:
+	<select onchange="settings.debug.call(this, value)">
+		<option value="push 0">0: No Content</option>
+		<option value="push 1">1: Definition</option>
+		<option value="push 2">2: Definition and Syntax</option>
+		<option value="push 3">3: Definition, Syntax and Compatibility</option>
+	</select><br>
+	pop Guide Entries:
+	<select onchange="settings.debug.call(this, value)">
+		<option value="pop 0">0: No Content</option>
+		<option value="pop 1">1: Definition</option>
+		<option value="pop 2">2: Definition and Syntax</option>
+		<option value="pop 3">3: Definition, Syntax and Compatibility</option>
+	</select><br>
+</div>
 
 
+
+</body>
 <script src="snap.svg-min.js"></script>
 <script>
 var myConsole = document.getElementById('console');
@@ -349,46 +478,115 @@ var arrayModel = {
 	post : []
 };
 
+var settings = {
+	modal : document.getElementById('settings'),
+	show : function(content) {
+		settings.modal.style.visibility = 'visible';
+		guide.modal.style.visibility = 'hidden';
+	},
+	hide : function() {
+		settings.modal.style.visibility = 'hidden';
+	},
+	background : function() {
+		document.body.style.background = "url('" + document.getElementById('bgImgUrl').value + "')";
+		document.body.style.backgroundSize = "cover";
+	},
+	// used to force levelup and fill guide pages early, for demo purposes to avoid grinding
+	debug : function(value) {
+		// split the value string into task and level components to avoid long, unreadable code later
+		var debugTask = value.split(' ')[0];
+		var debugLevel = value.split(' ')[1];
+		// if forcing level 3 which only fills right page, force level 2 to fill left page as well
+		if (debugLevel == 3) {
+			// calls the parent function again with debugLevel 2 specified
+			settings.debug(debugTask + ' 2');
+		}
+		// set the level variable for the selected task
+		score.tasks[debugTask].level = debugLevel -1;
+		// set the score variable for the selected task to its goal so levelup is triggered when score.update runs
+		score.tasks[debugTask].score = score.tasks[debugTask].goal[score.tasks[debugTask].level];
+		// increment the score for the current task by 1
+		score.update(debugTask, 1);
+	},
+	variableLimitToggle : function(toggle) {
+		if (toggle === 'on') {
+			settings.variableLimit = 4;
+			alert('fired on');
+		} else {
+			alert('fired off');
+			settings.variableLimit = 10000;
+		}
+	},
+	variableLimit : 4,
+};
+
 var score = {
-	level : {
-		score : 0,
-		goal : [1000],
-		name : ['Level 2'],
-		level : 0,
-		bar : document.getElementById('levelBar')
-	},
-	task : {
-		score : 0,
-		goal : [10,30,50,0],
-		name : ['Creating Variables','Push','Pop','Coming Soon...'],
-		level : 0,
-		bar : document.getElementById('taskBar')
-	},
-	skill : {
-		score : 0,
-		goal : [1000],
-		name : ['Array Manipulation'],
-		level : 0,
-		bar : document.getElementById('skillBar')
+	tasks : {
+		var : {
+			name : ['var definition','var syntax','var compatibility',''],
+			score : 0,
+			level : 0,
+			goal : [10, 10, 10, 1000],
+			bar : document.getElementById('skillBar'),
+			contentIndex : 0
+		},
+		push : {
+			name : ['push() definition','push() syntax','push() compatibility'],
+			score : 0,
+			level : 0,
+			goal : [10, 10, 10, 1000],
+			bar : document.getElementById('taskBar'),
+			contentIndex : 2
+		},
+		pop : {
+			name : ['pop() definition','pop() syntax','pop() compatibility'],
+			score : 0,
+			level : 0,
+			goal : [10, 10, 10, 1000],
+			bar : document.getElementById('levelBar'),
+			contentIndex : 4
+		}
 	},
 	levelledUp : '',
+	currTaskLevel : '',
 	update : function(selectedScore, newValue) {
 		// increment score by the amount to be added
-		score[selectedScore].score += newValue;
+		score.tasks[selectedScore].score += newValue;
 		// if the user reaches their goal for the selected score...
-		if (score[selectedScore].score >= score[selectedScore].goal[score[selectedScore].level]) {
+		if (score.tasks[selectedScore].score >= score.tasks[selectedScore].goal[score.tasks[selectedScore].level]) {
 			// store selectedScore in score.levelledUp so it will be available outside this scope
 			score.levelledUp = selectedScore;
 			// prevent progress bar from exceeding its container
-			score[selectedScore].score = score[selectedScore].goal[score[selectedScore].level];
+			score.tasks[selectedScore].score = score.tasks[selectedScore].goal[score.tasks[selectedScore].level];
 			// update and animate progress bar to fill its container
 			score.progressbarAnimate(selectedScore);
 			// display levelup modal and pass in the name of the goal completed
-			levelup.show(score[selectedScore].name[score[selectedScore].level]);
+			levelup.show(score.tasks[selectedScore].name[score.tasks[selectedScore].level]);
 			// increment the level of the selected score to set a new goal for the user
-			score[selectedScore].level += 1;
+			score.tasks[selectedScore].level += 1;
 			// set the score for the new goal to 0
-			score[selectedScore].score = 0;
+			score.tasks[selectedScore].score = 0;
+			// determine which content needs to be added to Pocket Guide
+			var currContentSlot = guide.personalized[score.tasks[selectedScore].contentIndex];
+			var currContent;
+			var currContentLevel = score.tasks[selectedScore].level -1;
+			if (currContentLevel == 0) {
+				currContent = guide.content[selectedScore][0];
+				// add content to Pocket Guide
+				guide.personalized[score.tasks[selectedScore].contentIndex] = currContent;
+				// add blank right page
+				guide.personalized[score.tasks[selectedScore].contentIndex + 1] = '';
+			} else if (currContentLevel == 1) {
+				currContent = guide.content[selectedScore][0] + guide.content[selectedScore][1];
+				// add content to Pocket Guide
+				guide.personalized[score.tasks[selectedScore].contentIndex] = currContent;
+				// add blank right page
+				guide.personalized[score.tasks[selectedScore].contentIndex + 1] = '';
+			} else if (currContentLevel == 2) {
+				currContent = guide.content[selectedScore][2];
+				// add content to Pocket Guide
+				guide.personalized[score.tasks[selectedScore].contentIndex + 1] = currContent;
+			}
 		} else {
 			// update and animate progress bar to its new level
 			score.progressbarAnimate(selectedScore);
@@ -397,14 +595,13 @@ var score = {
 	progressbarAnimate : function (selectedScore) {
 		// set width of progress bar to the percentage of the goal represented by the current score
 		// TODO: stop relying on magic number
-		score[selectedScore].bar.style.width = ((score[selectedScore].score / score[selectedScore].goal[score[selectedScore].level]) * 398);
+		score.tasks[selectedScore].bar.style.width = ((score.tasks[selectedScore].score / score.tasks[selectedScore].goal[score.tasks[selectedScore].level]) * 398);
 	}
 
 };
 
 var ios = [];
 var iosTable = [];
-var boxColors = ['blue','green','red','yellow','orange','white','purple'];
 var boxGeometry = [
 	"M20,128 36,138 20,148 4,138z",
 	"M4,138 20,128 20,110 4,120z",
@@ -428,7 +625,7 @@ var messages = [
 	],
 	[
 		'Creating Variables 2/3',
-		'<p>Fantastic! Now try this:</p><ol><li>Create another variable named <em>b</em><li>Set its value to some other fruit</ol></p><hr size="1"><p><em>Hint<br>When the cursor is in the console, you can press the up arrow on your keyboard to access commands you\'ve entered before.</em></p>'
+		'<p>Fantastic! Now try this:</p><ol><li>Create another variable named <em>b</em><li>Set its value to some other fruit</ol></p><hr size="1"><p><em>Hint <svg version="1.1" id="upButton" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 403 206" enable-background="new 0 0 403 206" xml:space="preserve"><path d="M0,206L0,31.2c0,0-2-31,31-31s341,0,341,0s31-4,31,28s0,177.8,0,177.8H0z"/><rect y="190" fill="#414649" width="403" height="15"/><polygon fill="#FCFFFD" points="201.5,62 221,113 179,113"/></svg><br>When the cursor is in the console, you can press the up arrow on your keyboard to access commands you\'ve entered before.</em></p>'
 	],
 	[
 		'Creating Variables 3/3',
@@ -444,7 +641,7 @@ var messages = [
 	],
 	[
 		'Pushing Data Into An Array 3/3',
-		'<p>One left to go.<ol><li>Push <em>c</em> into the array</ol></p>'
+		'<p>One left to go.<ol><li>Push a third variable into the array</ol></p>'
 	],
 	[
 		'Popping Data Out Of An Array 1/3',
@@ -452,7 +649,7 @@ var messages = [
 	],
 	[
 		'End of Line',
-		'<p>That\'s all the coding I have time for right now. Stay tuned for future updates which will go over <em>shift()</em>, <em>unshift()</em>, <em>splice()</em>, and other favorite JavaScript array methods.</p>'
+		'<p>That\'s all the coding I have time for right now. Stay tuned for future updates which will go over <em>shift()</em>, <em>unshift()</em>, <em>splice()</em>, and other favorite JavaScript array methods.</p><p>Also, to avoid the need to grind in this demo to see what the Pocket Guide could offer, check out the debug section of the settings window.</p>'
 	]
 ];
 /* TODO, add entries for:
@@ -466,6 +663,8 @@ splice()
 
 
 */
+
+
 
 //create a Box class
 var Box = function(vLabel,cLabel,boxNumber) {
@@ -615,7 +814,7 @@ function kd(evt) {
 				//boxesInArray += 1;
 				pushA();
 				messageBox.update();
-				score.update('task',10);
+				score.update('push',3.4);
 			}
 		// handle _ = arr.pop() //popping a value out of the array and storing in a variable
 		} else if (/.* = arr\.pop\(\)/.test(tv)) {
@@ -624,22 +823,22 @@ function kd(evt) {
 			arrayModel.post.push(objectlabel);
 			popA();
 			messageBox.update();
-			score.update('task',50);
+			score.update('pop',3.4);
 		// handle var _ = '_' //creating a variable
 		} else if (/var .* = \'.*\'/.test(tv)) {
 			var thesplit = tv.split(/var|[=\']+/);
 			var theVariable = tv.split(/var|[=\']+/)[1].trim();
 			var theContent = tv.split(/var|[=\']+/)[3];
-			if (boxNumber > 4) {
+			if (boxNumber > settings.variableLimit) {
 				messageConsole.update('This demo is limited to 6 variables due to screen space limitations.', 'yellow');
 			} else {
 				boxNumber += 1;
-				ios[boxNumber] = new Box(theVariable,theContent,boxNumber,'ios'+boxNumber,boxColors[boxNumber]);
+				ios[boxNumber] = new Box(theVariable,theContent,boxNumber,'ios'+boxNumber);
 				currentObject = ios[boxNumber];
 				arrayModel.pre.push(theVariable);
 				iosTable.push(theVariable);
 				messageBox.update();
-				score.update('task',3.4);
+				score.update('var',3.4);
 			}
 		}
 		// Pseudocode: if (currentmessage = x && tv.split.test) {missionaccomplished}
@@ -711,45 +910,13 @@ function popB() {
 	currentObject.vName.node.innerHTML = objectlabel;
 }
 
-// set width of progress bar to the percentage of the goal represented by the current score
-// called by scoreUpdate()
-/*function progressbarAnimate (selectedScore) {
-	// set width of progress bar to the percentage of the goal represented by the current score
-	// TODO: stop relying on magic number
-	score[selectedScore].bar.style.width = ((score[selectedScore].score / score[selectedScore].goal) * 398);
-}
-*/
-// when a scoring task is performed, update the selected score and progress bar
-// PARAMS: ['level', 'task', 'skill'], amount to be added to existing score
-/*function scoreUpdate(selectedScore, newValue) {
-	// increment score by the amount to be added
-	score[selectedScore].score += newValue;
-	// if the user reaches their goal for the selected score...
-	if (score[selectedScore].score >= score[selectedScore].goal) {
-		// prevent progress bar from exceeding its container
-		score[selectedScore].score = score[selectedScore].goal;
-		// update and animate progress bar to fill its container
-		progressbarAnimate(selectedScore);
-		// display levelup modal and pass in the name of the goal completed
-		levelup.show(score[selectedScore].name[score[selectedScore].level]);
-		// increment the level of the selected score to set a new goal for the user
-		score[selectedScore].level += 1;
-		// change the name of the progress bar to indicate the new goal
-		score[selectedScore].bar.innerHTML = score[selectedScore].name[score[selectedScore].level];
-		// set the score for the new goal to 0
-		score[selectedScore].score = 0;
-	} else {
-		// update and animate progress bar to its new level
-		progressbarAnimate(selectedScore);
-	}
-}
-*/
+
 window.onload = function () {
 	window.s = Snap("#thesvg");
 	messageBox.update();
-	score.task.bar.innerHTML = score.task.name[score.task.level];
-	score.skill.bar.innerHTML = score.skill.name[score.task.level];
-	score.level.bar.innerHTML = score.level.name[score.task.level];
+	score.tasks.var.bar.innerHTML = score.tasks.var.name[0];
+	score.tasks.push.bar.innerHTML = score.tasks.push.name[0];
+	score.tasks.pop.bar.innerHTML = score.tasks.pop.name[0];
 };
 
 var levelup = {
@@ -778,7 +945,7 @@ var levelup = {
 		// update and animate progress bar to empty its container
 		score.progressbarAnimate(score.levelledUp);
 		// change the name of the progress bar to indicate the new goal
-		score[score.levelledUp].bar.innerHTML = score[score.levelledUp].name[score[score.levelledUp].level];
+		score.tasks[score.levelledUp].bar.innerHTML = score.tasks[score.levelledUp].name[score.tasks[score.levelledUp].level];
 		// reset tool icon to initial state
 		levelup.toolIcon.style.visibility = 'hidden';
 		levelup.toolIcon.style.transform = 'scale(1)';
@@ -786,6 +953,7 @@ var levelup = {
 		levelup.toolIcon.style.right = '65vw';
 	},
 };
+
 var about = {
 	modal : document.getElementById('about'),
 	show : function(content) {
@@ -796,10 +964,86 @@ var about = {
 	}
 };
 
+var guide = {
+	// reference to the guide modal div
+	modal : document.getElementById('guide'),
+	// reference to the left page div
+	left : document.getElementById('guideLeftContent'),
+	// reference to the right page div
+	right : document.getElementById('guideRightContent'),
+	// open the guide
+	show : function(content) {
+		// close the settings box if it's open
+		settings.modal.style.visibility = 'hidden';
+		// make the modal div visible
+		guide.modal.style.visibility = 'visible';
+		// fill the left page with content
+		guide.left.innerHTML = guide.personalized[(guide.currentPage)];
+		// fill the right page with content
+		guide.right.innerHTML = guide.personalized[(guide.currentPage + 1)];
+		// calculate and display page numbers
+		guide.updatePgNums();
+	},
+	// close the guide
+	hide : function() {
+		// hide the modal div
+		guide.modal.style.visibility = 'hidden';
+	},
+	// the currently open page (left side, facing pages are currentPage + 1)
+	currentPage : 0,
+	// handles clicks on the top corners of the guide
+	turnPage : function(numPages) {
+		// only fire if there are other pages available; numPages is 2 to go forward, -2 to go back
+		if ((guide.currentPage + numPages) > -1 && (guide.currentPage + numPages) < (guide.personalized.length)) {
+			// reset the contents of the left page to the new desired page
+			guide.left.innerHTML = guide.personalized[(guide.currentPage + numPages)];
+			// reset the contents of the right page to the new desired page
+			guide.right.innerHTML = guide.personalized[(guide.currentPage + numPages + 1)];
+			// update the currentPage variable so page numbers display properly and guide can be closed and reopened at this page
+			guide.currentPage += numPages;
+			// update the displayed page numbers
+			guide.updatePgNums();
+		}
+	},
+	// update the displayed page numbers
+	updatePgNums : function() {
+		// calculate and display left page number
+		document.getElementById('guideLeftPgNm').innerHTML = (guide.currentPage + 1) + '/' + (guide.personalized.length);
+		// calculate and display right page number
+		document.getElementById('guideRightPgNm').innerHTML = (guide.currentPage + 2) + '/' + (guide.personalized.length);
+	},
+	// a library of content used to build the personalized guide as user completes tasks
+	content : {
+		// an array of entries for var in the order they are added
+		// NOTE: since we reference an external SVG file in these entries, the <image> tag is required, as the <use> tag seen elsewhere in this code can only reference SVG fragments, not entire external files. Basically, within an SVG file, use <image> to pull in an entire file from somewhere else, or <use> to pull in a fragment of an SVG file locally or externally.
+		var : [
+			'<h2>var</h2>Declare a new local variable<svg class="guideIllustration"><image width="100%" height="100%" x="0" y="0" xlink:href="img/var.svg"/></svg><br><br>',
+			'<code>var identifier = value</code><br><br>The var statement declares a variable in its current scope. Never declare a variable without var.<br><br>The identifier can contain digits, letters, $, or _, but may not start with a digit.<br><br>The value can be any legal expression, like a string, number, array, object, function, etc.',
+			'<table class="guideTable" border="1" cellpadding="2"><tr class="guideTh"><td colspan="2">Desktop Compatibility</td></tr><tr><td>Chrome</td><td>Yes</td></tr><tr><td>Firefox</td><td>Yes</td></tr><tr><td>IE</td><td>Yes</td></tr><tr><td>Safari</td><td>Yes</td></tr><tr class="guideTh"><td colspan="2">Mobile Compatibility</td></tr><tr><td>Chrome</td><td>Yes</td></tr><tr><td>Firefox</td><td>Yes</td></tr><tr><td>IE</td><td>Yes</td></tr><tr><td>Safari</td><td>Yes</td></tr></table>'
+		],
+		// an array of entries for push() in the order they are added
+		push : [
+			'<h2>push()</h2>Add items to the end of an array<svg class="guideIllustration"><image width="100%" height="100%" x="0" y="0" xlink:href="img/push.svg"/></svg><br><br>',
+			'<code>arr.push(element)</code><br><br>Append <code>.push()</code> to the name of the array you wish to modify, then list the items you want to push inside the parentheses, separated by commas.',
+			'<table class="guideTable" border="1" cellpadding="2"><tr class="guideTh"><td colspan="2">Desktop Compatibility</td></tr><tr><td>Chrome</td><td>1.0</td></tr><tr><td>Firefox</td><td>1.0</td></tr><tr><td>IE</td><td>5.5</td></tr><tr><td>Safari</td><td>Yes</td></tr><tr class="guideTh"><td colspan="2">Mobile Compatibility</td></tr><tr><td>Chrome</td><td>Yes</td></tr><tr><td>Firefox</td><td>Yes</td></tr><tr><td>IE</td><td>Yes</td></tr><tr><td>Safari</td><td>Yes</td></tr></table>'
+		],
+		// an array of entries for pop() in the order they are added
+		pop : [
+			'<h2>pop()</h2>Remove the last item from the end of an array and return its value<svg class="guideIllustration"><image width="100%" height="100%" x="0" y="0" xlink:href="img/pop.svg"/></svg><br><br>',
+			'<code>arr.pop()</code> would simply remove the last item from the array.<br><code>var x = arr.pop()</code> would remove the last item from the array and store its value in x.<br>',
+			'<table class="guideTable" border="1" cellpadding="2"><tr class="guideTh"><td colspan="2">Desktop Compatibility</td></tr><tr><td>Chrome</td><td>1.0</td></tr><tr><td>Firefox</td><td>1.0</td></tr><tr><td>IE</td><td>5.5</td></tr><tr><td>Safari</td><td>Yes</td></tr><tr class="guideTh"><td colspan="2">Mobile Compatibility</td></tr><tr><td>Chrome</td><td>Yes</td></tr><tr><td>Firefox</td><td>Yes</td></tr><tr><td>IE</td><td>Yes</td></tr><tr><td>Safari</td><td>Yes</td></tr></table>'
+		]
+	},
+	// Array for the personalized guide content that will be built as goals are reached. Each item in this array will represent the contents of a single page. For instance, when the var entry is first unlocked, guide.content.var[0] will be added to the array. If the user unlocks more detailed content through grinding, guide.personalized[0] will be set to guide.content.var[0] + guide.content.var[1]. They will be concatenated to form one page. When guide.show is called, the contents of the guideLeft and guideRight will be filled with guide.personalized[0] and guide.personalized[1].
+	// Basically, it doesn't look like much now, but it's going to be important later. :)
+	personalized : ['Complete tasks to add content to your Pocket Guide!','Practice what you\'ve learned after adding initial content to unlock deeper content.']
+};
 
 // Code Sample: Countdown Functionality
 // If a visual countdown followed by a callback is needed,
 // this could do the trick. Perhaps for a timed exercise.
+// This is a little-known feature of Snap. Saving it here
+// during development in case I decide to use it later.
 /*
 var theCallback = function () { alert('done'); };
 function countdown(label, seconds) {
@@ -838,3 +1082,5 @@ window['group' + skillNumber] = currentSVG.g().attr({
 */
 
 </script>
+
+</html>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="32.2px" height="38.2px" viewBox="0 0 32.2 38.2" enable-background="new 0 0 32.2 38.2" xml:space="preserve">
+<g id="_x30_a">
+
+		<polygon id="b_3_" opacity="0.7" fill="#326466" stroke="#FFFFFF" stroke-width="0.25" stroke-linecap="square" stroke-miterlimit="1" points="
+		16.1,18.1 32.1,28.1 16.1,38.1 0.1,28.1 	"/>
+
+		<polygon id="bl_3_" opacity="0.7" fill="#3E7C7F" stroke="#FFFFFF" stroke-width="0.25" stroke-linecap="square" stroke-miterlimit="1" points="
+		0.1,28.1 16.1,18.1 16.1,0.1 0.1,10.1 	"/>
+
+		<polygon id="br_3_" opacity="0.7" fill="#3E7C7F" stroke="#FFFFFF" stroke-width="0.25" stroke-linecap="square" stroke-miterlimit="1" points="
+		32.1,28.1 16.1,18.1 16.1,0.1 32.1,10.1 	"/>
+
+		<polygon id="fl_3_" opacity="0.7" fill="#60BDCC" stroke="#FFFFFF" stroke-width="0.25" stroke-linecap="square" stroke-miterlimit="1" points="
+		0.1,10.1 16.1,20.1 16.1,38.1 0.1,28.1 	"/>
+
+		<polygon id="fr_3_" opacity="0.7" fill="#60BDCC" stroke="#FFFFFF" stroke-width="0.25" stroke-linecap="square" stroke-miterlimit="1" points="
+		32.1,10.1 16.1,20.1 16.1,38.1 32.1,28.1 	"/>
+
+		<polygon id="t_2_" opacity="0.7" fill="#6CD4E5" stroke="#FFFFFF" stroke-width="0.25" stroke-linecap="square" stroke-miterlimit="1" points="
+		16.1,0.1 32.1,10.1 16.1,20.1 0.1,10.1 	"/>
+	<text transform="matrix(1 0 0 1 3.875 26.6064)" fill="#F1F2F2" font-family="'Helvetica-Bold'" font-size="8">a</text>
+</g>
+</svg>
