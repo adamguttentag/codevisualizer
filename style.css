@@ -1,0 +1,280 @@
+body {
+	background-color: #666;
+	background: url('img/bokeh.svg');
+	/*
+	Credit where credit is due:
+	Background coded in SVG by Adam Guttentag, based on design by Marc Edwards
+	https://dribbble.com/shots/760031-Faux-Bokeh
+	*/
+	background-size: cover;
+	margin: 0;
+}
+.console {
+	text-align: left;
+	border-radius: 10px;
+	border: solid 5px #555;
+	background-color: #333;
+	padding: 5px 10px;
+	margin: auto;
+	width: 50%;
+	color: #fff;
+	font: 9pt menlo, courier;
+}
+.messageBox {
+	text-align: left;
+	border-radius: 0 10px 10px 0;
+	border-color: #555;
+	border-style: solid;
+	border-width: 5px 5px 5px 0;
+	background-color: #333;
+	padding: 5px 10px;
+    position: fixed;
+    left: -30vw;
+    top: 5vw;
+	width: 25vw;
+
+	color: #fff;
+	font: 10pt arial, courier;
+	opacity: 0.7;
+	transition: left 0.5s ease;
+
+}
+.messageBox:hover {
+	border-color: #666;
+}
+
+#logo {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    height: 7vh;
+}
+#guideClose, #settingsClose {
+    height: 3vh;
+    border-radius: 5px;
+    background-color: #333;
+    margin: 2px 5px;
+    float: right;
+}
+.guideIllustration {
+	width: 40%;
+	float: right;
+}
+.dockButtons {
+    height: 7vh;
+    width: 7vh;
+    border-radius: 10px;
+    background-color: #333;
+    padding: 3px;
+    margin: 0 5px;
+    float: right;
+    border-width: 2px;
+    border-color: #000, #000, #666, #666;
+}
+#progressbars {
+    float: left;
+}
+.dock {
+	width: 100%;
+	background-color: #555;
+	background-image: linear-gradient(to bottom, #222 0%, #333 1%, #555 6%);
+	padding: 5px 10px;
+    position: fixed;
+    bottom: 0px;
+    height: 10vh;
+    overflow-y: scroll;
+}
+#skillBar {
+	width: calc(0% - 2px);
+	background-image: linear-gradient(to bottom, #44cefd 0%, #fff 45%, #fff 55%, #44cefd 100%);
+	border: solid 1px #44cedf;
+}
+#taskBar {
+	width: calc(0% - 2px);
+	background-image: linear-gradient(to bottom, red 0%, #fff 45%, #fff 55%, red 100%);
+	border: solid 1px red;
+}
+#levelBar {
+	width: calc(0% - 2px);
+	background-image: linear-gradient(to bottom, lime 0%, #fff 45%, #fff 55%, lime 100%);
+	border: solid 1px lime;
+}
+.progressI {
+	height: calc(100% - 2px);
+	border-radius: 10px;
+	font: 7pt menlo, courier;
+	line-height: 10px;
+	text-align: center;
+	white-space: nowrap;
+	color: #555;
+	transition: width 1s cubic-bezier(0.270, 0.610, 0.000, 0.905);
+}
+.acquireable {
+	transition: all 2s cubic-bezier(0.270, 0.610, 0.000, 0.905);
+}
+#upButton {
+	height: 14pt;
+	margin-left: 10px;
+}
+.progressO {
+	width: 400px;
+	height: 10px;
+	border-radius: 12px;
+	background-color: #333;
+	padding: 2px;
+	margin: 1px 0;
+}
+input {
+	border-radius: 10px;
+	margin: auto;
+	width: 100%;
+	background-color: #000;
+	color: #fff;
+	font-family: menlo, courier;
+	border: none;
+	font: 11pt menlo, courier;
+}
+label {
+	color: #ccc;
+}
+body {
+	text-align: center;
+}
+code {
+	color: orange;
+	font-family: menlo, courier;
+	background-color: #000;
+	padding: 3px 8px;
+	border: solid 1px orange;
+	border-radius: 3px;
+}
+em {
+	color: deepSkyBlue;
+	font-style: normal;
+}
+#thesvg {
+	height: 70vh;
+}
+#levelup {
+	opacity: 0;
+	visibility: hidden;
+	margin: auto;
+	position: absolute;
+	top: 0; left: 0; bottom: 0; right: 0;
+	z-index: 100;
+	height: 30vh;
+	width: 50vw;
+	color: #fff;
+	border-radius: 10px;
+	border: solid 5px #555;
+	background-color: #333;
+	padding: 5px 10px;
+	font: 16pt arial;
+	transition: opacity 1s;
+}
+#about {
+	visibility: hidden;
+	margin: auto;
+	position: absolute;
+	top: 0; left: 0; bottom: 0; right: 0;
+	z-index: 100;
+	height: 60vh;
+	width: 50vw;
+	padding: 0;
+	box-shadow: 0px 10px 39px 12px rgba(0,0,0,0.75);
+	font: 12pt arial;
+}
+#aboutLeft {
+	width: 50%;
+	height: 100%;
+	float: left;
+	background-image: url('bokeh.svg');
+	background-size: cover;
+	text-align: center;
+	color: #fff;
+}
+#aboutRight {
+	width: 50%;
+	height: 100%;
+	float: right;
+	background-color: #fff;
+}
+#aboutRight > p {
+	margin: 10px;
+}
+#settings {
+	visibility: hidden;
+	margin: auto;
+	position: absolute;
+	top: 0; left: 0; bottom: 0; right: 0;
+	z-index: 100;
+	height: 60vh;
+	width: 50vw;
+	padding: 0;
+	box-shadow: 0px 10px 39px 12px rgba(0,0,0,0.75);
+	color: #fff;
+	background-color: #333;
+	opacity: 0.8;
+	font: 12pt arial;
+}
+#guide {
+	visibility: hidden;
+	margin: auto;
+	position: absolute;
+	top: 0; left: 0; bottom: 0; right: 0;
+	z-index: 100;
+	height: 60vh;
+	width: 50vw;
+	padding: 0;
+	box-shadow: 0px 10px 39px 12px rgba(0,0,0,0.75);
+	font: 12pt arial;
+}
+#guideLeft {
+	width: 50%;
+	height: 100%;
+	float: left;
+	text-align: left;
+	background-image: linear-gradient(to left, #222 0%, #fff 4%, #fff 95%, #aaa 100%);
+}
+#guideRight {
+	width: 50%;
+	height: 100%;
+	float: right;
+	text-align: right;
+	background-image: linear-gradient(to right, #222 0%, #fff 4%, #fff 95%, #aaa 100%);
+}
+#guideLeftContent, #guideRightContent {
+	text-align: left;
+	padding: 2vh;
+	font-size: 8pt;
+	border-top: solid #000 1px;
+}
+#guideLeftContent > code {
+	font-size: 7pt;
+	padding: 1px;
+}
+#guideLeftContent > h2 {
+	margin-top: 0;
+}
+.guideTable {
+	width: 100%;
+	font-size: 9pt;
+	border-collapse: collapse;
+}
+.guideTh {
+	color: #fff;
+	background-color: #333;
+}
+#tool {
+	visibility: hidden;
+	width: 10vw;
+	transform: scale(1);
+	position: absolute;
+	bottom: 50vh;
+	right: 65vw;
+	z-index: 101;
+	transition: transform 2.3s ease, bottom 1.3s ease, right 1.3s ease;
+}
+@media print {
+
+}
