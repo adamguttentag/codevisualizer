@@ -129,8 +129,7 @@ var score = {
 	},
 	progressbarAnimate : function (selectedScore) {
 		// set width of progress bar to the percentage of the goal represented by the current score
-		// TODO: stop relying on magic number
-		score.tasks[selectedScore].bar.style.width = ((score.tasks[selectedScore].score / score.tasks[selectedScore].goal[score.tasks[selectedScore].level]) * 398);
+		score.tasks[selectedScore].bar.style.width = ((score.tasks[selectedScore].score / score.tasks[selectedScore].goal[score.tasks[selectedScore].level]) * 100) + '%';
 	}
 
 };

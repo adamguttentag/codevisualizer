@@ -84,6 +84,24 @@ body {
     height: 10vh;
     overflow-y: scroll;
 }
+.progressO {
+	width: 400px;
+	height: 10px;
+	border-radius: 12px;
+	background-color: #333;
+	padding: 2px;
+	margin: 1px 0;
+}
+.progressI {
+	height: calc(100% - 2px);
+	border-radius: 10px;
+	font: 7pt menlo, courier;
+	line-height: 10px;
+	text-align: center;
+	white-space: nowrap;
+	color: #555;
+	transition: width 1s cubic-bezier(0.270, 0.610, 0.000, 0.905);
+}
 #skillBar {
 	width: calc(0% - 2px);
 	background-image: linear-gradient(to bottom, #44cefd 0%, #fff 45%, #fff 55%, #44cefd 100%);
@@ -99,30 +117,12 @@ body {
 	background-image: linear-gradient(to bottom, lime 0%, #fff 45%, #fff 55%, lime 100%);
 	border: solid 1px lime;
 }
-.progressI {
-	height: calc(100% - 2px);
-	border-radius: 10px;
-	font: 7pt menlo, courier;
-	line-height: 10px;
-	text-align: center;
-	white-space: nowrap;
-	color: #555;
-	transition: width 1s cubic-bezier(0.270, 0.610, 0.000, 0.905);
-}
 .acquireable {
 	transition: all 2s cubic-bezier(0.270, 0.610, 0.000, 0.905);
 }
 #upButton {
 	height: 14pt;
 	margin-left: 10px;
-}
-.progressO {
-	width: 400px;
-	height: 10px;
-	border-radius: 12px;
-	background-color: #333;
-	padding: 2px;
-	margin: 1px 0;
 }
 input {
 	border-radius: 10px;
@@ -188,7 +188,7 @@ em {
 	width: 50%;
 	height: 100%;
 	float: left;
-	background-image: url('bokeh.svg');
+	background-image: url('img/bokeh.svg');
 	background-size: cover;
 	text-align: center;
 	color: #fff;
