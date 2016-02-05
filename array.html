@@ -8,16 +8,16 @@
   </head>
 <body>
 
-<div class="messageBox" id="messageBoxLeft" onclick="messageBox.click()"></div>
+<div class="messageBox" id="messageBoxLeft" onmouseout="messageConsole.clear()" onmouseover="messageConsole.update('Message Box<br>Click to toggle hiding', '#fff', 'mouseover')" onclick="messageBox.click()"></div>
 
-<svg id="thesvg" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="-80 0 320 200" enable-background="new -80 0 320 200" xml:space="preserve">
+<svg id="sandbox" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="-80 0 320 200" enable-background="new -80 0 320 200" xml:space="preserve">
 <g id="containerback">
 	<polygon opacity="0.7" fill="#3D7776" stroke="#FFFFFF" stroke-width="0.2788" stroke-linecap="square" stroke-miterlimit="1" points="80,129 98,140.1 80,151.1 62,140.1"/>
 	<polygon opacity="0.3" fill="#3E7C7F" stroke="#FFFFFF" stroke-width="0.2788" stroke-linecap="square" stroke-miterlimit="1" points="62,140.1 80,129 80,45.1 62,56.2"/>
 	<polygon opacity="0.3" fill="#3E7C7F" stroke="#FFFFFF" stroke-width="0.2788" stroke-linecap="square" stroke-miterlimit="1" points="98,140.1 80,129 80,45.1 98,56.2"/>
 	<text x="74" y="158" fill="#F1F2F2" font-family="helvetica" font-size="8">arr</text>
 </g>
-<g id="containerfront">
+<g id="containerfront" onmouseout="messageConsole.clear()" onmouseover="messageConsole.update('An array named arr<br>Because arrays be like pirates; always collectin\' things they arr...', '#fff', 'mouseover')">
 	<linearGradient id="fl_10_" gradientUnits="userSpaceOnUse" x1="62" y1="103.6328" x2="80" y2="103.6328">
 		<stop  offset="0" style="stop-color:#B2B7BA"/>
 		<stop  offset="1.000000e-02" style="stop-color:#A2AFB5"/>
@@ -53,7 +53,7 @@
 </svg>
 
 
-<svg version="1.1" id="logo" onclick="about.show()" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 32.4 38.3" enable-background="new 0 0 32.4 38.3" xml:space="preserve">
+<svg version="1.1" id="logo" onmouseout="messageConsole.clear()" onmouseover="messageConsole.update('About Code Visualizer<br>Click to read about this app', '#fff', 'mouseover')" onclick="about.show()" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 32.4 38.3" enable-background="new 0 0 32.4 38.3" xml:space="preserve">
 <path id="b_4_" opacity="0.7" fill="#326466" stroke="#fff" stroke-width="0.25" stroke-linecap="square" stroke-miterlimit="1" d="M16.1,18.1 32.1,28.1 16.1,38.1 0.1,28.1z"/>
 <path id="bl_4_" opacity="0.7" fill="#3E7C7F" stroke="#fff" stroke-width="0.25" stroke-linecap="square" stroke-miterlimit="1" d="M0.1,28.1 16.1,18.1 16.1,0.1 0.1,10.1z"/>
 <path id="br_4_" opacity="0.7" fill="#3E7C7F" stroke="#fff" stroke-width="0.25" stroke-linecap="square" stroke-miterlimit="1" d="M32.1,28.1 16.1,18.1 16.1,0.1 32.1,10.1z"/>
@@ -84,6 +84,23 @@
 </g>
 </svg>
 
+<div id="svgcontainer">
+
+<svg version="1.1" id="mouseovericon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 62 54.5" enable-background="new 0 0 62 54.5" xml:space="preserve">
+<path fill="#326466" d="M58,36c0,6.6-5.4,12-12,12H12C5.4,48,0,42.6,0,36V12C0,5.4,5.4,0,12,0h34c6.6,0,12,5.4,12,12V36z"/>
+<polygon fill="#FFFFFF" points="40.2,19.2 62,41 54.2,41 58.5,50.5 50.8,54.5 46.5,43.2 40.2,49.5 "/>
+<polygon points="42.2,23.2 58,39 51.2,39 55.5,49.5 51.8,51.5 47.5,40.2 42.2,45.5 "/>
+</svg>
+<svg version="1.1" id="erroricon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 192.3 191.7" enable-background="new 0 0 192.3 191.7" xml:space="preserve">
+<polygon stroke="#fff" stroke-width="15" fill="#ed1c24" points="58.4,5.6 133.7,5.6 186.7,58.3 186.7,133.6 133.7,186 58.4,186 5.7,133.6 5.7,58.3"/>
+</svg>
+<svg version="1.1" id="alerticon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 200 200" enable-background="new 0 0 200 200" xml:space="preserve">
+<polygon stroke="#fff" stroke-width="15" fill="#face11" points="100,0 200,100 100,200 0,100"/>
+</svg>
+
+
+
+</div>
 
 
 <!--
@@ -99,19 +116,19 @@ An example of how to easily reuse an SVG that exists somewhere else in the page
 
 <div class="dock">
 	<div id="progressbars">
-		<div class="progressO">
+		<div class="progressO" onmouseout="messageConsole.clear()" onmouseover="messageConsole.update('Progress Bar: var<br>Create variables to earn entries in your Pocket Guide', '#fff', 'mouseover')">
 			<div class="progressI" id="skillBar"></div>
 		</div>
-		<div class="progressO">
+		<div class="progressO" onmouseout="messageConsole.clear()" onmouseover="messageConsole.update('Progress Bar: push()<br>Push variables to earn entries in your Pocket Guide', '#fff', 'mouseover')">
 			<div class="progressI" id="taskBar"></div>
 		</div>
-		<div class="progressO">
+		<div class="progressO" onmouseout="messageConsole.clear()" onmouseover="messageConsole.update('Progress Bar: pop()<br>Pop variables to earn entries in your Pocket Guide', '#fff', 'mouseover')">
 			<div class="progressI" id="levelBar"></div>
 		</div>
 	</div>
 
 
-<svg version="1.1" id="pocketguide" class="dockButtons" onclick="guide.show()" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="387px" height="237.5px" viewBox="0 0 387 237.5" enable-background="new 0 0 387 237.5" xml:space="preserve">
+<svg version="1.1" id="pocketguide" class="dockButtons" onmouseout="messageConsole.clear()" onmouseover="messageConsole.update('Pocket Guide<br>Click to review what you\'ve learned', '#fff', 'mouseover')" onclick="guide.show()" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="387px" height="237.5px" viewBox="0 0 387 237.5" enable-background="new 0 0 387 237.5" xml:space="preserve">
 	<path id="cover" opacity="0.7" fill="#326466" stroke="#fff" d="M29.1,18.6 192.1,12 358.4,17.5 386.5,237 190.2,235.3 0.5,237z"/>
 	<path id="pageside" opacity="0.7" fill="#60BDCC" stroke="#fff" stroke-miterlimit="1" d="M43.5,15L20.4,214.8c0,0,156.5-17.6,170,5.2c0,0,6.5-22.6,175-3.1L346.8,13.4l7.6,6.4L380.6,231c0,0-164.8-20.4-190.3-9c0,0-62.9-14.9-185.7,7L33.7,22L43.5,15z"/>
 	<path id="pagefront_2_" opacity="0.7" fill="#6CD4E5" stroke="#fff" stroke-miterlimit="1" d="M43.5,15C42,28,20.4,214.8,20.4,214.8s156.5-17.6,170,5.2c0,0,6.5-22.6,175-3.1L346.8,13.4c0,0-142.1-24.6-154.7,1C177-11.8,76.5,5.3,43.5,15z"/>
@@ -119,13 +136,18 @@ An example of how to easily reuse an SVG that exists somewhere else in the page
 </svg>
 
 
-<svg version="1.1" id="gear" onclick="settings.show()" class="dockButtons" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="123px" height="123px" viewBox="0 0 123 123" enable-background="new 0 0 123 123" xml:space="preserve">
+<svg version="1.1" id="gear" onmouseout="messageConsole.clear()" onmouseover="messageConsole.update('Settings<br>Click to change app settings', '#fff', 'mouseover')" onclick="settings.show()" class="dockButtons" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="123px" height="123px" viewBox="0 0 123 123" enable-background="new 0 0 123 123" xml:space="preserve">
 <circle id="blackcircle" opacity="0.7" fill="#326466" cx="61.5" cy="61.5" r="61.5"/>
 <path id="small_gear" opacity="0.7" fill="#60BDCC" d="M91.7,64.7l6.7-1.4l-6.5-2.1l6.5-2.2l-6.7-1.3l6.2-2.9l-6.8-0.5l5.8-3.6L90.1,51l5.3-4.3l-6.8,1.1l4.8-4.9l-6.6,1.8l4.2-5.4l-6.3,2.6l3.6-5.9l-6,3.3l2.8-6.2l-5.6,4l2.1-6.5l-5.1,4.6l1.3-6.7l-4.5,5.2l0.5-6.8l-3.9,5.7l-0.3-6.8l-3.2,6.1l-1-6.8L63,31.2l-1.8-6.6l-1.7,6.6l-2.6-6.3L56,31.7l-3.3-6l-0.1,6.9l-4-5.6l0.7,6.8l-4.6-5.1l1.5,6.7L41,30.9l2.2,6.5l-5.6-3.9l3,6.2l-6.1-3.2l3.7,5.8l-6.4-2.5l4.3,5.3l-6.6-1.7l4.9,4.8l-6.8-0.9l5.4,4.2l-6.9-0.1l5.9,3.5l-6.8,0.7l6.2,2.8l-6.7,1.4l6.5,2.1L24.7,64l6.7,1.3l-6.2,2.9l6.8,0.5l-5.8,3.6L33,72l-5.3,4.3l6.8-1.1l-4.8,4.9l6.6-1.8l-4.2,5.4l6.3-2.6L34.8,87l6-3.3L38.1,90l5.6-4l-2.1,6.5l5.1-4.6l-1.3,6.7l4.5-5.2l-0.5,6.8l3.9-5.7l0.3,6.8l3.2-6.1l1,6.8l2.5-6.4l1.8,6.6l1.7-6.6l2.6,6.3l0.9-6.8l3.3,6l0.1-6.9l4,5.6L74,89l4.6,5.1l-1.5-6.7l5.2,4.5l-2.2-6.5l5.6,3.9l-3-6.2l6.1,3.2l-3.7-5.8l6.4,2.5L87,77.9l6.6,1.7l-4.9-4.8l6.8,0.9l-5.4-4.2l6.9,0.1l-5.9-3.5l6.8-0.7L91.7,64.7z M61.5,89.3c-15.4,0-27.8-12.5-27.8-27.8c0-15.4,12.5-27.8,27.8-27.8c15.4,0,27.8,12.5,27.8,27.8C89.3,76.9,76.9,89.3,61.5,89.3z"/>
 <path id="big_gear" opacity="0.7" fill="#6CD4E5" d="M108.6,66.5l10.5-2.2L108.8,61l10.1-3.4l-10.5-2l9.7-4.6l-10.7-0.8l9.1-5.7l-10.7,0.4l8.3-6.7l-10.6,1.7l7.5-7.6l-10.3,2.9l6.6-8.4l-9.9,4.1l5.5-9.1L93.5,27l4.4-9.7l-8.7,6.2l3.3-10.2l-7.9,7.2L86.7,10l-7,8.1l0.8-10.7l-6,8.8L74.2,5.3l-5,9.5L67.6,4.2l-3.8,10L60.9,3.9l-2.7,10.4l-4-9.9L52.8,15l-5.2-9.4l-0.2,10.7l-6.2-8.7l1.1,10.6l-7.2-7.9l2.3,10.5l-8-7l3.5,10.1l-8.8-6.1l4.6,9.6l-9.5-5l5.7,9l-10-3.9l6.7,8.3l-10.4-2.7l7.6,7.5L8.4,39.2l8.5,6.5L6.2,45.5l9.2,5.5L4.7,52l9.7,4.4L4,58.7L14.2,62L4,65.4l10.5,2L4.9,72l10.7,0.8l-9.1,5.7l10.7-0.4l-8.3,6.7l10.6-1.7L12,90.7l10.3-2.9l-6.6,8.4l9.9-4.1l-5.5,9.1l9.4-5.2l-4.4,9.7l8.7-6.2l-3.3,10.2l7.9-7.2L36.3,113l7-8.1l-0.8,10.7l6-8.8l0.4,10.7l5-9.5l1.6,10.6l3.8-10l2.9,10.3l2.7-10.4l4,9.9l1.4-10.6l5.2,9.4l0.2-10.7l6.2,8.7l-1.1-10.6l7.2,7.9L85.7,102l8,7l-3.5-10.1L99,105l-4.6-9.6l9.5,5l-5.7-9l10,3.9l-6.7-8.3l10.4,2.7l-7.6-7.5l10.6,1.5l-8.5-6.5l10.7,0.2l-9.2-5.5l10.6-1L108.6,66.5z M20.3,46.8C39.8,7.3,74.5,20.5,77.8,22.7c3.3,2.2,1,6.8,1,6.8S65.3,50.7,62.7,54.7c-2.6,4-8.5,4.2-8.5,4.2l-30-2.3C18.5,54.5,20.3,48.3,20.3,46.8z M63.6,61.5c0,1.2-0.9,2.1-2.1,2.1s-2.1-0.9-2.1-2.1s0.9-2.1,2.1-2.1S63.6,60.4,63.6,61.5zM70.3,104c-43.8,4.4-51.1-31.9-51-35.9c0.1-4,5.3-4.5,5.3-4.5s25.1,0.2,29.9,0.3c4.8,0.1,8,5,8,5l13.9,26.7C77.7,101.5,71.5,103.2,70.3,104zM89,95.8c-3.5,2-6.5-2.3-6.5-2.3S70,71.8,67.7,67.5c-2.3-4.2,0.2-9.5,0.2-9.5l16-25.5c4.4-4.1,9,0.4,10.3,1.1C120.2,69.2,92.5,93.8,89,95.8z"/>
 </svg>
 
-
+<svg title="help" version="1.1" id="helpicon" onmouseout="messageConsole.clear()" onmouseover="messageConsole.update('Help<br>Click to display help content', '#fff', 'mouseover')" onclick="settings.show()" class="dockButtons" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="49.5px" height="76.7px" viewBox="0 0 49.5 76.7" enable-background="new 0 0 49.5 76.7" xml:space="preserve">
+<g>
+	<path fill="#326466" opacity="0.7" d="M9.7,3.7C13.6,1.2,18.3,0,23.9,0c7.4,0,13.5,1.8,18.3,5.3c4.9,3.5,7.3,12.7,7.3,19.6c0,4.2-1.1,3.8-3.2,6.7c-1.2,1.8-3.6,4-7.1,6.7L35.8,41c-1.9,1.5-3.1,3.2-3.8,5.1c-0.4,1.2-0.6,7.2-0.6,9.8H18.2c0.2-5.5,0.7-13.3,1.6-15.4c0.8-2.1,3-4.5,6.5-7.3l3.6-2.8c1.2-0.9,2.1-1.8,2.8-2.9c1.3-1.8,1.9-5.8,1.9-7.9c0-2.5-0.7-2.7-2.2-4.8c-1.4-2-4.1-3.1-7.9-3.1c-3.8,0-6.4,1.3-8,3.8c-1.6,2.5-2.4,9.1-2.4,11.8H0C0.4,18.2,3.6,7.6,9.7,3.7z M17.8,58.6h14.6v14.1H17.8V58.6z"/>
+	<path fill="#6CD4E5" opacity="0.7"  d="M9.7,7.7C13.6,5.2,18.3,4,23.9,4c7.4,0,13.5,1.8,18.3,5.3c4.9,3.5,7.3,8.7,7.3,15.6c0,4.2-1.1,7.8-3.2,10.7c-1.2,1.8-3.6,4-7.1,6.7L35.8,45c-1.9,1.5-3.1,3.2-3.8,5.1c-0.4,1.2-0.6,3.2-0.6,5.8H18.2c0.2-5.5,0.7-9.3,1.6-11.4c0.8-2.1,3-4.5,6.5-7.3l3.6-2.8c1.2-0.9,2.1-1.8,2.8-2.9c1.3-1.8,1.9-3.8,1.9-5.9c0-2.5-0.7-4.7-2.2-6.8c-1.4-2-4.1-3.1-7.9-3.1c-3.8,0-6.4,1.3-8,3.8c-1.6,2.5-2.4,5.1-2.4,7.8H0C0.4,18.2,3.6,11.6,9.7,7.7z M17.8,62.6h14.6v14.1H17.8V62.6z"/>
+</g>
+</svg>
 
 </div>
 <div id="levelup">

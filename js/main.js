@@ -248,7 +248,9 @@ var Box = function(vLabel,cLabel,boxNumber) {
 	}
 	// set opacity to 0 so we can fade in on instantiation
 	this.group.attr({
-		opacity: 0
+		opacity: 0,
+		onmouseover: 'messageConsole.update(\'A variable named <em>' + vLabel + '</em> containing the string <em>' + cLabel + '</em>\', \'#fff\', \'mouseover\')',
+		onmouseout: 'messageConsole.clear()'
 	});
 	// set to fade in over 1s on instantiation
 	this.group.animate({
@@ -262,10 +264,20 @@ var messageConsole = {
 	// reference to the div where console messages will be displayed
 	box : document.getElementById('messageConsole'),
 	// replace the contents of the messageConsole box with the passed message
-	update: function(message,color) {
-		messageConsole.box.innerHTML = '<span style="color:' + color + ';">' + message + '</span>';
-		// clear the messageConsole after 10 seconds
-		setTimeout(messageConsole.clear, 10000);
+	update: function(message,color,type) {
+		var icon = '';
+		if (type == 'mouseover') {
+			icon = '<svg style="height:12pt;width:12pt;margin:4px 3px -4 0;"><use x="0" y="0" xlink:href="#mouseovericon"/></svg>';
+		} else if (type == 'error') {
+			icon = '<svg style="height:12pt;width:12pt;margin:4px 3px -4 0;"><use x="0" y="0" xlink:href="#erroricon"/></svg>';
+			// no mouseOut event to clear the messageConsole, so clear after 10 seconds
+			setTimeout(messageConsole.clear, 10000);
+		} else if (type == 'alert') {
+			icon = '<svg style="height:12pt;width:12pt;margin:4px 3px -4 0;"><use x="0" y="0" xlink:href="#alerticon"/></svg>';
+			// no mouseOut event to clear the messageConsole, so clear after 10 seconds
+			setTimeout(messageConsole.clear, 10000);
+		}
+		messageConsole.box.innerHTML = icon + '<span style="color:' + color + ';">' + message + '</span>';
 	},
 	// clear the messageConsole when called
 	clear : function() {
@@ -339,7 +351,7 @@ function kd(evt) {
 			var currVar = tv.split(/[()]+/)[1];
 			// throw an error message if user tries to push a nonexistent variable
 			if (arrayModel.pre.indexOf(currVar) == -1) {
-				messageConsole.update('Sorry, I can\'t find a variable named ' + currVar + '. Are you sure you created it?', 'red');
+				messageConsole.update('Sorry, I can\'t find a variable named <em>' + currVar + '</em>', 'red', 'error');
 			} else {
 				// look up the index of the specified variable in iosTable, and use that index to select object in ios as the currentObject
 				currentObject = ios[iosTable.indexOf(currVar)];
@@ -364,7 +376,7 @@ function kd(evt) {
 			var theVariable = tv.split(/var|[=\']+/)[1].trim();
 			var theContent = tv.split(/var|[=\']+/)[3];
 			if (boxNumber > settings.variableLimit) {
-				messageConsole.update('This demo is limited to 6 variables due to screen space limitations.', 'yellow');
+				messageConsole.update('This demo is limited to 6 variables due to screen space limitations.', 'yellow', 'alert');
 			} else {
 				boxNumber += 1;
 				ios[boxNumber] = new Box(theVariable,theContent,boxNumber,'ios'+boxNumber);
@@ -442,11 +454,15 @@ function popB() {
 		transform: 't120,0'
         }, (900), mina.easeinout);
 	currentObject.vName.node.innerHTML = objectlabel;
+	currentObject.group.attr({
+		onmouseover: 'messageConsole.update(\'A variable named <em>' + objectlabel + '</em> containing the string <em>' + currentObject.cName.node.innerHTML + '</em>\', \'#fff\', \'mouseover\')',
+		onmouseout: 'messageConsole.clear()'
+	});
 }
 
 
 window.onload = function () {
-	window.s = Snap("#thesvg");
+	window.s = Snap("#sandbox");
 	messageBox.update();
 	score.tasks.var.bar.innerHTML = score.tasks.var.name[0];
 	score.tasks.push.bar.innerHTML = score.tasks.push.name[0];

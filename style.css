@@ -152,7 +152,7 @@ em {
 	color: deepSkyBlue;
 	font-style: normal;
 }
-#thesvg {
+#sandbox {
 	height: 70vh;
 }
 #levelup {
@@ -274,6 +274,12 @@ em {
 	right: 65vw;
 	z-index: 101;
 	transition: transform 2.3s ease, bottom 1.3s ease, right 1.3s ease;
+}
+#svgcontainer {
+	position: absolute;
+	top: -2000;
+	left: -2000;
+	visibility: hidden;
 }
 @media print {
 
