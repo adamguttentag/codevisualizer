@@ -24,6 +24,10 @@ Available at [adamguttentag.github.io/codevisualizer/array.html](http://adamgutt
 2. Enter your code in the console box near the bottom of the window.
 3. Watch the animation play out in the middle of the window.
 
+### Mouseover Help
+
+If you're not sure what something is or does, move your cursor over it. Objects in the visualization will tell you what their properties are. Interface elements like dock buttons, progress bars and the message box will tell you what they do. Be inquisitive!
+
 ### Console History
 
 The console saves your history, just like the browser's JavaScript console or a terminal window. When the console has focus, pressing the up key on your keyboard fills the console with the last text you entered. You can scroll back and forth through your history with the up and down keys.
@@ -44,6 +48,7 @@ The more you practice a concept, the more detail your Pocket Guide will display 
 
 Click the Pocket Guide icon in the bottom right corner of the window to open it.
 
+(This feature not implemented yet)
 Once the Pocket Guide is open, click the printer icon to print it. If you're using Chrome, you can select "Save As PDF" in the print dialog to create a file that can be viewed on your computer, phone or tablet.
 
 ### Settings
