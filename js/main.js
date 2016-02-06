@@ -11,7 +11,12 @@ var currentMessage = -1;
 var arrayModel = {
 	pre : [],
 	in : [],
-	post : []
+	post : [],
+	debug : function() {
+		console.log(arrayModel.pre);
+		console.log(arrayModel.in);
+		console.log(arrayModel.post);
+	}
 };
 
 var settings = {
@@ -164,38 +169,50 @@ var boxFills = [
 	'#60bdcc',
 	'#6cd4e5'
 ];
+// Array of tasks to be performed, displayed by messageWindow. kd function checks
+// against conditions for completion before advancing to the next task.
+// Completing a var task 6 times won't count toward push tasks.
+// FORMAT: [task title, task text, completion requirement]
 var messages = [
 	[
 		'Creating Variables 1/3',
-		'<p>We\'re going to take a visual look at how to work with JavaScript arrays.</p><p>An <em>array</em> is just a container for a collection of things. Before we can work with <em>arr</em> (the name of the empty array here) we need something to put in our container.</p><ol><li>Create a variable named <em>a</em><li>Set its value to <em>apple</em></ol>Type this command in the Console box:</p><p><code>var a = \'apple\'</code></p>'
+		'<p>We\'re going to take a visual look at how to work with JavaScript arrays.</p><p>An <em>array</em> is just a container for a collection of things. Before we can work with <em>arr</em> (the name of the empty array here) we need something to put in our container.</p><ol><li>Create a variable named <em>a</em><li>Set its value to <em>apple</em></ol>Type this command in the Console box:</p><p><code>var a = \'apple\'</code></p>',
+		'var'
 	],
 	[
 		'Creating Variables 2/3',
-		'<p>Fantastic! Now try this:</p><ol><li>Create another variable named <em>b</em><li>Set its value to some other fruit</ol></p><hr size="1"><p><em>Hint <svg version="1.1" id="upButton" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 403 206" enable-background="new 0 0 403 206" xml:space="preserve"><path d="M0,206L0,31.2c0,0-2-31,31-31s341,0,341,0s31-4,31,28s0,177.8,0,177.8H0z"/><rect y="190" fill="#414649" width="403" height="15"/><polygon fill="#FCFFFD" points="201.5,62 221,113 179,113"/></svg><br>When the cursor is in the console, you can press the up arrow on your keyboard to access commands you\'ve entered before.</em></p>'
+		'<p>Fantastic! Now try this:</p><ol><li>Create another variable named <em>b</em><li>Set its value to some other fruit</ol></p><hr size="1"><p><em>Hint <svg version="1.1" id="upButton" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 403 206" enable-background="new 0 0 403 206" xml:space="preserve"><path d="M0,206L0,31.2c0,0-2-31,31-31s341,0,341,0s31-4,31,28s0,177.8,0,177.8H0z"/><rect y="190" fill="#414649" width="403" height="15"/><polygon fill="#FCFFFD" points="201.5,62 221,113 179,113"/></svg><br>When the cursor is in the console, you can press the up arrow on your keyboard to access commands you\'ve entered before.</em></p>',
+		'var'
 	],
 	[
 		'Creating Variables 3/3',
-		'<p>One more should do it.<ol><li>Create a variable named <em>c</em><li>Set its value to another fruit</ol></p>'
+		'<p>One more should do it.<ol><li>Create a variable named <em>c</em><li>Set its value to another fruit</ol></p>',
+		'var'
 	],
 	[
 		'Pushing Data Into An Array 1/3',
-		'<p>One of the most common ways to add data to an array is to <em>push()</em> it. Try it!</p><p><ol><li>Push <em>a</em> into the array named <em>arr</em></ol></p><p><code>arr.push(a)</code></p>'
+		'<p>One of the most common ways to add data to an array is to <em>push()</em> it. Try it!</p><p><ol><li>Push <em>a</em> into the array named <em>arr</em></ol></p><p><code>arr.push(a)</code></p>',
+		'push'
 	],
 	[
 		'Pushing Data Into An Array 2/3',
-		'<p>Notice that the variable you pushed into the array is now labelled <em>[0]</em>. That\'s the <em>index</em> of that item in the array.</p><p>It\'s an an automatically-assigned address you can use to find it later, which is pretty cool. I wish my sock drawer did that.</p><p><ol><li>Push another variable into the array</ol></p><p><em>Hint<br>You don\'t have to push b next, you could push c if you want to. Experiment!</em></p>'
+		'<p>Notice that the variable you pushed into the array is now labelled <em>[0]</em>. That\'s the <em>index</em> of that item in the array.</p><p>It\'s an an automatically-assigned address you can use to find it later, which is pretty cool. I wish my sock drawer did that.</p><p><ol><li>Push another variable into the array</ol></p><p><em>Hint<br>You don\'t have to push b next, you could push c if you want to. Experiment!</em></p>',
+		'push'
 	],
 	[
 		'Pushing Data Into An Array 3/3',
-		'<p>One left to go.<ol><li>Push a third variable into the array</ol></p>'
+		'<p>One left to go.<ol><li>Push a third variable into the array</ol></p>',
+		'push'
 	],
 	[
 		'Popping Data Out Of An Array 1/3',
-		'<p>So you\'ve got all your variables in the array. Great. At some point, you\'re going to want to remove things from the array. You can use <em>pop()</em> to remove the last item in an array.<ol><li>Pop the last item out of the array and store its value in a new variable called <em>x</em></ol></p><p><code>x = arr.pop()</code></p>'
+		'<p>So you\'ve got all your variables in the array. Great. At some point, you\'re going to want to remove things from the array. You can use <em>pop()</em> to remove the last item in an array.<ol><li>Pop the last item out of the array and store its value in a new variable called <em>x</em></ol></p><p><code>x = arr.pop()</code></p>',
+		'pop'
 	],
 	[
 		'End of Line',
-		'<p>That\'s all the coding I have time for right now. Stay tuned for future updates which will go over <em>shift()</em>, <em>unshift()</em>, <em>splice()</em>, and other favorite JavaScript array methods.</p><p>Also, to avoid the need to grind in this demo to see what the Pocket Guide could offer, check out the debug section of the settings window.</p>'
+		'<p>That\'s all the coding I have time for right now. Stay tuned for future updates which will go over <em>shift()</em>, <em>unshift()</em>, <em>splice()</em>, and other favorite JavaScript array methods.</p><p>Also, to avoid the need to grind in this demo to see what the Pocket Guide could offer, check out the debug section of the settings window.</p>',
+		'splice'
 	]
 ];
 /* TODO, add entries for:
@@ -340,13 +357,16 @@ var messageBox = {
 	// may be toggled by user clicks on the div
 	state : 1,
 	// called when a new task is assigned to the user
-	update : function() {
-		// increments currentMessage so the next task is displayed when messageBox.show is called
-		currentMessage += 1;
-		// hides the messageBox to make it more visually apparent that its contents have changed
-		messageBox.hide();
-		// calls messageBox.show after a half-second delay so contents can update offscreen
-		setTimeout(messageBox.show, 500);
+	update : function(task) {
+		// if the type of task meets the requirements for advancement...
+		if (currentMessage < 0 || task === messages[currentMessage][2]) {
+			// increments currentMessage so the next task is displayed when messageBox.show is called
+			currentMessage += 1;
+			// hides the messageBox to make it more visually apparent that its contents have changed
+			messageBox.hide();
+			// calls messageBox.show after a half-second delay so contents can update offscreen
+			setTimeout(messageBox.show, 500);
+		}
 	},
 	// hides the messageBox
 	hide : function() {
@@ -407,7 +427,7 @@ function kd(evt) {
 				arrayModel.in.push(currVar);
 				//boxesInArray += 1;
 				pushA();
-				messageBox.update();
+				messageBox.update('push');
 				score.update('push',3.4);
 			}
 		// handle _ = arr.pop() //popping a value out of the array and storing in a variable
@@ -416,8 +436,9 @@ function kd(evt) {
 			arrayModel.in.splice(arrayModel.pre.indexOf(objectlabel),1);
 			arrayModel.post.push(objectlabel);
 			popA();
-			messageBox.update();
+			messageBox.update('pop');
 			score.update('pop',3.4);
+
 		// handle var _ = '_' //creating a variable
 		} else if (/var .* = \'.*\'/.test(cnsl.enteredValue)) {
 			var thesplit = cnsl.enteredValue.split(/var|[=\']+/);
@@ -436,13 +457,25 @@ function kd(evt) {
 			} else if (/^[^a-zA-Z\$_]/.test(theVariable)){
 				// inform user, link to MozDev documentation on legal identifiers
 				messageConsole.update('<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Grammar_and_types#Variables" target="_blank">Variables must start with a letter, $ or underscore.</a><br>The character <em>' + theVariable.slice(0,1) + '</em> is not allowed at the beginning of the identifier.', 'red', 'error');
+			// Allow variable to be created if above conditions passed
 			} else {
+				// increment boxNumber
 				boxNumber += 1;
+				// create a new Box in array ios (Instantiated ObjectS), pass in
+				// the name of the variable (theVariable)
+				// the content of the variable (theContent)
+				// the current boxNumber value
+				// the address of the box in ios so it's 'self-aware'... it can tell you how to reference itself
 				ios[boxNumber] = new Box(theVariable,theContent,boxNumber,'ios'+boxNumber);
+				// set Global currentObject to our new box, so functions in any scope can work with it
 				currentObject = ios[boxNumber];
+				// push the variable name into the pre-array portion of arrayModel so we know it's on the left side of the visual
 				arrayModel.pre.push(theVariable);
+				// push the variable name into the iosTable array (developed before the arrayModel, may deprecate/replace)
 				iosTable.push(theVariable);
-				messageBox.update();
+				// increment the task in the messageBox if we just completed a task
+				messageBox.update('var');
+				// update appropriate score and progress bar
 				score.update('var',3.4);
 			}
 		}
@@ -491,6 +524,7 @@ function kd(evt) {
 }
 
 function pushA() {
+	arrayModel.debug();
 	currentObject.group.animate({
 		transform: 't60,-108'
         }, (900), mina.easeinout, pushB);
@@ -506,6 +540,7 @@ function pushB() {
 	currentObject.iName.node.innerHTML = '[' + (arrayModel.in.length -1) + ']';
 }
 function popA() {
+	arrayModel.debug();
 	currentObject.group.animate({
 		transform: 't60,-108'
         }, (200), mina.easeinout, popB);
