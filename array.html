@@ -7,6 +7,25 @@
     <link rel="stylesheet" href="style.css">
   </head>
 <body>
+<div id="svgcontainer">
+
+<svg version="1.1" id="mouseovericon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 62 54.5" enable-background="new 0 0 62 54.5" xml:space="preserve">
+<path fill="#326466" d="M58,36c0,6.6-5.4,12-12,12H12C5.4,48,0,42.6,0,36V12C0,5.4,5.4,0,12,0h34c6.6,0,12,5.4,12,12V36z"/>
+<polygon fill="#FFFFFF" points="40.2,19.2 62,41 54.2,41 58.5,50.5 50.8,54.5 46.5,43.2 40.2,49.5 "/>
+<polygon points="42.2,23.2 58,39 51.2,39 55.5,49.5 51.8,51.5 47.5,40.2 42.2,45.5 "/>
+</svg>
+
+<svg version="1.1" id="erroricon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 192.3 191.7" enable-background="new 0 0 192.3 191.7" xml:space="preserve">
+<polygon stroke="#fff" stroke-width="15" fill="#ed1c24" points="58.4,5.6 133.7,5.6 186.7,58.3 186.7,133.6 133.7,186 58.4,186 5.7,133.6 5.7,58.3"/>
+</svg>
+
+<svg version="1.1" id="alerticon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 200 200" enable-background="new 0 0 200 200" xml:space="preserve">
+<polygon stroke="#fff" stroke-width="15" fill="#face11" points="100,0 200,100 100,200 0,100"/>
+</svg>
+
+<svg version="1.1" id="upButton" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 403 206" enable-background="new 0 0 403 206" xml:space="preserve"><path d="M0,206L0,31.2c0,0-2-31,31-31s341,0,341,0s31-4,31,28s0,177.8,0,177.8H0z"/><rect y="190" fill="#414649" width="403" height="15"/><polygon fill="#FCFFFD" points="201.5,62 221,113 179,113"/></svg>
+
+</div>
 
 <div class="messageBox" id="messageBoxLeft" onmouseout="messageConsole.clear()" onmouseover="messageConsole.update('Message Box<br>Click to toggle hiding', '#fff', 'mouseover')" onclick="messageBox.click()"></div>
 
@@ -84,23 +103,6 @@
 </g>
 </svg>
 
-<div id="svgcontainer">
-
-<svg version="1.1" id="mouseovericon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 62 54.5" enable-background="new 0 0 62 54.5" xml:space="preserve">
-<path fill="#326466" d="M58,36c0,6.6-5.4,12-12,12H12C5.4,48,0,42.6,0,36V12C0,5.4,5.4,0,12,0h34c6.6,0,12,5.4,12,12V36z"/>
-<polygon fill="#FFFFFF" points="40.2,19.2 62,41 54.2,41 58.5,50.5 50.8,54.5 46.5,43.2 40.2,49.5 "/>
-<polygon points="42.2,23.2 58,39 51.2,39 55.5,49.5 51.8,51.5 47.5,40.2 42.2,45.5 "/>
-</svg>
-<svg version="1.1" id="erroricon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 192.3 191.7" enable-background="new 0 0 192.3 191.7" xml:space="preserve">
-<polygon stroke="#fff" stroke-width="15" fill="#ed1c24" points="58.4,5.6 133.7,5.6 186.7,58.3 186.7,133.6 133.7,186 58.4,186 5.7,133.6 5.7,58.3"/>
-</svg>
-<svg version="1.1" id="alerticon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 200 200" enable-background="new 0 0 200 200" xml:space="preserve">
-<polygon stroke="#fff" stroke-width="15" fill="#face11" points="100,0 200,100 100,200 0,100"/>
-</svg>
-
-
-
-</div>
 
 
 <!--
@@ -142,7 +144,7 @@ An example of how to easily reuse an SVG that exists somewhere else in the page
 <path id="big_gear" opacity="0.7" fill="#6CD4E5" d="M108.6,66.5l10.5-2.2L108.8,61l10.1-3.4l-10.5-2l9.7-4.6l-10.7-0.8l9.1-5.7l-10.7,0.4l8.3-6.7l-10.6,1.7l7.5-7.6l-10.3,2.9l6.6-8.4l-9.9,4.1l5.5-9.1L93.5,27l4.4-9.7l-8.7,6.2l3.3-10.2l-7.9,7.2L86.7,10l-7,8.1l0.8-10.7l-6,8.8L74.2,5.3l-5,9.5L67.6,4.2l-3.8,10L60.9,3.9l-2.7,10.4l-4-9.9L52.8,15l-5.2-9.4l-0.2,10.7l-6.2-8.7l1.1,10.6l-7.2-7.9l2.3,10.5l-8-7l3.5,10.1l-8.8-6.1l4.6,9.6l-9.5-5l5.7,9l-10-3.9l6.7,8.3l-10.4-2.7l7.6,7.5L8.4,39.2l8.5,6.5L6.2,45.5l9.2,5.5L4.7,52l9.7,4.4L4,58.7L14.2,62L4,65.4l10.5,2L4.9,72l10.7,0.8l-9.1,5.7l10.7-0.4l-8.3,6.7l10.6-1.7L12,90.7l10.3-2.9l-6.6,8.4l9.9-4.1l-5.5,9.1l9.4-5.2l-4.4,9.7l8.7-6.2l-3.3,10.2l7.9-7.2L36.3,113l7-8.1l-0.8,10.7l6-8.8l0.4,10.7l5-9.5l1.6,10.6l3.8-10l2.9,10.3l2.7-10.4l4,9.9l1.4-10.6l5.2,9.4l0.2-10.7l6.2,8.7l-1.1-10.6l7.2,7.9L85.7,102l8,7l-3.5-10.1L99,105l-4.6-9.6l9.5,5l-5.7-9l10,3.9l-6.7-8.3l10.4,2.7l-7.6-7.5l10.6,1.5l-8.5-6.5l10.7,0.2l-9.2-5.5l10.6-1L108.6,66.5z M20.3,46.8C39.8,7.3,74.5,20.5,77.8,22.7c3.3,2.2,1,6.8,1,6.8S65.3,50.7,62.7,54.7c-2.6,4-8.5,4.2-8.5,4.2l-30-2.3C18.5,54.5,20.3,48.3,20.3,46.8z M63.6,61.5c0,1.2-0.9,2.1-2.1,2.1s-2.1-0.9-2.1-2.1s0.9-2.1,2.1-2.1S63.6,60.4,63.6,61.5zM70.3,104c-43.8,4.4-51.1-31.9-51-35.9c0.1-4,5.3-4.5,5.3-4.5s25.1,0.2,29.9,0.3c4.8,0.1,8,5,8,5l13.9,26.7C77.7,101.5,71.5,103.2,70.3,104zM89,95.8c-3.5,2-6.5-2.3-6.5-2.3S70,71.8,67.7,67.5c-2.3-4.2,0.2-9.5,0.2-9.5l16-25.5c4.4-4.1,9,0.4,10.3,1.1C120.2,69.2,92.5,93.8,89,95.8z"/>
 </svg>
 
-<svg title="help" version="1.1" id="helpicon" onmouseout="messageConsole.clear()" onmouseover="messageConsole.update('Help<br>Click to display help content', '#fff', 'mouseover')" onclick="settings.show()" class="dockButtons" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="49.5px" height="76.7px" viewBox="0 0 49.5 76.7" enable-background="new 0 0 49.5 76.7" xml:space="preserve">
+<svg title="help" version="1.1" id="helpicon" onmouseout="messageConsole.clear()" onmouseover="messageConsole.update('Help<br>Click to display help content', '#fff', 'mouseover')" onclick="help.show()" class="dockButtons" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="49.5px" height="76.7px" viewBox="0 0 49.5 76.7" enable-background="new 0 0 49.5 76.7" xml:space="preserve">
 <g>
 	<path fill="#326466" opacity="0.7" d="M9.7,3.7C13.6,1.2,18.3,0,23.9,0c7.4,0,13.5,1.8,18.3,5.3c4.9,3.5,7.3,12.7,7.3,19.6c0,4.2-1.1,3.8-3.2,6.7c-1.2,1.8-3.6,4-7.1,6.7L35.8,41c-1.9,1.5-3.1,3.2-3.8,5.1c-0.4,1.2-0.6,7.2-0.6,9.8H18.2c0.2-5.5,0.7-13.3,1.6-15.4c0.8-2.1,3-4.5,6.5-7.3l3.6-2.8c1.2-0.9,2.1-1.8,2.8-2.9c1.3-1.8,1.9-5.8,1.9-7.9c0-2.5-0.7-2.7-2.2-4.8c-1.4-2-4.1-3.1-7.9-3.1c-3.8,0-6.4,1.3-8,3.8c-1.6,2.5-2.4,9.1-2.4,11.8H0C0.4,18.2,3.6,7.6,9.7,3.7z M17.8,58.6h14.6v14.1H17.8V58.6z"/>
 	<path fill="#6CD4E5" opacity="0.7"  d="M9.7,7.7C13.6,5.2,18.3,4,23.9,4c7.4,0,13.5,1.8,18.3,5.3c4.9,3.5,7.3,8.7,7.3,15.6c0,4.2-1.1,7.8-3.2,10.7c-1.2,1.8-3.6,4-7.1,6.7L35.8,45c-1.9,1.5-3.1,3.2-3.8,5.1c-0.4,1.2-0.6,3.2-0.6,5.8H18.2c0.2-5.5,0.7-9.3,1.6-11.4c0.8-2.1,3-4.5,6.5-7.3l3.6-2.8c1.2-0.9,2.1-1.8,2.8-2.9c1.3-1.8,1.9-3.8,1.9-5.9c0-2.5-0.7-4.7-2.2-6.8c-1.4-2-4.1-3.1-7.9-3.1c-3.8,0-6.4,1.3-8,3.8c-1.6,2.5-2.4,5.1-2.4,7.8H0C0.4,18.2,3.6,11.6,9.7,7.7z M17.8,62.6h14.6v14.1H17.8V62.6z"/>
@@ -161,8 +163,8 @@ An example of how to easily reuse an SVG that exists somewhere else in the page
 </div>
 
 <div id="guide">
-	<div id="guideLeft"><div><span id="guideLeftPgNm"></span><svg onclick="guide.turnPage(-2)" style="height:4vh;float:left;" viewBox="0 0 10 10"><path fill="#aaa" d="M0,0 10,0 0,10z"/></svg></div><div id="guideLeftContent"></div></div>
-	<div id="guideRight"><div><span id="guideRightPgNm"></span><svg onclick="guide.turnPage(2)" style="height:4vh;float:right;" viewBox="0 0 10 10"><path fill="#aaa" d="M0,0 10,10 10,0z"/></svg><svg onclick="guide.hide()" id="guideClose" viewBox="0 0 10 10"><path stroke="#fff" stroke-width="0.5" d="M0,0 10,10 M0,10 10,0"/></svg></div><div id="guideRightContent"></div></div>
+	<div id="guideLeft"><div><span id="guideLeftPgNm"></span><svg id="pgTurnLeft" onclick="guide.turnPage(-2)" style="height:4vh;float:left;" viewBox="0 0 10 10"><path fill="#aaa" d="M0,0 10,0 0,10z"/></svg></div><div id="guideLeftContent"></div></div>
+	<div id="guideRight"><div><span id="guideRightPgNm"></span><svg id="pgTurnRight" onclick="guide.turnPage(2)" style="height:4vh;float:right;" viewBox="0 0 10 10"><path fill="#aaa" d="M0,0 10,10 10,0z"/></svg><svg onclick="guide.hide()" id="guideClose" viewBox="0 0 10 10"><path stroke="#fff" stroke-width="0.5" d="M0,0 10,10 M0,10 10,0"/></svg></div><div id="guideRightContent"></div></div>
 </div>
 
 <div id="settings">
@@ -197,6 +199,51 @@ An example of how to easily reuse an SVG that exists somewhere else in the page
 		<option value="pop 2">2: Definition and Syntax</option>
 		<option value="pop 3">3: Definition, Syntax and Compatibility</option>
 	</select><br>
+</div>
+
+<div id="help">
+	<div id="helpHeader">
+		<svg onclick="help.hide()" id="helpClose" viewBox="0 0 10 10"><path stroke="#fff" stroke-width="0.5" d="M0,0 10,10 M0,10 10,0"/></svg>
+		<svg class="helpHeaderIcons" viewBox="0 0 49.5 76.7"><use x="0" y="0" xlink:href="#helpicon"/></svg>
+		<h2>Help</h2>
+	</div>
+	<div id="helpContent">
+	<h3>Basics</h3>
+	<p><ol>
+		<li> Read the prompts in the message box on the left side of the window.
+		<li> Type your code in the console box near the bottom of the window and press enter.
+		<li> Watch the animation play out in the middle of the window.
+	</ol></p>
+	<h3>Mouseover Help</h3>
+	<p>If you're not sure what something is or does, move your cursor over it. An icon <svg class="inlineTextSvg"><use x="0" y="0" xlink:href="#mouseovericon"/></svg> will appear below the console with helpful information. Objects in the visualization will tell you what their properties are. Interface elements like dock buttons, progress bars and the message box will tell you what they do. Be inquisitive!</p>
+	<h3>Console History</h3>
+	<p>The console saves your history, just like the browser's JavaScript console or a terminal window. When the console has focus, pressing the up key <svg class="inlineTextSvg"><use x="0" y="0" xlink:href="#upButton"/></svg> on your keyboard fills the console with the last text you entered. You can scroll back and forth through your history with the up <svg class="inlineTextSvg"><use x="0" y="0" xlink:href="#upButton"/></svg> and down <svg class="inlineTextSvg" style="transform:rotate(180deg);"><use x="0" y="0" xlink:href="#upButton"/></svg> keys.</p>
+	<h3>Decluttering Your Workspace</h3>
+	<p>If you have a lot of variables on screen, some may be covered by the message box. To temporarily slide the message box out of your way, click or tap it. You can always bring it back into view by clicking or tapping on the tab that remains visible. It will slide back out when it has new information for you.</p>
+	<h3>Errors</h3>
+	<p>Error messages may appear in the console window if you try to do something silly like push() a variable that doesn't exist.</p>
+	<p><svg class="inlineTextSvg"><use x="0" y="0" xlink:href="#alerticon"/></svg>Yellow alerts advise you of issues specific to this app.</p>
+	<p><svg class="inlineTextSvg"><use x="0" y="0" xlink:href="#erroricon"/></svg>Red error messages suggest you may have entered invalid code.</p>
+	<h3>Pocket Guide</h3>
+	<p><svg class="helpInset" viewBox="0 0 387 237.5"><use x="0" y="0" xlink:href="#pocketguide"/></svg>The Pocket Guide contains information about concepts you have learned. It's your own personalized reference guide and trophy case.</p>
+	<p>The more you practice a concept, the more detail your Pocket Guide will display about that concept. This helps you commit the concept to memory through repetition, but also gives you a handy way to recall the details later on.</p>
+	<p>Click the Pocket Guide icon in the bottom right corner of the window to open it. Page numbers at the top of the guide indicate where you are in the guide and how many pages the guide contains. If there are more than 2 pages, click or tap the <svg class="inlineTextSvg"><use x="0" y="0" xlink:href="#pgTurnLeft"/></svg> or <svg class="inlineTextSvg"><use x="0" y="0" xlink:href="#pgTurnRight"/></svg> icons to turn the pages.</p>
+	<p>In the future (as in, once I implement the code to arrange the guide in booklet format for printing), you will be able to print your personalized Pocket Guide so you have a hard copy you can take anywhere. Once the Pocket Guide is open, click the printer icon to print it. If you're using Chrome, you can select "Save As PDF" in the print dialog to create a file that can be viewed on your computer, phone or tablet.</p>
+	<h3>Settings</h3>
+	<p><svg class="helpInset" viewBox="0 0 123 123"><use x="0" y="0" xlink:href="#gear"/></svg>You can change the background image by entering the URL of a different image. Search Google, Dribbble or Behance for "landscape" and find something inspiring to serve as a backdrop for your learning. Right-click the image, copy the image URL, paste it into the background image input box and press tab. Here are some that caught my eye:
+	<ul>
+		<li><a href="https://dribbble.com/shots/1876492-Mountain" target="_blank">MRusta's "Mountain"</a> (animated)
+		<li><a href="https://dribbble.com/shots/1828176-Lakeside-Sunset" target="_blank">Louis Coyle's "Lakeside Sunset"</a>
+		<li><a href="https://dribbble.com/shots/2136579-Silent-Escape" target="_blank">Dave Chenell's "Silent Escape"</a> (animated)
+		<li><a href="https://www.behance.net/gallery/33580963/KOLI" target="_blank">Ilari Tuupanen's "KOLI"</a>
+		<li><a href="https://www.behance.net/gallery/33365847/Spring-South-Moravia" target="_blank">Daniel Řeřicha's "Spring South Moravia"</a>
+	</ul>
+	Out of respect for the artists, these links go to their portfolio page, not directly to the image.
+	</p>
+	<p>
+	As this app is a proof of concept demo, you can "cheat" and fill the Pocket Guide's pages using the debug menu in the settings window. Use the select elements to change the content level for each of the three concepts covered in the demo, then click on the Pocket Guide icon to view the pages.
+	</p>
+	</div>
 </div>
 
 </body>

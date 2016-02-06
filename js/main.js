@@ -19,6 +19,7 @@ var settings = {
 	show : function(content) {
 		settings.modal.style.visibility = 'visible';
 		guide.modal.style.visibility = 'hidden';
+		help.modal.style.visibility = 'hidden';
 	},
 	hide : function() {
 		settings.modal.style.visibility = 'hidden';
@@ -52,6 +53,18 @@ var settings = {
 		}
 	},
 	variableLimit : 4,
+};
+
+var help = {
+	modal : document.getElementById('help'),
+	show : function(content) {
+		help.modal.style.visibility = 'visible';
+		settings.modal.style.visibility = 'hidden';
+		guide.modal.style.visibility = 'hidden';
+	},
+	hide : function() {
+		help.modal.style.visibility = 'hidden';
+	}
 };
 
 var score = {
@@ -569,8 +582,9 @@ var guide = {
 	right : document.getElementById('guideRightContent'),
 	// open the guide
 	show : function(content) {
-		// close the settings box if it's open
+		// close the settings and help boxes if they're open
 		settings.modal.style.visibility = 'hidden';
+		help.modal.style.visibility = 'hidden';
 		// make the modal div visible
 		guide.modal.style.visibility = 'visible';
 		// fill the left page with content
