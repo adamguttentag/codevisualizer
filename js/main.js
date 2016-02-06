@@ -423,8 +423,19 @@ function kd(evt) {
 			var thesplit = cnsl.enteredValue.split(/var|[=\']+/);
 			var theVariable = cnsl.enteredValue.split(/var|[=\']+/)[1].trim();
 			var theContent = cnsl.enteredValue.split(/var|[=\']+/)[3];
+			// Block variables after 6 are already created (can be disabled in settings)
+			// NOTE: At this time, I just haven't written the logic to figure out
+			// where to visually place more than 6 in a sensible way.
+			// TODO: Write logic to delete and/or position additional variables.
 			if (boxNumber > settings.variableLimit) {
 				messageConsole.update('This demo is limited to 6 variables due to screen space limitations.', 'yellow', 'alert');
+			// Block variables that start with illegal characters.
+			// The first ^ matches the beginning of the string, but the second ^ negates
+			// the pattern, so any character not in that set matches and triggers this.
+			// TODO: update regex to allow unicode letters as well
+			} else if (/^[^a-zA-Z\$_]/.test(theVariable)){
+				// inform user, link to MozDev documentation on legal identifiers
+				messageConsole.update('<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Grammar_and_types#Variables" target="_blank">Variables must start with a letter, $ or underscore.</a><br>The character <em>' + theVariable.slice(0,1) + '</em> is not allowed at the beginning of the identifier.', 'red', 'error');
 			} else {
 				boxNumber += 1;
 				ios[boxNumber] = new Box(theVariable,theContent,boxNumber,'ios'+boxNumber);
@@ -537,7 +548,6 @@ var levelup = {
 		levelup.modal.style.transition = 'opacity 1s, visibility 0s';
 		levelup.slot.innerHTML = content;
 		levelup.modal.style.opacity = 0.8;
-		// TODO add handler for acquired icon
 		levelup.toolIcon.style.visibility = 'visible';
 		setTimeout(levelup.acquireTool, 3000);
 		setTimeout(levelup.hide, 6000);
