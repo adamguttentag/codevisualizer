@@ -458,8 +458,6 @@ function kd(evt) {
 			cnsl.hist.update();
 			// update the input box label with the current history index like this (history: 1/4)
 			cnsl.hist.display();
-			console.log(cnsl.hist.index);
-			console.log(cnsl.hist);
 		// if the index is 0, there are no older entries, so
 		} else if (cnsl.hist.index === 0) {
 			// decrement the index to -1, so any further up keypresses are ignored
@@ -468,8 +466,6 @@ function kd(evt) {
 			cnsl.clear();
 			// clear the input box label so it's clear we're not looking at data from our history
 			cnsl.hist.clearLabel();
-			console.log(cnsl.hist.index);
-			console.log(cnsl.hist);
 		}
 	}
 	// down arrow scrolls forward through history array
@@ -482,8 +478,6 @@ function kd(evt) {
 			cnsl.hist.update();
 			// update the input box label with the current history index like this (history: 1/4)
 			cnsl.hist.display();
-			console.log(cnsl.hist.index);
-			console.log(cnsl.hist);
 		// if the index equals the length of the history array, there are no newer entries, so
 		} else if (cnsl.hist.index === cnsl.hist.data.length -1) {
 			// increment the index to data.length+1, so any further down keypresses are ignored
@@ -492,8 +486,6 @@ function kd(evt) {
 			cnsl.clear();
 			// clear the input box label so it's clear we're not looking at data from our history
 			cnsl.hist.clearLabel();
-			console.log(cnsl.hist.index);
-			console.log(cnsl.hist);
 		}
 	}
 }
