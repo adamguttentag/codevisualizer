@@ -1,4 +1,3 @@
-var myConsole = document.getElementById('console');
 var currentObject;
 var hist = [];
 var ind;
@@ -285,6 +284,39 @@ var messageConsole = {
 	}
 };
 
+// store data and functions for the console
+//   to avoid confusion with the browser's console, and overly-long names for an
+//   often-used variable, the name has been shortened to "cnsl".
+//     "cnsl.hist.data[cnsl.hist.index]"
+//   is FAR more readable than
+//     "consoleObject.history.data[consoleObject.history.index]"
+var cnsl = {
+	in : document.getElementById('console'),
+	clear : function() {
+		cnsl.in.value = '';
+	},
+	enteredValue : '',
+	hist : {
+		data : [],
+		index : 0,
+		display : function() {
+			cnsl.in.labels[0].innerHTML = '(history: ' + (cnsl.hist.index + 1) + '/' + cnsl.hist.data.length + ')';
+		},
+		update : function() {
+			cnsl.in.value = cnsl.hist.data[cnsl.hist.index];
+		},
+		dec : function() {
+			cnsl.hist.index -= 1;
+		},
+		inc : function() {
+			cnsl.hist.index += 1;
+		},
+		clearLabel : function() {
+			cnsl.in.labels[0].innerHTML = '';
+		},
+	}
+};
+
 // stores functions and references related the left message box
 // This area is intended to assign tasks for the user to complete
 // TODO: implement right message box to display instructor video
@@ -332,23 +364,26 @@ var messageBox = {
 };
 
 
+
+
 // when the console box has focus and a key is pressed...
 function kd(evt) {
 	// if the key pressed is the return/enter key...
 	if (evt.keyCode == 13) {
-		// store The Value (tv) of the console text in a nice short variable we're going to use a lot
-		var tv = myConsole.value;
+		// store the value of the console text in cnsl.enteredValue
+		cnsl.enteredValue = cnsl.in.value;
 		// push the entered text into the hist array (console history) so we can retrieve it on demand
-		hist.push(tv);
-		// clear the console so it's ready for new input
-		myConsole.value = '';
-		// set the index of the current command to the length of the hist array
-		ind = hist.length;
+		cnsl.hist.data.push(cnsl.enteredValue);
+		// clear the console and history indicator to get ready for new input
+		cnsl.clear();
+		cnsl.hist.clearLabel();
+		// set the index of the current command to the length of the hist.data array
+		cnsl.hist.index = cnsl.hist.data.length;
 
 		// handle arr.push() //pushing a value into the array
-		if (/arr\.push\(.*\)/.test(tv)) {
+		if (/arr\.push\(.*\)/.test(cnsl.enteredValue)) {
 			// parse the variable name from the submitted string
-			var currVar = tv.split(/[()]+/)[1];
+			var currVar = cnsl.enteredValue.split(/[()]+/)[1];
 			// throw an error message if user tries to push a nonexistent variable
 			if (arrayModel.pre.indexOf(currVar) == -1) {
 				messageConsole.update('Sorry, I can\'t find a variable named <em>' + currVar + '</em>', 'red', 'error');
@@ -363,18 +398,18 @@ function kd(evt) {
 				score.update('push',3.4);
 			}
 		// handle _ = arr.pop() //popping a value out of the array and storing in a variable
-		} else if (/.* = arr\.pop\(\)/.test(tv)) {
-			objectlabel = tv.split(/[=]+/)[0];
+		} else if (/.* = arr\.pop\(\)/.test(cnsl.enteredValue)) {
+			objectlabel = cnsl.enteredValue.split(/[=]+/)[0];
 			arrayModel.in.splice(arrayModel.pre.indexOf(objectlabel),1);
 			arrayModel.post.push(objectlabel);
 			popA();
 			messageBox.update();
 			score.update('pop',3.4);
 		// handle var _ = '_' //creating a variable
-		} else if (/var .* = \'.*\'/.test(tv)) {
-			var thesplit = tv.split(/var|[=\']+/);
-			var theVariable = tv.split(/var|[=\']+/)[1].trim();
-			var theContent = tv.split(/var|[=\']+/)[3];
+		} else if (/var .* = \'.*\'/.test(cnsl.enteredValue)) {
+			var thesplit = cnsl.enteredValue.split(/var|[=\']+/);
+			var theVariable = cnsl.enteredValue.split(/var|[=\']+/)[1].trim();
+			var theContent = cnsl.enteredValue.split(/var|[=\']+/)[3];
 			if (boxNumber > settings.variableLimit) {
 				messageConsole.update('This demo is limited to 6 variables due to screen space limitations.', 'yellow', 'alert');
 			} else {
@@ -387,43 +422,54 @@ function kd(evt) {
 				score.update('var',3.4);
 			}
 		}
-		// Pseudocode: if (currentmessage = x && tv.split.test) {missionaccomplished}
+		// Pseudocode: if (currentmessage = x && cnsl.enteredValue.split.test) {missionaccomplished}
 	}
 	// up arrow scrolls back through history array
 	if (evt.keyCode == 38) {
-		if (ind > 0) {
-			ind -= 1;
-			myConsole.value = hist[ind];
-			myConsole.labels[0].innerHTML = '(history: ' + ind + '/' + (hist.length-1) + ')';
-			console.log(ind);
-			console.log(hist);
-		} else {
-			myConsole.value = '';
-			myConsole.labels[0].innerHTML = '';
-			console.log(ind);
-			console.log(hist);
+		// if index is a positive number
+		if (cnsl.hist.index > 0) {
+			// decrement the index
+			cnsl.hist.dec();
+			// update the input box with the value at the new index
+			cnsl.hist.update();
+			// update the input box label with the current history index like this (history: 1/4)
+			cnsl.hist.display();
+			console.log(cnsl.hist.index);
+			console.log(cnsl.hist);
+		// if the index is 0, there are no older entries, so
+		} else if (cnsl.hist.index === 0) {
+			// decrement the index to -1, so any further up keypresses are ignored
+			cnsl.hist.dec();
+			// clear the input box, because there are no older entries
+			cnsl.clear();
+			// clear the input box label so it's clear we're not looking at data from our history
+			cnsl.hist.clearLabel();
+			console.log(cnsl.hist.index);
+			console.log(cnsl.hist);
 		}
 	}
-	// up arrow scrolls forward through history array
+	// down arrow scrolls forward through history array
 	if (evt.keyCode == 40) {
-		if (ind <= hist.length - 1) {
-			ind += 1;
-			if (ind == hist.length) {
-				ind = hist.length - 1;
-			}
-			myConsole.value = hist[ind];
-			myConsole.labels[0].innerHTML = '(history: ' + ind + '/' + (hist.length-1) + ')';
-			console.log(ind);
-			console.log(hist);
-		} else if (ind > hist.length - 1) {
-			ind = hist.length;
-			console.log(ind);
-			console.log(hist);
-		} else {
-			myConsole.value = '';
-			myConsole.labels[0].innerHTML = '';
-			console.log(ind);
-			console.log(hist);
+		// if index is a positive number
+		if (cnsl.hist.index < cnsl.hist.data.length -1 ) {
+			// increment the index
+			cnsl.hist.inc();
+			// update the input box with the value at the new index
+			cnsl.hist.update();
+			// update the input box label with the current history index like this (history: 1/4)
+			cnsl.hist.display();
+			console.log(cnsl.hist.index);
+			console.log(cnsl.hist);
+		// if the index equals the length of the history array, there are no newer entries, so
+		} else if (cnsl.hist.index === cnsl.hist.data.length -1) {
+			// increment the index to data.length+1, so any further down keypresses are ignored
+			cnsl.hist.inc();
+			// clear the input box, because there are no newer entries
+			cnsl.clear();
+			// clear the input box label so it's clear we're not looking at data from our history
+			cnsl.hist.clearLabel();
+			console.log(cnsl.hist.index);
+			console.log(cnsl.hist);
 		}
 	}
 }
