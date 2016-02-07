@@ -12,6 +12,8 @@ var arrayModel = {
 	pre : [],
 	in : [],
 	post : [],
+	currentObject : '',
+	currentLocation : '',
 	debug : function() {
 		console.log(arrayModel.pre);
 		console.log(arrayModel.in);
@@ -418,12 +420,19 @@ function kd(evt) {
 			// parse the variable name from the submitted string
 			var currVar = cnsl.enteredValue.split(/[()]+/)[1];
 			// throw an error message if user tries to push a nonexistent variable
-			if (arrayModel.pre.indexOf(currVar) == -1) {
+			if (iosTable.indexOf(currVar) == -1) {
 				messageConsole.update('Sorry, I can\'t find a variable named <em>' + currVar + '</em>', 'red', 'error');
 			} else {
 				// look up the index of the specified variable in iosTable, and use that index to select object in ios as the currentObject
 				currentObject = ios[iosTable.indexOf(currVar)];
-				arrayModel.pre.splice(arrayModel.pre.indexOf(currVar),1);
+				// if currVar is in pre, take it out
+				if (arrayModel.pre.indexOf(currVar) > -1) {
+					arrayModel.currentLocation = 'pre';
+				// else if currVar exists in post, take it out
+				} else if (arrayModel.post.indexOf(currVar) > -1) {
+					arrayModel.currentLocation = 'post';
+				}
+				arrayModel[arrayModel.currentLocation].splice(arrayModel[arrayModel.currentLocation].indexOf(currVar),1,'');
 				arrayModel.in.push(currVar);
 				//boxesInArray += 1;
 				pushA();
@@ -431,12 +440,22 @@ function kd(evt) {
 				score.update('push',3.4);
 			}
 		// handle _ = arr.pop() //popping a value out of the array and storing in a variable
-		} else if (/.* = arr\.pop\(\)/.test(cnsl.enteredValue)) {
-			objectlabel = cnsl.enteredValue.split(/[=]+/)[0];
-			arrayModel.in.splice(arrayModel.pre.indexOf(objectlabel),1);
+		} else if (/^[a-zA-Z\$_]* = arr\.pop\(\)/.test(cnsl.enteredValue)) {
+			// parse the variable name
+			objectlabel = cnsl.enteredValue.split(/ [=]+/)[0];
+			// look up the index of the specified variable in iosTable, and use that index to select object in ios as the currentObject
+			currentObject = ios[iosTable.indexOf(arrayModel.in[arrayModel.in.length-1])];
+			// delete indicated variable from arrayModel.in
+			arrayModel.in.splice(arrayModel.in.indexOf(objectlabel),1,'');
+			// push variable into arrayModel.post
 			arrayModel.post.push(objectlabel);
-			popA();
+			// run the pop animation (and change the variable label)
+			popA(currentObject);
+			// update iosTable so the new variable name points to the object's index
+			iosTable.splice(iosTable.indexOf(currentObject.vName.node.innerHTML), 1, objectlabel);
+			// increment the task in the messageBox if we just completed a task
 			messageBox.update('pop');
+			// update appropriate score and progress bar
 			score.update('pop',3.4);
 
 		// handle var _ = '_' //creating a variable
@@ -461,16 +480,22 @@ function kd(evt) {
 			} else {
 				// increment boxNumber
 				boxNumber += 1;
-				// create a new Box in array ios (Instantiated ObjectS), pass in
-				// the name of the variable (theVariable)
-				// the content of the variable (theContent)
-				// the current boxNumber value
-				// the address of the box in ios so it's 'self-aware'... it can tell you how to reference itself
-				ios[boxNumber] = new Box(theVariable,theContent,boxNumber,'ios'+boxNumber);
+				var openSlot;
+				if (arrayModel.pre.indexOf('') > -1) {
+					openSlot = arrayModel.pre.indexOf('');
+				} else {
+					openSlot = arrayModel.pre.length;
+				}
+				// create a new Box in array ios (Instantiated ObjectS), pass in:
+				//   -the name of the variable (theVariable)
+				//   -the content of the variable (theContent)
+				//   -the current location of an open slot in arrayModel.pre
+				//   -the address of the box in ios so it's 'self-aware'... it can tell you how to reference itself
+				ios[boxNumber] = new Box(theVariable,theContent,openSlot,'ios'+boxNumber);
 				// set Global currentObject to our new box, so functions in any scope can work with it
 				currentObject = ios[boxNumber];
 				// push the variable name into the pre-array portion of arrayModel so we know it's on the left side of the visual
-				arrayModel.pre.push(theVariable);
+				arrayModel.pre.splice(openSlot, 1, theVariable);
 				// push the variable name into the iosTable array (developed before the arrayModel, may deprecate/replace)
 				iosTable.push(theVariable);
 				// increment the task in the messageBox if we just completed a task
@@ -479,7 +504,6 @@ function kd(evt) {
 				score.update('var',3.4);
 			}
 		}
-		// Pseudocode: if (currentmessage = x && cnsl.enteredValue.split.test) {missionaccomplished}
 	}
 	// up arrow scrolls back through history array
 	if (evt.keyCode == 38) {
@@ -524,7 +548,6 @@ function kd(evt) {
 }
 
 function pushA() {
-	arrayModel.debug();
 	currentObject.group.animate({
 		transform: 't60,-108'
         }, (900), mina.easeinout, pushB);
@@ -539,16 +562,16 @@ function pushB() {
 	// todo: test and compare them to see if one has a performance advantage
 	currentObject.iName.node.innerHTML = '[' + (arrayModel.in.length -1) + ']';
 }
-function popA() {
-	arrayModel.debug();
+function popA(currentObject) {
 	currentObject.group.animate({
 		transform: 't60,-108'
         }, (200), mina.easeinout, popB);
 }
 function popB() {
 	currentObject.iName.node.innerHTML = '';
+// TODO: set transform y based on the length of arrayModel.post
 	currentObject.group.animate({
-		transform: 't120,0'
+		transform: 't120,'+(-40*(arrayModel.post.length -1))
         }, (900), mina.easeinout);
 	currentObject.vName.node.innerHTML = objectlabel;
 	currentObject.group.attr({
