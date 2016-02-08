@@ -1,10 +1,8 @@
 var currentObject;
 var hist = [];
 var ind;
-var objectlabel = '';
 var regex = /arr/;
 var boxNumber = -1;
-//var boxesInArray = -1;
 var currentMessage = -1;
 
 // an object containing 3 arrays representing what variables are inside the array, and which are on either side of it. This is useful for keeping track of where everything is so our visible model acts like a real array
@@ -13,7 +11,11 @@ var arrayModel = {
 	in : [],
 	post : [],
 	currentObject : '',
+	var : '',
 	currentLocation : '',
+	openSlot : 0,
+	xOffset : 0,
+	yOffset : 0,
 	debug : function() {
 		console.log(arrayModel.pre);
 		console.log(arrayModel.in);
@@ -403,6 +405,7 @@ var messageBox = {
 
 // when the console box has focus and a key is pressed...
 function kd(evt) {
+	// TODO: this is where we will evaluate the terminal input for predictive visualization
 	// if the key pressed is the return/enter key...
 	if (evt.keyCode == 13) {
 		// store the value of the console text in cnsl.enteredValue
@@ -441,27 +444,39 @@ function kd(evt) {
 			}
 		// handle _ = arr.pop() //popping a value out of the array and storing in a variable
 		} else if (/^[a-zA-Z\$_]* = arr\.pop\(\)/.test(cnsl.enteredValue)) {
-			// parse the variable name
-			objectlabel = cnsl.enteredValue.split(/ [=]+/)[0];
-			// look up the index of the specified variable in iosTable, and use that index to select object in ios as the currentObject
-			currentObject = ios[iosTable.indexOf(arrayModel.in[arrayModel.in.length-1])];
-			// delete indicated variable from arrayModel.in
-			arrayModel.in.splice(arrayModel.in.indexOf(objectlabel),1,'');
-			// push variable into arrayModel.post
-			arrayModel.post.push(objectlabel);
-			// run the pop animation (and change the variable label)
-			popA(currentObject);
-			// update iosTable so the new variable name points to the object's index
-			iosTable.splice(iosTable.indexOf(currentObject.vName.node.innerHTML), 1, objectlabel);
-			// increment the task in the messageBox if we just completed a task
-			messageBox.update('pop');
-			// update appropriate score and progress bar
-			score.update('pop',3.4);
+			// block execution if arr is empty
+			if (arrayModel.in.length === 0) {
+				messageConsole.update('There\'s nothing in the array to pop. Try pushing something in first.', 'red', 'error');
+			} else {
+				// parse the variable name
+				arrayModel.var = cnsl.enteredValue.split(/ [=]+/)[0];
+				// look up the index of the specified variable in iosTable, and use that index to select object in ios as the currentObject
+				currentObject = ios[iosTable.indexOf(arrayModel.in[arrayModel.in.length-1])];
+				console.dir(currentObject);
+				// delete indicated variable from arrayModel.in (do not leave an empty slot, that would interfere with push emulation)
+				arrayModel.in.splice(arrayModel.in.indexOf(arrayModel.var),1);
+				// push variable into arrayModel.post
+				//arrayModel.post.push(arrayModel.var);
+				if (arrayModel.post.indexOf('') > -1) {
+					arrayModel.openSlot = arrayModel.post.indexOf('');
+				} else {
+					arrayModel.openSlot = arrayModel.post.length;
+				}
+				arrayModel.post.splice(arrayModel.openSlot, 1, arrayModel.var);
+				// run the pop animation (and change the variable label)
+				popA();
+				// update iosTable so the new variable name points to the object's index
+				iosTable.splice(iosTable.indexOf(currentObject.vName.node.innerHTML), 1, arrayModel.var);
+				// increment the task in the messageBox if we just completed a task
+				messageBox.update('pop');
+				// update appropriate score and progress bar
+				score.update('pop',3.4);
+			}
 
 		// handle var _ = '_' //creating a variable
 		} else if (/var .* = \'.*\'/.test(cnsl.enteredValue)) {
 			var thesplit = cnsl.enteredValue.split(/var|[=\']+/);
-			var theVariable = cnsl.enteredValue.split(/var|[=\']+/)[1].trim();
+			arrayModel.var = cnsl.enteredValue.split(/var|[=\']+/)[1].trim();
 			var theContent = cnsl.enteredValue.split(/var|[=\']+/)[3];
 			// Block variables after 6 are already created (can be disabled in settings)
 			// NOTE: At this time, I just haven't written the logic to figure out
@@ -473,31 +488,31 @@ function kd(evt) {
 			// The first ^ matches the beginning of the string, but the second ^ negates
 			// the pattern, so any character not in that set matches and triggers this.
 			// TODO: update regex to allow unicode letters as well
-			} else if (/^[^a-zA-Z\$_]/.test(theVariable)){
+			} else if (/^[^a-zA-Z\$_]/.test(arrayModel.var)){
 				// inform user, link to MozDev documentation on legal identifiers
-				messageConsole.update('<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Grammar_and_types#Variables" target="_blank">Variables must start with a letter, $ or underscore.</a><br>The character <em>' + theVariable.slice(0,1) + '</em> is not allowed at the beginning of the identifier.', 'red', 'error');
+				messageConsole.update('<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Grammar_and_types#Variables" target="_blank">Variables must start with a letter, $ or underscore.</a><br>The character <em>' + arrayModel.var.slice(0,1) + '</em> is not allowed at the beginning of the identifier.', 'red', 'error');
 			// Allow variable to be created if above conditions passed
 			} else {
 				// increment boxNumber
 				boxNumber += 1;
-				var openSlot;
+				// if a previously-used spot exists on the board, fill it
 				if (arrayModel.pre.indexOf('') > -1) {
-					openSlot = arrayModel.pre.indexOf('');
+					arrayModel.openSlot = arrayModel.pre.indexOf('');
+				// otherwise, put the new variable after any existing ones
 				} else {
-					openSlot = arrayModel.pre.length;
+					arrayModel.openSlot = arrayModel.pre.length;
 				}
 				// create a new Box in array ios (Instantiated ObjectS), pass in:
-				//   -the name of the variable (theVariable)
+				//   -the name of the variable (arrayModel.var)
 				//   -the content of the variable (theContent)
 				//   -the current location of an open slot in arrayModel.pre
-				//   -the address of the box in ios so it's 'self-aware'... it can tell you how to reference itself
-				ios[boxNumber] = new Box(theVariable,theContent,openSlot,'ios'+boxNumber);
+				ios[boxNumber] = new Box(arrayModel.var,theContent,arrayModel.openSlot);
 				// set Global currentObject to our new box, so functions in any scope can work with it
 				currentObject = ios[boxNumber];
 				// push the variable name into the pre-array portion of arrayModel so we know it's on the left side of the visual
-				arrayModel.pre.splice(openSlot, 1, theVariable);
+				arrayModel.pre.splice(arrayModel.openSlot, 1, arrayModel.var);
 				// push the variable name into the iosTable array (developed before the arrayModel, may deprecate/replace)
-				iosTable.push(theVariable);
+				iosTable.push(arrayModel.var);
 				// increment the task in the messageBox if we just completed a task
 				messageBox.update('var');
 				// update appropriate score and progress bar
@@ -562,7 +577,7 @@ function pushB() {
 	// todo: test and compare them to see if one has a performance advantage
 	currentObject.iName.node.innerHTML = '[' + (arrayModel.in.length -1) + ']';
 }
-function popA(currentObject) {
+function popA() {
 	currentObject.group.animate({
 		transform: 't60,-108'
         }, (200), mina.easeinout, popB);
@@ -570,12 +585,19 @@ function popA(currentObject) {
 function popB() {
 	currentObject.iName.node.innerHTML = '';
 // TODO: set transform y based on the length of arrayModel.post
+	if (arrayModel.openSlot > 2) {
+		arrayModel.xOffset = 50;
+		arrayModel.yOffset = arrayModel.openSlot-3;
+	} else {
+		arrayModel.xOffset = 0;
+		arrayModel.yOffset = arrayModel.openSlot;
+	}
 	currentObject.group.animate({
-		transform: 't120,'+(-40*(arrayModel.post.length -1))
+		transform: 't' + (120+arrayModel.xOffset) + ','+(-40*(arrayModel.yOffset))
         }, (900), mina.easeinout);
-	currentObject.vName.node.innerHTML = objectlabel;
+	currentObject.vName.node.innerHTML = arrayModel.var;
 	currentObject.group.attr({
-		onmouseover: 'messageConsole.update(\'A variable named <em>' + objectlabel + '</em> containing the string <em>' + currentObject.cName.node.innerHTML + '</em>\', \'#fff\', \'mouseover\')',
+		onmouseover: 'messageConsole.update(\'A variable named <em>' + arrayModel.var + '</em> containing the string <em>' + currentObject.cName.node.innerHTML + '</em>\', \'#fff\', \'mouseover\')',
 		onmouseout: 'messageConsole.clear()'
 	});
 }
