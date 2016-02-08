@@ -575,6 +575,7 @@ function pushB() {
 	// note: could also use node.textContent to get to access the text
 	// note: possibly also available: .attr({'#text':'new text'})
 	// todo: test and compare them to see if one has a performance advantage
+	currentObject.vName.node.innerHTML = '';
 	currentObject.iName.node.innerHTML = '[' + (arrayModel.in.length -1) + ']';
 }
 function popA() {
@@ -584,7 +585,6 @@ function popA() {
 }
 function popB() {
 	currentObject.iName.node.innerHTML = '';
-// TODO: set transform y based on the length of arrayModel.post
 	if (arrayModel.openSlot > 2) {
 		arrayModel.xOffset = 50;
 		arrayModel.yOffset = arrayModel.openSlot-3;
