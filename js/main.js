@@ -465,7 +465,34 @@ var cmd = {
 	push : {
 		test : '',
 		exec : function() {
-
+			// parse the variable name from the submitted string
+			arrayModel.var = cnsl.enteredValue.split(/[()]+/)[1];
+			// throw an error message if user tries to push a nonexistent variable
+			if (iosTable.indexOf(arrayModel.var) == -1) {
+				messageConsole.update('Sorry, I can\'t find a variable named <em>' + arrayModel.var + '</em>', 'red', 'error');
+			} else {
+				// look up indexOf the variable in iosTable, use that to select object in ios
+				currentObject = ios[iosTable.indexOf(arrayModel.var)];
+				// if arrayModel.var is in pre, set location to pre
+				if (arrayModel.pre.indexOf(arrayModel.var) > -1) {
+					arrayModel.currentLocation = 'pre';
+				// else if arrayModel.var exists in post, set location to pre
+				} else if (arrayModel.post.indexOf(arrayModel.var) > -1) {
+					arrayModel.currentLocation = 'post';
+				}
+				// remove arrayModel.var from its location
+				arrayModel[arrayModel.currentLocation].splice(arrayModel[arrayModel.currentLocation].indexOf(arrayModel.var),1,'');
+				// push the object's index into arrayModel.in
+				arrayModel.in.push(arrayModel.in.length+1);
+				// fire push animation (and remove variable name from visual object)
+				pushA();
+				// update iosTable so it points to the array index, since the variable name no longer applies to this object
+				iosTable.splice(iosTable.indexOf(arrayModel.var), 1, arrayModel.in.length -1);
+				// increment the task in the messageBox if we just completed a task
+				messageBox.update('push');
+				// update appropriate score and progress bar
+				score.update('push',3.4);
+			}
 		}
 	},
 	pop : {
@@ -494,32 +521,8 @@ function kd(evt) {
 
 		// handle arr.push() //pushing a value into the array
 		if (/arr\.push\(.*\)/.test(cnsl.enteredValue)) {
-			// parse the variable name from the submitted string
-			var currVar = cnsl.enteredValue.split(/[()]+/)[1];
-			// throw an error message if user tries to push a nonexistent variable
-			if (iosTable.indexOf(currVar) == -1) {
-				messageConsole.update('Sorry, I can\'t find a variable named <em>' + currVar + '</em>', 'red', 'error');
-			} else {
-				// look up the index of the specified variable in iosTable, and use that index to select object in ios as the currentObject
-				currentObject = ios[iosTable.indexOf(currVar)];
-				// if currVar is in pre, set location to pre
-				if (arrayModel.pre.indexOf(currVar) > -1) {
-					arrayModel.currentLocation = 'pre';
-				// else if currVar exists in post, set location to pre
-				} else if (arrayModel.post.indexOf(currVar) > -1) {
-					arrayModel.currentLocation = 'post';
-				}
-				// remove currVar from its location
-				arrayModel[arrayModel.currentLocation].splice(arrayModel[arrayModel.currentLocation].indexOf(currVar),1,'');
-				// push the object's index into arrayModel.in
-				arrayModel.in.push(arrayModel.in.length+1);
-				//boxesInArray += 1;
-				pushA();
-				// update iosTable so it points to the array index, since the variable name no longer applies to this object
-				iosTable.splice(iosTable.indexOf(currVar), 1, arrayModel.in.length -1);
-				messageBox.update('push');
-				score.update('push',3.4);
-			}
+			cmd.push.exec();
+
 		// handle _ = arr.pop() //popping a value out of the array and storing in a variable
 		} else if (/^[a-zA-Z\$_]* = arr\.pop\(\)/.test(cnsl.enteredValue)) {
 			// block execution if arr is empty
