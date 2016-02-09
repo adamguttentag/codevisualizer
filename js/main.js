@@ -1,3 +1,7 @@
+if (navigator.userAgent.indexOf('Safari') > -1) {
+	document.body.style.backgroundImage = "url('img/bokeh_safari.jpg')";
+}
+
 var currentObject;
 var hist = [];
 var ind;
