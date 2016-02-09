@@ -7,17 +7,12 @@ if (navigator.userAgent.indexOf('Safari') > -1) {
 	document.body.style.backgroundImage = "url('img/bokeh_safari.jpg')";
 }
 
-var hist = [];
-var ind;
-var regex = /arr/;
-var boxNumber = -1;
-var currentMessage = -1;
-
 // an object containing 3 arrays representing what variables are inside the array, and which are on either side of it. This is useful for keeping track of where everything is so our visible model acts like a real array
 var arrayModel = {
 	pre : [],
 	in : [],
 	post : [],
+	boxNumber : -1,
 	currentObject : '',
 	var : '',
 	currentLocation : '',
@@ -134,7 +129,7 @@ var score = {
 			var currContentSlot = guide.personalized[score.tasks[selectedScore].contentIndex];
 			var currContent;
 			var currContentLevel = score.tasks[selectedScore].level -1;
-			if (currContentLevel == 0) {
+			if (currContentLevel === 0) {
 				currContent = guide.content[selectedScore][0];
 				// add content to Pocket Guide
 				guide.personalized[score.tasks[selectedScore].contentIndex] = currContent;
@@ -365,6 +360,8 @@ var cnsl = {
 // This area is intended to assign tasks for the user to complete
 // TODO: implement right message box to display instructor video
 var messageBox = {
+	// index of the task message to be displayed
+	currentMessage : -1,
 	// reference to the div where task messages will be displayed
 	box : document.getElementById('messageBoxLeft'),
 	// state of the div: 1=visible, 0=minimized
@@ -373,9 +370,9 @@ var messageBox = {
 	// called when a new task is assigned to the user
 	update : function(task) {
 		// if the type of task meets the requirements for advancement...
-		if (currentMessage < 0 || task === messages[currentMessage][2]) {
+		if (messageBox.currentMessage < 0 || task === messages[messageBox.currentMessage][2]) {
 			// increments currentMessage so the next task is displayed when messageBox.show is called
-			currentMessage += 1;
+			messageBox.currentMessage += 1;
 			// hides the messageBox to make it more visually apparent that its contents have changed
 			messageBox.hide();
 			// calls messageBox.show after a half-second delay so contents can update offscreen
@@ -396,7 +393,7 @@ var messageBox = {
 		messageBox.box.style.left = '0vw';
 		// fills the messageBox with the contents of messages[currentMessage]
 		// the first item in that array is the message title, second is the message body
-		messageBox.box.innerHTML = '<h3>' + messages[currentMessage][0] + '</h3>' + messages[currentMessage][1];
+		messageBox.box.innerHTML = '<h3>' + messages[messageBox.currentMessage][0] + '</h3>' + messages[messageBox.currentMessage][1];
 	},
 	// shows or minimizes the messageBox when user clicks it
 	click : function() {
@@ -427,7 +424,7 @@ var cmd = {
 			arrayModel.var = cnsl.enteredValue.split(/var|[=\']+/)[1].trim();
 			cmd.var.content = cnsl.enteredValue.split(/var|[=\']+/)[3];
 			// Block variables after 9 are already created (can be disabled in settings)
-			if (boxNumber > settings.variableLimit) {
+			if (arrayModel.boxNumber > settings.variableLimit) {
 				messageConsole.update('This demo is limited to 9 variables due to screen space limitations.', 'yellow', 'alert');
 			// Block variable creation if variable name already in use to avoid duplicates.
 			// Replace content of existing variable object and alert user.
@@ -442,8 +439,8 @@ var cmd = {
 				messageConsole.update('<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Grammar_and_types#Variables" target="_blank">Variables must start with a letter, $ or underscore.</a><br>The character <em>' + arrayModel.var.slice(0,1) + '</em> is not allowed at the beginning of the identifier.', 'red', 'error');
 			// Allow variable to be created if above conditions passed
 			} else {
-				// increment boxNumber
-				boxNumber += 1;
+				// increment arrayModel.boxNumber
+				arrayModel.boxNumber += 1;
 				// if a previously-used spot exists on the board, fill it
 				if (arrayModel.pre.indexOf('') > -1) {
 					arrayModel.openSlot = arrayModel.pre.indexOf('');
@@ -452,9 +449,9 @@ var cmd = {
 					arrayModel.openSlot = arrayModel.pre.length;
 				}
 				// create a new Box in Instantiated ObjectS array, with variable name and variable content string
-				ios[boxNumber] = new Box(arrayModel.var, cmd.var.content);
+				ios[arrayModel.boxNumber] = new Box(arrayModel.var, cmd.var.content);
 				// set currentObject to our new box, so functions in any scope can work with it
-				arrayModel.currentObject = ios[boxNumber];
+				arrayModel.currentObject = ios[arrayModel.boxNumber];
 				// push the variable name into the pre-array portion of arrayModel so we know it's on the left side of the visual
 				arrayModel.pre.splice(arrayModel.openSlot, 1, arrayModel.var);
 				// push the variable name into the iosTable array (developed before the arrayModel, may deprecate/replace)
