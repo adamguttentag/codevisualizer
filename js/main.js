@@ -428,17 +428,21 @@ function kd(evt) {
 			} else {
 				// look up the index of the specified variable in iosTable, and use that index to select object in ios as the currentObject
 				currentObject = ios[iosTable.indexOf(currVar)];
-				// if currVar is in pre, take it out
+				// if currVar is in pre, set location to pre
 				if (arrayModel.pre.indexOf(currVar) > -1) {
 					arrayModel.currentLocation = 'pre';
-				// else if currVar exists in post, take it out
+				// else if currVar exists in post, set location to pre
 				} else if (arrayModel.post.indexOf(currVar) > -1) {
 					arrayModel.currentLocation = 'post';
 				}
+				// remove currVar from its location
 				arrayModel[arrayModel.currentLocation].splice(arrayModel[arrayModel.currentLocation].indexOf(currVar),1,'');
-				arrayModel.in.push(currVar);
+				// push the object's index into arrayModel.in
+				arrayModel.in.push(arrayModel.in.length+1);
 				//boxesInArray += 1;
 				pushA();
+				// update iosTable so it points to the array index, since the variable name no longer applies to this object
+				iosTable.splice(iosTable.indexOf(currVar), 1, arrayModel.in.length -1);
 				messageBox.update('push');
 				score.update('push',3.4);
 			}
@@ -450,13 +454,11 @@ function kd(evt) {
 			} else {
 				// parse the variable name
 				arrayModel.var = cnsl.enteredValue.split(/ [=]+/)[0];
-				// look up the index of the specified variable in iosTable, and use that index to select object in ios as the currentObject
-				currentObject = ios[iosTable.indexOf(arrayModel.in[arrayModel.in.length-1])];
-				console.dir(currentObject);
 				// delete indicated variable from arrayModel.in (do not leave an empty slot, that would interfere with push emulation)
-				arrayModel.in.splice(arrayModel.in.indexOf(arrayModel.var),1);
+				arrayModel.in.pop();
+				// look up the index of object in iosTable, and use that index to set it as the currentObject
+				currentObject = ios[iosTable.indexOf(arrayModel.in.length)];
 				// push variable into arrayModel.post
-				//arrayModel.post.push(arrayModel.var);
 				if (arrayModel.post.indexOf('') > -1) {
 					arrayModel.openSlot = arrayModel.post.indexOf('');
 				} else {
@@ -466,7 +468,7 @@ function kd(evt) {
 				// run the pop animation (and change the variable label)
 				popA();
 				// update iosTable so the new variable name points to the object's index
-				iosTable.splice(iosTable.indexOf(currentObject.vName.node.innerHTML), 1, arrayModel.var);
+				iosTable.splice(iosTable.indexOf(arrayModel.in.length), 1, arrayModel.var);
 				// increment the task in the messageBox if we just completed a task
 				messageBox.update('pop');
 				// update appropriate score and progress bar
