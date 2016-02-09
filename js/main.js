@@ -463,7 +463,6 @@ var cmd = {
 		}
 	},
 	push : {
-		test : '',
 		exec : function() {
 			// parse the variable name from the submitted string
 			arrayModel.var = cnsl.enteredValue.split(/[()]+/)[1];
@@ -498,33 +497,6 @@ var cmd = {
 	pop : {
 		test : '',
 		exec : function() {
-
-		}
-	},
-};
-
-
-// when the console box has focus and a key is pressed...
-function kd(evt) {
-	// TODO: this is where we will evaluate the terminal input for predictive visualization
-	// if the key pressed is the return/enter key...
-	if (evt.keyCode == 13) {
-		// store the value of the console text in cnsl.enteredValue
-		cnsl.enteredValue = cnsl.in.value;
-		// push the entered text into the hist array (console history) so we can retrieve it on demand
-		cnsl.hist.data.push(cnsl.enteredValue);
-		// clear the console and history indicator to get ready for new input
-		cnsl.clear();
-		cnsl.hist.clearLabel();
-		// set the index of the current command to the length of the hist.data array
-		cnsl.hist.index = cnsl.hist.data.length;
-
-		// handle arr.push() //pushing a value into the array
-		if (/arr\.push\(.*\)/.test(cnsl.enteredValue)) {
-			cmd.push.exec();
-
-		// handle _ = arr.pop() //popping a value out of the array and storing in a variable
-		} else if (/^[a-zA-Z\$_]* = arr\.pop\(\)/.test(cnsl.enteredValue)) {
 			// block execution if arr is empty
 			if (arrayModel.in.length === 0) {
 				messageConsole.update('There\'s nothing in the array to pop. Try pushing something in first.', 'red', 'error');
@@ -551,7 +523,33 @@ function kd(evt) {
 				// update appropriate score and progress bar
 				score.update('pop',3.4);
 			}
+		}
+	},
+};
 
+
+// when the console box has focus and a key is pressed...
+function kd(evt) {
+	// TODO: this is where we will evaluate the terminal input for predictive visualization
+	// if the key pressed is the return/enter key...
+	if (evt.keyCode == 13) {
+		// store the value of the console text in cnsl.enteredValue
+		cnsl.enteredValue = cnsl.in.value;
+		// push the entered text into the hist array (console history) so we can retrieve it on demand
+		cnsl.hist.data.push(cnsl.enteredValue);
+		// clear the console and history indicator to get ready for new input
+		cnsl.clear();
+		cnsl.hist.clearLabel();
+		// set the index of the current command to the length of the hist.data array
+		cnsl.hist.index = cnsl.hist.data.length;
+
+		// handle arr.push() //pushing a value into the array
+		if (/arr\.push\(.*\)/.test(cnsl.enteredValue)) {
+			cmd.push.exec();
+
+		// handle _ = arr.pop() //popping a value out of the array and storing in a variable
+		} else if (/^[a-zA-Z\$_]* = arr\.pop\(\)/.test(cnsl.enteredValue)) {
+			cmd.pop.exec();
 		// handle var _ = '_' //creating a variable
 		} else if (/var .* = \'.*\'/.test(cnsl.enteredValue)) {
 			cmd.var.exec();
