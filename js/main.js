@@ -56,12 +56,12 @@ var settings = {
 	},
 	variableLimitToggle : function(toggle) {
 		if (toggle === 'on') {
-			settings.variableLimit = 4;
+			settings.variableLimit = 7;
 		} else {
-			settings.variableLimit = 10000;
+			settings.variableLimit = 1000;
 		}
 	},
-	variableLimit : 4,
+	variableLimit : 7,
 };
 
 var help = {
@@ -274,7 +274,9 @@ var Box = function(vLabel,cLabel,boxNumber) {
 		fontSize : 8
 	});
 	this.group.add(this.cName);
-	if (boxNumber > 2) {
+	if (boxNumber > 5) {
+		this.group.transform('T-100,'+(-40*(boxNumber-6)));
+	} else if (boxNumber > 2) {
 		this.group.transform('T-50,'+(-40*(boxNumber-3)));
 	} else {
 		this.group.transform('T0,'+(-40*boxNumber));
@@ -485,7 +487,7 @@ function kd(evt) {
 			// where to visually place more than 6 in a sensible way.
 			// TODO: Write logic to delete and/or position additional variables.
 			if (boxNumber > settings.variableLimit) {
-				messageConsole.update('This demo is limited to 6 variables due to screen space limitations.', 'yellow', 'alert');
+				messageConsole.update('This demo is limited to 9 variables due to screen space limitations.', 'yellow', 'alert');
 			// Block variables that start with illegal characters.
 			// The first ^ matches the beginning of the string, but the second ^ negates
 			// the pattern, so any character not in that set matches and triggers this.
@@ -587,7 +589,10 @@ function popA() {
 }
 function popB() {
 	currentObject.iName.node.innerHTML = '';
-	if (arrayModel.openSlot > 2) {
+	if (arrayModel.openSlot > 5) {
+		arrayModel.xOffset = 100;
+		arrayModel.yOffset = arrayModel.openSlot-6;
+	} else if (arrayModel.openSlot > 2) {
 		arrayModel.xOffset = 50;
 		arrayModel.yOffset = arrayModel.openSlot-3;
 	} else {
