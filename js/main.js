@@ -1,3 +1,8 @@
+// Detect Safari and change background image to raster for performance improvement.
+// I would rather not use browser detection here, but I wanted to demonstrate a single-page
+// app that uses no raster images. Unfortunately, Safari has performance issues
+// with full-page SVG backgrounds, but every other major browser (including IE!)
+// is using only SVG images.
 if (navigator.userAgent.indexOf('Safari') > -1) {
 	document.body.style.backgroundImage = "url('img/bokeh_safari.jpg')";
 }
@@ -484,7 +489,7 @@ var cmd = {
 				// push the object's index into arrayModel.in
 				arrayModel.in.push(arrayModel.in.length+1);
 				// fire push animation (and remove variable name from visual object)
-				pushA();
+				anim.push.up();
 				// update iosTable so it points to the array index, since the variable name no longer applies to this object
 				iosTable.splice(iosTable.indexOf(arrayModel.var), 1, arrayModel.in.length -1);
 				// increment the task in the messageBox if we just completed a task
@@ -514,8 +519,8 @@ var cmd = {
 					arrayModel.openSlot = arrayModel.post.length;
 				}
 				arrayModel.post.splice(arrayModel.openSlot, 1, arrayModel.var);
-				// run the pop animation (and change the variable label)
-				popA();
+				// fire the pop animation (and change the variable label)
+				anim.pop.up();
 				// update iosTable so the new variable name points to the object's index
 				iosTable.splice(iosTable.indexOf(arrayModel.in.length), 1, arrayModel.var);
 				// increment the task in the messageBox if we just completed a task
@@ -527,6 +532,63 @@ var cmd = {
 	},
 };
 
+var anim = {
+	push : {
+		// move the object up above the array
+		up : function() {
+			currentObject.group.animate({
+				transform: 't60,-108'
+        		}, (900), mina.easeinout, anim.push.in);
+		},
+		// move the object down into the array
+		in : function() {
+			currentObject.group.animate({
+				transform: 't60,'+(-20*(arrayModel.in.length -1))
+		        }, (900), mina.easeinout);
+			// clear the array variable label of this object
+			currentObject.vName.node.innerHTML = '';
+			// change the array index label of this object
+			// note: could also use node.textContent to get to access the text
+			// note: possibly also available: .attr({'#text':'new text'})
+			// todo: test and compare them to see if one has a performance advantage
+			currentObject.iName.node.innerHTML = '[' + (arrayModel.in.length -1) + ']';
+		},
+	},
+	pop : {
+		// move the object up above the array
+		up : function() {
+			currentObject.group.animate({
+				transform: 't60,-108'
+        		}, (200), mina.easeinout, anim.pop.out);
+		},
+		// move the object out and to an open slot on the right
+		out : function() {
+			// clear the array index label of this object
+			currentObject.iName.node.innerHTML = '';
+			// determine placement of object in an open slot
+			if (arrayModel.openSlot > 5) {
+				arrayModel.xOffset = 100;
+				arrayModel.yOffset = arrayModel.openSlot-6;
+			} else if (arrayModel.openSlot > 2) {
+				arrayModel.xOffset = 50;
+				arrayModel.yOffset = arrayModel.openSlot-3;
+			} else {
+				arrayModel.xOffset = 0;
+				arrayModel.yOffset = arrayModel.openSlot;
+			}
+			// move the object to the open slot
+			currentObject.group.animate({
+				transform: 't' + (120+arrayModel.xOffset) + ','+(-40*(arrayModel.yOffset))
+		        }, (900), mina.easeinout);
+			// change the variable label of this object
+			currentObject.vName.node.innerHTML = arrayModel.var;
+			// reset the mouseover attribute of the object to reflect the new variable
+			currentObject.group.attr({
+				onmouseover: 'messageConsole.update(\'A variable named <em>' + arrayModel.var + '</em> containing the string <em>' + currentObject.cName.node.innerHTML + '</em>\', \'#fff\', \'mouseover\')'
+			});
+		}
+	}
+};
 
 // when the console box has focus and a key is pressed...
 function kd(evt) {
@@ -595,49 +657,6 @@ function kd(evt) {
 			cnsl.hist.clearLabel();
 		}
 	}
-}
-
-function pushA() {
-	currentObject.group.animate({
-		transform: 't60,-108'
-        }, (900), mina.easeinout, pushB);
-}
-function pushB() {
-	currentObject.group.animate({
-		transform: 't60,'+(-20*(arrayModel.in.length -1))
-        }, (900), mina.easeinout);
-	// change the array index label of this object
-	// note: could also use node.textContent to get to access the text
-	// note: possibly also available: .attr({'#text':'new text'})
-	// todo: test and compare them to see if one has a performance advantage
-	currentObject.vName.node.innerHTML = '';
-	currentObject.iName.node.innerHTML = '[' + (arrayModel.in.length -1) + ']';
-}
-function popA() {
-	currentObject.group.animate({
-		transform: 't60,-108'
-        }, (200), mina.easeinout, popB);
-}
-function popB() {
-	currentObject.iName.node.innerHTML = '';
-	if (arrayModel.openSlot > 5) {
-		arrayModel.xOffset = 100;
-		arrayModel.yOffset = arrayModel.openSlot-6;
-	} else if (arrayModel.openSlot > 2) {
-		arrayModel.xOffset = 50;
-		arrayModel.yOffset = arrayModel.openSlot-3;
-	} else {
-		arrayModel.xOffset = 0;
-		arrayModel.yOffset = arrayModel.openSlot;
-	}
-	currentObject.group.animate({
-		transform: 't' + (120+arrayModel.xOffset) + ','+(-40*(arrayModel.yOffset))
-        }, (900), mina.easeinout);
-	currentObject.vName.node.innerHTML = arrayModel.var;
-	currentObject.group.attr({
-		onmouseover: 'messageConsole.update(\'A variable named <em>' + arrayModel.var + '</em> containing the string <em>' + currentObject.cName.node.innerHTML + '</em>\', \'#fff\', \'mouseover\')',
-		onmouseout: 'messageConsole.clear()'
-	});
 }
 
 
@@ -784,29 +803,4 @@ function countdown(label, seconds) {
 	    });
 	}, (seconds*1000), theCallback);
 }
-*/
-
-
-/*
-window['group' + skillNumber] = currentSVG.g().attr({
-              id: 'g' + skillNumber
-          });
-
-              var rect = currentSVG.rect([skillNumber * 9], [i * 9], 8, 8);
-              rect.attr({
-                  id: "light" + skillNumber + lightNumber,
-                  // sets the color of the rect to appear dimmed
-                  fill: "#545A61",
-                  // CUSTOMIZATION: sets the initial opacity of the rect to 0 so it can fade in
-                  opacity: 0,
-                  // CUSTOMIZATION: sets custom attributes we can access later via javascript
-                  dataSkillName: bio.skillNames[skillNumber],
-                  dataSkillNumber: skillNumber,
-                  dataSkillLevel: skillLevel,
-                  dataJob: job
-              });
-
-              rect.animate({
-                  opacity: 1
-              }, (lightNumber * 900), mina.easeinout);
 */
