@@ -405,16 +405,25 @@ var messageBox = {
 var cmd = {
 	var : {
 		content : '',
+		cNameUpdate : function(variable, content, color) {
+			ios[iosTable.indexOf(arrayModel.var)].cName.node.innerHTML = content;
+			ios[iosTable.indexOf(variable)].cName.attr({fill: color});
+			ios[iosTable.indexOf(variable)].cName.animate({fill: '#f1f2f2'},2000, mina.bounce);
+		},
 		exec : function() {
 			arrayModel.var = cnsl.enteredValue.split(/var|[=\']+/)[1].trim();
 			cmd.var.content = cnsl.enteredValue.split(/var|[=\']+/)[3];
 			// Block variables after 9 are already created (can be disabled in settings)
 			if (boxNumber > settings.variableLimit) {
 				messageConsole.update('This demo is limited to 9 variables due to screen space limitations.', 'yellow', 'alert');
+			// Block variable creation if variable name already in use to avoid duplicates.
+			// Replace content of existing variable object and alert user.
+			} else if (iosTable.indexOf(arrayModel.var) > -1) {
+				messageConsole.update('Variable <em>' + arrayModel.var + '</em> already in use. Replacing content (<em>' + ios[iosTable.indexOf(arrayModel.var)].cName.node.innerHTML + '</em>) of existing variable with your new content, <em>' + cmd.var.content + '</em>.', 'yellow', 'alert');
+				cmd.var.cNameUpdate(arrayModel.var, cmd.var.content, 'skyblue');
 			// Block variables that start with illegal characters.
 			// The first ^ matches the beginning of the string, but the second ^ negates
 			// the pattern, so any character not in that set matches and triggers this.
-			// TODO: update regex to allow unicode letters as well
 			} else if (/^[^a-zA-Z\$_]/.test(arrayModel.var)){
 				// inform user, link to MozDev documentation on legal identifiers
 				messageConsole.update('<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Grammar_and_types#Variables" target="_blank">Variables must start with a letter, $ or underscore.</a><br>The character <em>' + arrayModel.var.slice(0,1) + '</em> is not allowed at the beginning of the identifier.', 'red', 'error');
