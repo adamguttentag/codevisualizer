@@ -7,7 +7,6 @@ if (navigator.userAgent.indexOf('Safari') > -1) {
 	document.body.style.backgroundImage = "url('img/bokeh_safari.jpg')";
 }
 
-var currentObject;
 var hist = [];
 var ind;
 var regex = /arr/;
@@ -454,8 +453,8 @@ var cmd = {
 				}
 				// create a new Box in Instantiated ObjectS array, with variable name and variable content string
 				ios[boxNumber] = new Box(arrayModel.var, cmd.var.content);
-				// set Global currentObject to our new box, so functions in any scope can work with it
-				currentObject = ios[boxNumber];
+				// set currentObject to our new box, so functions in any scope can work with it
+				arrayModel.currentObject = ios[boxNumber];
 				// push the variable name into the pre-array portion of arrayModel so we know it's on the left side of the visual
 				arrayModel.pre.splice(arrayModel.openSlot, 1, arrayModel.var);
 				// push the variable name into the iosTable array (developed before the arrayModel, may deprecate/replace)
@@ -476,7 +475,7 @@ var cmd = {
 				messageConsole.update('Sorry, I can\'t find a variable named <em>' + arrayModel.var + '</em>', 'red', 'error');
 			} else {
 				// look up indexOf the variable in iosTable, use that to select object in ios
-				currentObject = ios[iosTable.indexOf(arrayModel.var)];
+				arrayModel.currentObject = ios[iosTable.indexOf(arrayModel.var)];
 				// if arrayModel.var is in pre, set location to pre
 				if (arrayModel.pre.indexOf(arrayModel.var) > -1) {
 					arrayModel.currentLocation = 'pre';
@@ -511,7 +510,7 @@ var cmd = {
 				// delete indicated variable from arrayModel.in (do not leave an empty slot, that would interfere with push emulation)
 				arrayModel.in.pop();
 				// look up the index of object in iosTable, and use that index to set it as the currentObject
-				currentObject = ios[iosTable.indexOf(arrayModel.in.length)];
+				arrayModel.currentObject = ios[iosTable.indexOf(arrayModel.in.length)];
 				// push variable into arrayModel.post
 				if (arrayModel.post.indexOf('') > -1) {
 					arrayModel.openSlot = arrayModel.post.indexOf('');
@@ -536,35 +535,35 @@ var anim = {
 	push : {
 		// move the object up above the array
 		up : function() {
-			currentObject.group.animate({
+			arrayModel.currentObject.group.animate({
 				transform: 't60,-108'
         		}, (900), mina.easeinout, anim.push.in);
 		},
 		// move the object down into the array
 		in : function() {
-			currentObject.group.animate({
+			arrayModel.currentObject.group.animate({
 				transform: 't60,'+(-20*(arrayModel.in.length -1))
 		        }, (900), mina.easeinout);
 			// clear the array variable label of this object
-			currentObject.vName.node.innerHTML = '';
+			arrayModel.currentObject.vName.node.innerHTML = '';
 			// change the array index label of this object
 			// note: could also use node.textContent to get to access the text
 			// note: possibly also available: .attr({'#text':'new text'})
 			// todo: test and compare them to see if one has a performance advantage
-			currentObject.iName.node.innerHTML = '[' + (arrayModel.in.length -1) + ']';
+			arrayModel.currentObject.iName.node.innerHTML = '[' + (arrayModel.in.length -1) + ']';
 		},
 	},
 	pop : {
 		// move the object up above the array
 		up : function() {
-			currentObject.group.animate({
+			arrayModel.currentObject.group.animate({
 				transform: 't60,-108'
         		}, (200), mina.easeinout, anim.pop.out);
 		},
 		// move the object out and to an open slot on the right
 		out : function() {
 			// clear the array index label of this object
-			currentObject.iName.node.innerHTML = '';
+			arrayModel.currentObject.iName.node.innerHTML = '';
 			// determine placement of object in an open slot
 			if (arrayModel.openSlot > 5) {
 				arrayModel.xOffset = 100;
@@ -577,14 +576,14 @@ var anim = {
 				arrayModel.yOffset = arrayModel.openSlot;
 			}
 			// move the object to the open slot
-			currentObject.group.animate({
+			arrayModel.currentObject.group.animate({
 				transform: 't' + (120+arrayModel.xOffset) + ','+(-40*(arrayModel.yOffset))
 		        }, (900), mina.easeinout);
 			// change the variable label of this object
-			currentObject.vName.node.innerHTML = arrayModel.var;
+			arrayModel.currentObject.vName.node.innerHTML = arrayModel.var;
 			// reset the mouseover attribute of the object to reflect the new variable
-			currentObject.group.attr({
-				onmouseover: 'messageConsole.update(\'A variable named <em>' + arrayModel.var + '</em> containing the string <em>' + currentObject.cName.node.innerHTML + '</em>\', \'#fff\', \'mouseover\')'
+			arrayModel.currentObject.group.attr({
+				onmouseover: 'messageConsole.update(\'A variable named <em>' + arrayModel.var + '</em> containing the string <em>' + arrayModel.currentObject.cName.node.innerHTML + '</em>\', \'#fff\', \'mouseover\')'
 			});
 		}
 	}
