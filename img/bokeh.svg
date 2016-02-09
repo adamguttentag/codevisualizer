@@ -11,7 +11,7 @@
 		<stop  offset="0.96" style="stop-color:#3E1D41"/>
 	</linearGradient>
 	<filter id="filt" x="0" y="0">
-		<feGaussianBlur stdDeviation="1" />
+		<feGaussianBlur stdDeviation="1" color-interpolation-filters="sRGB"/>
 	</filter>
 	<path id="hex" opacity="0.1" fill="#fff" d="M92,96 37,107 0,64 18,10 74,0 111,43z"/>
 </defs>
