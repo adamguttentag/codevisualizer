@@ -234,7 +234,7 @@ splice()
 
 
 //create a Box class
-var Box = function(vLabel,cLabel,boxNumber) {
+var Box = function(vLabel,cLabel) {
 	// create a group so we can animate this part of the SVG together
 	this.group = s.g();
 
@@ -259,7 +259,7 @@ var Box = function(vLabel,cLabel,boxNumber) {
 	});
 	this.group.add(this.vName);
 
-	// add a label for the index
+	// add a blank label for the index
 	this.iName = s.text(14, 124, '').attr({
 		fill : '#f1f2f2',
 		fontFamily : 'helvetica',
@@ -274,12 +274,12 @@ var Box = function(vLabel,cLabel,boxNumber) {
 		fontSize : 8
 	});
 	this.group.add(this.cName);
-	if (boxNumber > 5) {
-		this.group.transform('T-100,'+(-40*(boxNumber-6)));
-	} else if (boxNumber > 2) {
-		this.group.transform('T-50,'+(-40*(boxNumber-3)));
+	if (arrayModel.openSlot > 5) {
+		this.group.transform('T-100,'+(-40*(arrayModel.openSlot-6)));
+	} else if (arrayModel.openSlot > 2) {
+		this.group.transform('T-50,'+(-40*(arrayModel.openSlot-3)));
 	} else {
-		this.group.transform('T0,'+(-40*boxNumber));
+		this.group.transform('T0,'+(-40*arrayModel.openSlot));
 	}
 	// set opacity to 0 so we can fade in on instantiation
 	this.group.attr({
@@ -291,7 +291,7 @@ var Box = function(vLabel,cLabel,boxNumber) {
 	this.group.animate({
 		opacity: 1
     }, (1000), mina.easeinout);
-	this.boxNumber = boxNumber;
+	this.boxNumber = arrayModel.openSlot;
 };
 
 // stores functions and references related to console messages
@@ -402,7 +402,61 @@ var messageBox = {
 	},
 };
 
+var cmd = {
+	var : {
+		content : '',
+		exec : function() {
+			arrayModel.var = cnsl.enteredValue.split(/var|[=\']+/)[1].trim();
+			cmd.var.content = cnsl.enteredValue.split(/var|[=\']+/)[3];
+			// Block variables after 9 are already created (can be disabled in settings)
+			if (boxNumber > settings.variableLimit) {
+				messageConsole.update('This demo is limited to 9 variables due to screen space limitations.', 'yellow', 'alert');
+			// Block variables that start with illegal characters.
+			// The first ^ matches the beginning of the string, but the second ^ negates
+			// the pattern, so any character not in that set matches and triggers this.
+			// TODO: update regex to allow unicode letters as well
+			} else if (/^[^a-zA-Z\$_]/.test(arrayModel.var)){
+				// inform user, link to MozDev documentation on legal identifiers
+				messageConsole.update('<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Grammar_and_types#Variables" target="_blank">Variables must start with a letter, $ or underscore.</a><br>The character <em>' + arrayModel.var.slice(0,1) + '</em> is not allowed at the beginning of the identifier.', 'red', 'error');
+			// Allow variable to be created if above conditions passed
+			} else {
+				// increment boxNumber
+				boxNumber += 1;
+				// if a previously-used spot exists on the board, fill it
+				if (arrayModel.pre.indexOf('') > -1) {
+					arrayModel.openSlot = arrayModel.pre.indexOf('');
+				// otherwise, put the new variable after any existing ones
+				} else {
+					arrayModel.openSlot = arrayModel.pre.length;
+				}
+				// create a new Box in Instantiated ObjectS array, with variable name and variable content string
+				ios[boxNumber] = new Box(arrayModel.var, cmd.var.content);
+				// set Global currentObject to our new box, so functions in any scope can work with it
+				currentObject = ios[boxNumber];
+				// push the variable name into the pre-array portion of arrayModel so we know it's on the left side of the visual
+				arrayModel.pre.splice(arrayModel.openSlot, 1, arrayModel.var);
+				// push the variable name into the iosTable array (developed before the arrayModel, may deprecate/replace)
+				iosTable.push(arrayModel.var);
+				// increment the task in the messageBox if we just completed a task
+				messageBox.update('var');
+				// update appropriate score and progress bar
+				score.update('var',3.4);
+			}
+		}
+	},
+	push : {
+		test : '',
+		exec : function() {
 
+		}
+	},
+	pop : {
+		test : '',
+		exec : function() {
+
+		}
+	},
+};
 
 
 // when the console box has focus and a key is pressed...
@@ -479,49 +533,7 @@ function kd(evt) {
 
 		// handle var _ = '_' //creating a variable
 		} else if (/var .* = \'.*\'/.test(cnsl.enteredValue)) {
-			var thesplit = cnsl.enteredValue.split(/var|[=\']+/);
-			arrayModel.var = cnsl.enteredValue.split(/var|[=\']+/)[1].trim();
-			var theContent = cnsl.enteredValue.split(/var|[=\']+/)[3];
-			// Block variables after 6 are already created (can be disabled in settings)
-			// NOTE: At this time, I just haven't written the logic to figure out
-			// where to visually place more than 6 in a sensible way.
-			// TODO: Write logic to delete and/or position additional variables.
-			if (boxNumber > settings.variableLimit) {
-				messageConsole.update('This demo is limited to 9 variables due to screen space limitations.', 'yellow', 'alert');
-			// Block variables that start with illegal characters.
-			// The first ^ matches the beginning of the string, but the second ^ negates
-			// the pattern, so any character not in that set matches and triggers this.
-			// TODO: update regex to allow unicode letters as well
-			} else if (/^[^a-zA-Z\$_]/.test(arrayModel.var)){
-				// inform user, link to MozDev documentation on legal identifiers
-				messageConsole.update('<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Grammar_and_types#Variables" target="_blank">Variables must start with a letter, $ or underscore.</a><br>The character <em>' + arrayModel.var.slice(0,1) + '</em> is not allowed at the beginning of the identifier.', 'red', 'error');
-			// Allow variable to be created if above conditions passed
-			} else {
-				// increment boxNumber
-				boxNumber += 1;
-				// if a previously-used spot exists on the board, fill it
-				if (arrayModel.pre.indexOf('') > -1) {
-					arrayModel.openSlot = arrayModel.pre.indexOf('');
-				// otherwise, put the new variable after any existing ones
-				} else {
-					arrayModel.openSlot = arrayModel.pre.length;
-				}
-				// create a new Box in array ios (Instantiated ObjectS), pass in:
-				//   -the name of the variable (arrayModel.var)
-				//   -the content of the variable (theContent)
-				//   -the current location of an open slot in arrayModel.pre
-				ios[boxNumber] = new Box(arrayModel.var,theContent,arrayModel.openSlot);
-				// set Global currentObject to our new box, so functions in any scope can work with it
-				currentObject = ios[boxNumber];
-				// push the variable name into the pre-array portion of arrayModel so we know it's on the left side of the visual
-				arrayModel.pre.splice(arrayModel.openSlot, 1, arrayModel.var);
-				// push the variable name into the iosTable array (developed before the arrayModel, may deprecate/replace)
-				iosTable.push(arrayModel.var);
-				// increment the task in the messageBox if we just completed a task
-				messageBox.update('var');
-				// update appropriate score and progress bar
-				score.update('var',3.4);
-			}
+			cmd.var.exec();
 		}
 	}
 	// up arrow scrolls back through history array
