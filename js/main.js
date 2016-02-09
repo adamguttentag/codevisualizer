@@ -336,7 +336,7 @@ var cnsl = {
 		data : [],
 		index : 0,
 		display : function() {
-			cnsl.in.labels[0].innerHTML = '(history: ' + (cnsl.hist.index + 1) + '/' + cnsl.hist.data.length + ')';
+			document.getElementsByTagName('label')[0].innerHTML = '(history: ' + (cnsl.hist.index + 1) + '/' + cnsl.hist.data.length + ')';
 		},
 		update : function() {
 			cnsl.in.value = cnsl.hist.data[cnsl.hist.index];
@@ -348,7 +348,7 @@ var cnsl = {
 			cnsl.hist.index += 1;
 		},
 		clearLabel : function() {
-			cnsl.in.labels[0].innerHTML = '';
+			document.getElementsByTagName('label')[0].innerHTML = '';
 		},
 	}
 };
@@ -406,9 +406,14 @@ var cmd = {
 	var : {
 		content : '',
 		cNameUpdate : function(variable, content, color) {
+			// update the visible label of the object
 			ios[iosTable.indexOf(arrayModel.var)].cName.node.innerHTML = content;
+			// change the color of the label
 			ios[iosTable.indexOf(variable)].cName.attr({fill: color});
+			// animate the color of the label to off-white with a bounce timing function
 			ios[iosTable.indexOf(variable)].cName.animate({fill: '#f1f2f2'},2000, mina.bounce);
+			// redefine the object's mouseover function to reflect the new content
+			ios[iosTable.indexOf(arrayModel.var)].group.attr({onmouseover: 'messageConsole.update(\'A variable named <em>' + variable + '</em> containing the string <em>' + content + '</em>\', \'#fff\', \'mouseover\')'});
 		},
 		exec : function() {
 			arrayModel.var = cnsl.enteredValue.split(/var|[=\']+/)[1].trim();
