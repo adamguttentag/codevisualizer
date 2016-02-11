@@ -3,7 +3,7 @@
 // app that uses no raster images. Unfortunately, Safari has performance issues
 // with full-page SVG backgrounds, but every other major browser (including IE!)
 // is using only SVG images.
-if (navigator.userAgent.indexOf('Safari') > -1) {
+if ((navigator.userAgent.indexOf('Safari') > -1) && (navigator.userAgent.indexOf('Chrome') < 0)) {
 	document.body.style.backgroundImage = "url('img/bokeh_safari.jpg')";
 }
 
@@ -64,7 +64,7 @@ var settings = {
 			settings.variableLimit = 1000;
 		}
 	},
-	variableLimit : 7,
+	variableLimit : 7
 };
 
 var help = {
@@ -240,6 +240,23 @@ splice()
 var Box = function(vLabel,cLabel) {
 	// create a group so we can animate this part of the SVG together
 	this.group = s.g();
+	// create a local copy of sGlow
+	// (basically we're cloning digital fire... "biodigital jazz, man")
+	this.glow = sGlow.clone();
+	this.glow.node = sGlow.node.cloneNode(true);
+	sGlow.append(this.glow.node);
+	// resize the glow and line it up behind the box
+	this.glow.attr({
+		x: 3.9,
+		y: 5,
+		width: 32.3
+	});
+	this.wave = this.glow.select('#wave');
+	this.topOffset = this.glow.select('#topOffset');
+	this.shadowF = this.glow.filter(Snap.filter.shadow(-2, 0, 10,'#ff0'));
+	this.wave.attr({filter: this.shadowF});
+	this.glowAnimate = 0;
+	this.group.add(this.glow);
 
 	// create an array to store the six sides of the cube we generate in the for loop,
 	// drawing their geometry and fill colors from the boxPaths and boxGeometry arrays
@@ -254,6 +271,8 @@ var Box = function(vLabel,cLabel) {
 		});
 		this.group.add(this.boxPaths[path]);
 	}
+	// clean up; no need to keep this array in memory after paths are created
+	delete this.boxPaths;
 	// add a label for the variable name
 	this.vName = s.text(7, 136, vLabel).attr({
 		fill : '#f1f2f2',
@@ -277,13 +296,18 @@ var Box = function(vLabel,cLabel) {
 		fontSize : 8
 	});
 	this.group.add(this.cName);
+	// TODO: calculate positions using modulo instead of if statements
 	if (arrayModel.openSlot > 5) {
-		this.group.transform('T-100,'+(-40*(arrayModel.openSlot-6)));
+		this.boxX = -100;
+		this.boxY = -40*(arrayModel.openSlot-6);
 	} else if (arrayModel.openSlot > 2) {
-		this.group.transform('T-50,'+(-40*(arrayModel.openSlot-3)));
+		this.boxX = -50;
+		this.boxY = -40*(arrayModel.openSlot-3);
 	} else {
-		this.group.transform('T0,'+(-40*arrayModel.openSlot));
+		this.boxX = 0;
+		this.boxY = -40*(arrayModel.openSlot);
 	}
+	this.group.transform('T' + this.boxX + ',' + this.boxY);
 	// set opacity to 0 so we can fade in on instantiation
 	this.group.attr({
 		opacity: 0,
@@ -295,6 +319,54 @@ var Box = function(vLabel,cLabel) {
 		opacity: 1
     }, (1000), mina.easeinout);
 	this.boxNumber = arrayModel.openSlot;
+	// hide the pv flame by default
+	this.group[0].node.style.visibility = 'hidden';
+	// turn pv animation on (1) or off (2)
+	this.pv = function(state) {
+		if (state == 1) {
+			this.group[0].node.style.visibility = 'visible';
+			this.glowAnimate = 1;
+			this.animWave();
+		} else {
+			this.group[0].node.style.visibility = 'hidden';
+			this.glowAnimate = 0;
+		}
+	};
+	var self = this;
+	this.animWave = function() {
+		self.wave.animate({
+			d: 'M103.5,98.5H0.5L0,2.2c0,0,1.3,47.3,32.8,47.3s31.3-90,70.7-25V98.5z',
+			}, (1000), mina.easeinout, self.animWave2);
+		self.topOffset.animate({
+			offset: 0.05,
+			}, (1000), mina.easeinout);
+	};
+	this.animWave2 = function() {
+		self.wave.animate({
+			d: 'M103.5,98.5H0.5v-64c0,0,20-34,51.5-34s5.5,73,51.5,24V98.5z',
+			}, (1000), mina.easeinout, self.animWave3);
+		self.topOffset.animate({
+			offset: 0,
+			}, (1000), mina.easeinout);
+	};
+	this.animWave3 = function() {
+		self.wave.animate({
+			d: 'M103,98.5H0v-74c0,0,25.2-55.7,48.8,7.3c12.6,33.6,52.4,21,54.8-29.7L103,98.5z',
+			}, (1000), mina.easeinout, self.animWave4);
+		self.topOffset.animate({
+			offset: 0.2,
+			}, (1000), mina.easeinout);
+	};
+	this.animWave4 = function() {
+		if (self.glowAnimate == 1) {
+			self.wave.animate({
+				d: 'M103.5,98.5H0.5v-64c0,0,20-34,51.5-34s5.5,73,51.5,24V98.5z',
+				}, (1000), mina.easeinout, self.animWave);
+			self.topOffset.animate({
+				offset: 0.35,
+				}, (1000), mina.easeinout);
+		}
+	};
 };
 
 // stores functions and references related to console messages
@@ -655,9 +727,58 @@ function kd(evt) {
 	}
 }
 
+window.sGlow = Snap("#glow");
+var wave = Snap.select('#wave');
+var vertical_grad = Snap.select('#vertical_grad');
+var topOffset = Snap.select('#topOffset');
+var shadowF = sGlow.filter(Snap.filter.shadow(-2, 0, 10,'#ff0'));
+var runFlag = 0;
+
+wave.attr({
+	filter: shadowF
+	});
+
+function animWave1 () {
+	if (runFlag == 1) {
+		wave.animate({
+			d: 'M103.5,98.5H0.5L0,2.2c0,0,1.3,47.3,32.8,47.3s31.3-90,70.7-25V98.5z'
+			}, (1000), mina.easeinout, animWave2);
+		topOffset.animate({
+			offset: 0.05,
+			}, (1000), mina.easeinout);
+	}
+}
+function animWave2 () {
+	wave.animate({
+		d: 'M103.5,98.5H0.5v-64c0,0,20-34,51.5-34s5.5,73,51.5,24V98.5z',
+		}, (1000), mina.easeinout, animWave3);
+	topOffset.animate({
+		offset: 0,
+		}, (1000), mina.easeinout);
+}
+function animWave3 () {
+	wave.animate({
+		d: 'M103,98.5H0v-74c0,0,25.2-55.7,48.8,7.3c12.6,33.6,52.4,21,54.8-29.7L103,98.5z',
+		}, (1000), mina.easeinout, animWave4);
+	topOffset.animate({
+		offset: 0.2,
+		}, (1000), mina.easeinout);
+}
+function animWave4 () {
+	wave.animate({
+		d: 'M103.5,98.5H0.5v-64c0,0,20-34,51.5-34s5.5,73,51.5,24V98.5z',
+		}, (1000), mina.easeinout, animWave1);
+	topOffset.animate({
+		offset: 0.35,
+		}, (1000), mina.easeinout);
+}
+
 
 window.onload = function () {
 	window.s = Snap("#sandbox");
+	runFlag = 1;
+	animWave1();
+
 	messageBox.update();
 	score.tasks.var.bar.innerHTML = score.tasks.var.name[0];
 	score.tasks.push.bar.innerHTML = score.tasks.push.name[0];
@@ -782,6 +903,34 @@ var guide = {
 	// Array for the personalized guide content that will be built as goals are reached. Each item in this array will represent the contents of a single page. For instance, when the var entry is first unlocked, guide.content.var[0] will be added to the array. If the user unlocks more detailed content through grinding, guide.personalized[0] will be set to guide.content.var[0] + guide.content.var[1]. They will be concatenated to form one page. When guide.show is called, the contents of the guideLeft and guideRight will be filled with guide.personalized[0] and guide.personalized[1].
 	// Basically, it doesn't look like much now, but it's going to be important later. :)
 	personalized : ['Complete tasks to add content to your Pocket Guide!','Practice what you\'ve learned after adding initial content to unlock deeper content.']
+};
+
+// Predictive Visualization object
+// contains functions specific to the PV features of the app
+var pv = {
+	activeLine : '',
+	variableOn : function(object) {
+		object.pv(1);
+	},
+	variableOff : function(object) {
+		object.pv(0);
+	},
+	pushOn : function(object) {
+		pv.activeLine = s.line((object.boxX+20),(object.boxY+130),80,100).attr({stroke:'#ff0',strokeDasharray:0.5,strokeWidth:0.5});
+		pv.activeLine.node.style.transition = 'all 10s ease';
+		pv.activeLine.node.style.strokeDashoffset = -1000;
+	},
+	pushOff : function(object) {
+		pv.activeLine.remove();
+	},
+	popOn : function(object) {
+		pv.activeLine = s.line(80,100,(object.boxX+20),(object.boxY+130)).attr({stroke:'#ff0',strokeDasharray:0.5,strokeWidth:0.5});
+		pv.activeLine.node.style.transition = 'all 10s ease';
+		pv.activeLine.node.style.strokeDashoffset = -1000;
+	},
+	popOff : function(object) {
+		pv.activeLine.remove();
+	}
 };
 
 // Code Sample: Countdown Functionality

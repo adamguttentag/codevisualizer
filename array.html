@@ -151,6 +151,28 @@ An example of how to easily reuse an SVG that exists somewhere else in the page
 </g>
 </svg>
 
+<svg version="1.1" id="glow" onmouseout="messageConsole.clear()" onmouseover="messageConsole.update('Predictive Visualization<br>Click to see what the app thinks you are thinking.', '#fff', 'mouseover')" onclick="" class="dockButtons" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 104 99" enable-background="new 0 0 104 99" xml:space="preserve">
+<defs>
+	<linearGradient id="vertical_grad" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="104" y2="0">
+		<stop  offset="0" style="stop-color:#fff;stop-opacity:0.5"></stop>
+		<stop  offset="0.02" style="stop-color:#888;stop-opacity:0.5"></stop>
+		<stop  offset="0.25" style="stop-color:#888;stop-opacity:0.5"></stop>
+		<stop  offset="0.5" style="stop-color:#fff;stop-opacity:0.8"></stop>
+		<stop  offset="0.75" style="stop-color:#888;stop-opacity:0.5"></stop>
+		<stop  offset="0.98" style="stop-color:#888;stop-opacity:0.5"></stop>
+		<stop  offset="1" style="stop-color:#fff;stop-opacity:0.5"></stop>
+	</linearGradient>
+	<linearGradient id="horizontal_grad" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="99">
+		<stop id="topOffset" offset="1" style="stop-color:#000;stop-opacity:0"></stop>
+		<stop  offset="1" style="stop-color:#fff;stop-opacity:1"></stop>
+	</linearGradient>
+	<mask id="mask">
+		<rect x="0" y="0" width="104" height="99" fill="url(#horizontal_grad)"  />
+	</mask>
+</defs>
+<path id="wave" fill="url(#vertical_grad)" mask="url(#mask)" stroke="none" d="M103.5,98.5H0.5v-64c0,0,20-34,51.5-34s5.5,73,51.5,24V98.5z"/>
+</svg>
+
 </div>
 <div id="levelup">
 	<p>Guide Updated:<div id="levelupSlot"></div></p>
@@ -170,7 +192,7 @@ An example of how to easily reuse an SVG that exists somewhere else in the page
 <div id="settings">
 	<div style="text-align: right;"><svg onclick="settings.hide()" id="settingsClose" viewBox="0 0 10 10"><path stroke="#fff" stroke-width="0.5" d="M0,0 10,10 M0,10 10,0"/></svg></div>
 	<h2>Settings</h2>
-	Background Image URL: <input id="bgImgUrl" value="bokeh.svg" onchange="settings.background()">
+	Background Image URL: <input id="bgImgUrl" value="img/bokeh.svg" onchange="settings.background()">
 	Limit to 9 Variables:
 	<select onchange="settings.variableLimitToggle.call(this, value)">
 		<option value="on">on</option>
