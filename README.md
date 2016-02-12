@@ -71,11 +71,11 @@ Have you ever wished you could see how the browser was going to interpret your c
 
 Sound familiar?
 
-Code Visualizer evaluates the code in the console as you type and tries to guess your intentions before you hit enter. If you've already created a variable named `a` and you type `var a =` Code Visualizer guesses that you're probaby looking to do something with variable `a`. At that point, the box that represents `a` starts glowing, like a candle, to subtly let you know how the app sees your code. Change the `a` to a `b` and box `a` stops glowing.
+Code Visualizer evaluates the code in the console as you type and tries to guess your intentions before you hit enter. If you've already created a variable named `a` and you type `var a =` Code Visualizer guesses that you're probaby looking to do something with variable `a`. At that point, the box that represents `a` starts glowing, like a candle, to subtly let you know how the app sees your code. Change the `a` to a `b` without pressing enter and box `a` stops glowing.
 
 If you appear to be about to push a variable into the array, the variable box glows and a line connects it to the array, indicating what the app thinks you're trying to do.
 
-Like a classroom teacher, this kind of feedback encourages you to press on when you're on the right track, and gives you a blank anticipatory stare when your work doesn't make sense. This helps learn faster because you start to see the code the way the browser does.
+Like a classroom teacher, this kind of feedback encourages you to press on when you're on the right track, and gives you a blank anticipatory stare when your work doesn't make sense. This helps you learn faster because you start to see the code the way the browser does.
 
 ### Settings
 
@@ -113,6 +113,7 @@ When you learn a new coding skill, you inevitably turn to your notes, books, pri
 As a user completes tasks that demonstrate basic knowledge of concepts, they are rewarded with an entry in their virtual Pocket Guide. At first the entry might contain only the name of the concept... a placeholder that reminds them they learned the concept. As they grind through subsequent iterations of that concept, more detail is added to that concept's entry in the guide. An example of the syntax is added after the user has demonstrated x iterations, then an illustration after y iterations, then a list of applicable options after z iterations. The user anticipates a reward of a real tool that makes them more efficient, and that tool motivates them more than an abstract progress bar to continue while ensuring they truly commit the concept to memory.
 
 The Pocket Guide can be "printed" as a PDF in Chrome for those who like to keep their reference materials on the computer, phone or tablet. It can also be printed as a 4"x5.75" booklet. I'm a gadget guy, but I've learned that a small booklet in my back pocket with information important to me is a far more efficient reference than any of my gadgets. It's always at hand, doesn't need to be charged, turned on or powered up and I don't have to launch and search an app. I can look up the info I need in under 3 seconds without cluttering my workspace.
+
 
 ## Authors
 *  Code Visualizer JavaScript, HTML, CSS and SVG images by [adamguttentag](https://github.com/adamguttentag).
