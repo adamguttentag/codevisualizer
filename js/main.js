@@ -240,9 +240,9 @@ splice()
 var Box = function(vLabel,cLabel) {
 	// create a group so we can animate this part of the SVG together
 	this.group = s.g();
-	// create a local copy of sGlow
-	// (basically we're cloning digital fire... "biodigital jazz, man")
-	this.glow = sGlow.clone();
+	// Clone the SVG digital flame... it's like "biodigital jazz, man."
+	// Set a new ID, to distinguish the clone from other clones.
+	this.glow = sGlow.clone().attr({id: 'glow' + arrayModel.boxNumber});
 	this.glow.node = sGlow.node.cloneNode(true);
 	sGlow.append(this.glow.node);
 	// resize the glow and line it up behind the box
@@ -322,15 +322,16 @@ var Box = function(vLabel,cLabel) {
 	// hide the pv flame by default
 	this.group[0].node.style.visibility = 'hidden';
 	// turn pv animation on (1) or off (2)
-	this.pv = function(state) {
-		if (state == 1) {
+	this.pvOn = function() {
+		console.log('pvOn');
 			this.group[0].node.style.visibility = 'visible';
 			this.glowAnimate = 1;
 			this.animWave();
-		} else {
+	};
+	this.pvOff = function() {
+		console.log('pvOff');
 			this.group[0].node.style.visibility = 'hidden';
 			this.glowAnimate = 0;
-		}
 	};
 	var self = this;
 	this.animWave = function() {
@@ -660,11 +661,12 @@ var anim = {
 
 // when the console box has focus and a key is pressed...
 function kd(evt) {
-	// TODO: this is where we will evaluate the terminal input for predictive visualization
+	console.dir(evt);
+	cnsl.enteredValue = cnsl.in.value;
 	// if the key pressed is the return/enter key...
 	if (evt.keyCode == 13) {
-		// store the value of the console text in cnsl.enteredValue
-		cnsl.enteredValue = cnsl.in.value;
+		// clear PV visuals; they are invalid because the input box is changing
+		pv.clearVisuals();
 		// push the entered text into the hist array (console history) so we can retrieve it on demand
 		cnsl.hist.data.push(cnsl.enteredValue);
 		// clear the console and history indicator to get ready for new input
@@ -687,6 +689,8 @@ function kd(evt) {
 	}
 	// up arrow scrolls back through history array
 	if (evt.keyCode == 38) {
+		// clear PV visuals; they are invalid because the input box is changing
+		pv.clearVisuals();
 		// if index is a positive number
 		if (cnsl.hist.index > 0) {
 			// decrement the index
@@ -707,6 +711,8 @@ function kd(evt) {
 	}
 	// down arrow scrolls forward through history array
 	if (evt.keyCode == 40) {
+		// clear PV visuals; they are invalid because the input box is changing
+		pv.clearVisuals();
 		// if index is a positive number
 		if (cnsl.hist.index < cnsl.hist.data.length -1 ) {
 			// increment the index
@@ -723,6 +729,26 @@ function kd(evt) {
 			cnsl.clear();
 			// clear the input box label so it's clear we're not looking at data from our history
 			cnsl.hist.clearLabel();
+		}
+	// if user isn't sending a command or scrolling history, run PV tests
+	} else {
+		// Predictive Visualization tests
+		// if a variable match is found
+		if (/push\(.*\)/.test(cnsl.in.value)) {
+			// parse the variable name and pass it to pv.pushDetection
+			pv.pushDetection(cnsl.in.value.split(/[()]+/)[1]);
+		// if a pop match is found
+		} else if (/^[a-zA-Z\$_]* = arr/.test(cnsl.in.value)) {
+			// parse the variable name and pass it to pv.popDetection
+			pv.popDetection(cnsl.in.value.split(/ [=]+/)[0]);
+		// if a variable match is found
+		} else if (/var .* =.*/.test(cnsl.in.value)) {
+			// parse the variable name and pass it to pv.varDetection
+			pv.varDetection(cnsl.in.value.split(/var|[=\']+/)[1].trim());
+		// if no PV matches are found
+		} else {
+			// clear PV visuals
+			pv.clearVisuals();
 		}
 	}
 }
@@ -908,12 +934,68 @@ var guide = {
 // Predictive Visualization object
 // contains functions specific to the PV features of the app
 var pv = {
+	// cleans up any active PVs
+	clearVisuals : function() {
+		console.log('clearVisual fired');
+		if (pv.activeObject.length > 0) {
+			// [0] is the variable name,
+			// [1] is the type of visual,
+			// [2][3] are DOM references to the visual(s)
+			if ((pv.activeObject[1] === 'push') || (pv.activeObject[1] === 'pop')) {
+				pv.pushOff(pv.activeObject[2]);
+				pv.activeObject = [];
+				pv.activeLine = '';
+			} else if (pv.activeObject[1] === 'var') {
+				pv.variableOff(pv.activeObject[2]);
+				pv.activeObject = [];
+			}
+		}
+	},
+	varDetection : function(variable) {
+		console.log('var detection fired with variable: ' + variable);
+		// filter out empty variables
+		if (variable.length > 0) {
+			console.log('pv.activeObject.length: ' + pv.activeObject.length);
+			// if variable is the current active object, change nothing
+			if (variable === pv.activeObject[0]) {
+			// filter out variables that don't exist in the visualization
+			} else if (iosTable.indexOf(variable) > -1) {
+				// turn on animation for the variable's object
+				pv.variableOn(ios[iosTable.indexOf(variable)]);
+				// label this object as the currently-active PV
+				pv.activeObject = [variable,'var',ios[iosTable.indexOf(variable)]];
+				console.log('object found in ios at index: ' + iosTable.indexOf(variable));
+			} else {
+				pv.clearVisuals();
+			console.log('pv cleared because variable not found in ios');
+			}
+		// clear visuals
+		} else {
+			pv.clearVisuals();
+			console.log('cleared visuals because variable length 0 or pv.activeObject.length greater than 0');
+		}
+	},
+	pushDetection : function(variable) {
+		console.log('push detection fired with variable: ' + variable);
+		// if there isn't already an active PV event
+		if (pv.activeObject.length < 1) {
+			console.log('pv.activeObject.length: ' + pv.activeObject.length);
+			if (iosTable.indexOf(variable) > -1) {
+				pv.variableOn(ios[iosTable.indexOf(variable)]);
+				pv.pushOn(ios[iosTable.indexOf(variable)]);
+				pv.pushOff();
+				pv.activeObject = ['var',ios[iosTable.indexOf(variable)],pv.activeLine];
+				console.log('object found in ios at index: ' + iosTable.indexOf(variable));
+			}
+		}
+	},
+	activeObject : [],
 	activeLine : '',
 	variableOn : function(object) {
-		object.pv(1);
+		object.pvOn();
 	},
 	variableOff : function(object) {
-		object.pv(0);
+		object.pvOff();
 	},
 	pushOn : function(object) {
 		pv.activeLine = s.line((object.boxX+20),(object.boxY+130),80,100).attr({stroke:'#ff0',strokeDasharray:0.5,strokeWidth:0.5});

@@ -302,10 +302,13 @@ em {
 	transition: transform 2.3s ease, bottom 1.3s ease, right 1.3s ease;
 }
 #svgcontainer {
-	position: absolute;
-	top: 0;
+	position: absolute !important;
+ 	height: 1px;
+ 	width: 1px;
+ 	top: 0;
 	left: 0;
-	visibility: hidden;
+	overflow: hidden;
+	clip-path: polygon(0px 0px, 0px 0px,0px 0px, 0px 0px);
 }
 .inlineTextSvg {
 	height:10pt;

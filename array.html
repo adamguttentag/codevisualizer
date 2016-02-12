@@ -9,6 +9,28 @@
 <body>
 <div id="svgcontainer">
 
+<svg version="1.1" id="glow" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 104 99" enable-background="new 0 0 104 99" xml:space="preserve">
+<defs>
+	<linearGradient id="vertical_grad" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="104" y2="0">
+		<stop  offset="0" style="stop-color:#fff;stop-opacity:0.5"></stop>
+		<stop  offset="0.02" style="stop-color:#888;stop-opacity:0.5"></stop>
+		<stop  offset="0.25" style="stop-color:#888;stop-opacity:0.5"></stop>
+		<stop  offset="0.5" style="stop-color:#fff;stop-opacity:0.8"></stop>
+		<stop  offset="0.75" style="stop-color:#888;stop-opacity:0.5"></stop>
+		<stop  offset="0.98" style="stop-color:#888;stop-opacity:0.5"></stop>
+		<stop  offset="1" style="stop-color:#fff;stop-opacity:0.5"></stop>
+	</linearGradient>
+	<linearGradient id="horizontal_grad" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="99">
+		<stop id="topOffset" offset="1" style="stop-color:#000;stop-opacity:0"></stop>
+		<stop  offset="1" style="stop-color:#fff;stop-opacity:1"></stop>
+	</linearGradient>
+	<mask id="mask">
+		<rect x="0" y="0" width="104" height="99" fill="url(#horizontal_grad)"  />
+	</mask>
+</defs>
+<path id="wave" fill="url(#vertical_grad)" mask="url(#mask)" stroke="none" d="M103.5,98.5H0.5v-64c0,0,20-34,51.5-34s5.5,73,51.5,24V98.5z"/>
+</svg>
+
 <svg version="1.1" id="mouseovericon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 62 54.5" enable-background="new 0 0 62 54.5" xml:space="preserve">
 <path fill="#326466" d="M58,36c0,6.6-5.4,12-12,12H12C5.4,48,0,42.6,0,36V12C0,5.4,5.4,0,12,0h34c6.6,0,12,5.4,12,12V36z"/>
 <polygon fill="#FFFFFF" points="40.2,19.2 62,41 54.2,41 58.5,50.5 50.8,54.5 46.5,43.2 40.2,49.5 "/>
@@ -112,7 +134,7 @@ An example of how to easily reuse an SVG that exists somewhere else in the page
 
 <div class="console">
 	Console: <label for="console"></label><br>
-	<input id="console" onkeydown="kd(event)"><br>
+	<input id="console" onkeyup="kd(event)"><br>
 	<div id="messageConsole"></div>
 </div>
 
@@ -149,28 +171,6 @@ An example of how to easily reuse an SVG that exists somewhere else in the page
 	<path fill="#326466" opacity="0.7" d="M9.7,3.7C13.6,1.2,18.3,0,23.9,0c7.4,0,13.5,1.8,18.3,5.3c4.9,3.5,7.3,12.7,7.3,19.6c0,4.2-1.1,3.8-3.2,6.7c-1.2,1.8-3.6,4-7.1,6.7L35.8,41c-1.9,1.5-3.1,3.2-3.8,5.1c-0.4,1.2-0.6,7.2-0.6,9.8H18.2c0.2-5.5,0.7-13.3,1.6-15.4c0.8-2.1,3-4.5,6.5-7.3l3.6-2.8c1.2-0.9,2.1-1.8,2.8-2.9c1.3-1.8,1.9-5.8,1.9-7.9c0-2.5-0.7-2.7-2.2-4.8c-1.4-2-4.1-3.1-7.9-3.1c-3.8,0-6.4,1.3-8,3.8c-1.6,2.5-2.4,9.1-2.4,11.8H0C0.4,18.2,3.6,7.6,9.7,3.7z M17.8,58.6h14.6v14.1H17.8V58.6z"/>
 	<path fill="#6CD4E5" opacity="0.7"  d="M9.7,7.7C13.6,5.2,18.3,4,23.9,4c7.4,0,13.5,1.8,18.3,5.3c4.9,3.5,7.3,8.7,7.3,15.6c0,4.2-1.1,7.8-3.2,10.7c-1.2,1.8-3.6,4-7.1,6.7L35.8,45c-1.9,1.5-3.1,3.2-3.8,5.1c-0.4,1.2-0.6,3.2-0.6,5.8H18.2c0.2-5.5,0.7-9.3,1.6-11.4c0.8-2.1,3-4.5,6.5-7.3l3.6-2.8c1.2-0.9,2.1-1.8,2.8-2.9c1.3-1.8,1.9-3.8,1.9-5.9c0-2.5-0.7-4.7-2.2-6.8c-1.4-2-4.1-3.1-7.9-3.1c-3.8,0-6.4,1.3-8,3.8c-1.6,2.5-2.4,5.1-2.4,7.8H0C0.4,18.2,3.6,11.6,9.7,7.7z M17.8,62.6h14.6v14.1H17.8V62.6z"/>
 </g>
-</svg>
-
-<svg version="1.1" id="glow" onmouseout="messageConsole.clear()" onmouseover="messageConsole.update('Predictive Visualization<br>Click to see what the app thinks you are thinking.', '#fff', 'mouseover')" onclick="" class="dockButtons" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 104 99" enable-background="new 0 0 104 99" xml:space="preserve">
-<defs>
-	<linearGradient id="vertical_grad" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="104" y2="0">
-		<stop  offset="0" style="stop-color:#fff;stop-opacity:0.5"></stop>
-		<stop  offset="0.02" style="stop-color:#888;stop-opacity:0.5"></stop>
-		<stop  offset="0.25" style="stop-color:#888;stop-opacity:0.5"></stop>
-		<stop  offset="0.5" style="stop-color:#fff;stop-opacity:0.8"></stop>
-		<stop  offset="0.75" style="stop-color:#888;stop-opacity:0.5"></stop>
-		<stop  offset="0.98" style="stop-color:#888;stop-opacity:0.5"></stop>
-		<stop  offset="1" style="stop-color:#fff;stop-opacity:0.5"></stop>
-	</linearGradient>
-	<linearGradient id="horizontal_grad" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="99">
-		<stop id="topOffset" offset="1" style="stop-color:#000;stop-opacity:0"></stop>
-		<stop  offset="1" style="stop-color:#fff;stop-opacity:1"></stop>
-	</linearGradient>
-	<mask id="mask">
-		<rect x="0" y="0" width="104" height="99" fill="url(#horizontal_grad)"  />
-	</mask>
-</defs>
-<path id="wave" fill="url(#vertical_grad)" mask="url(#mask)" stroke="none" d="M103.5,98.5H0.5v-64c0,0,20-34,51.5-34s5.5,73,51.5,24V98.5z"/>
 </svg>
 
 </div>
