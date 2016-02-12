@@ -3,10 +3,10 @@
 ## Description
 A visual tool for teaching coding.
 
-![Screenshot](https://github.com/adamguttentag/codevisualizer/blob/master/img/screenshot.jpg)
-
 ## Live Demo
 Available at [adamguttentag.github.io/codevisualizer/array.html](http://adamguttentag.github.io/codevisualizer/array.html)
+
+![Screenshot](https://github.com/adamguttentag/codevisualizer/blob/master/img/screenshot.jpg)
 
 ## Installation
 1. Visit [the project on GitHub](https://github.com/adamguttentag/codevisualizer), and use one of the following methods to download the files:
@@ -26,21 +26,33 @@ Available at [adamguttentag.github.io/codevisualizer/array.html](http://adamgutt
 
 ### Mouseover Help
 
+![Screenshot](https://github.com/adamguttentag/codevisualizer/blob/master/img/mouseover.jpg)
+
 If you're not sure what something is or does, move your cursor over it. Objects in the visualization will tell you what their properties are. Interface elements like dock buttons, progress bars and the message box will tell you what they do. Be inquisitive!
 
 ### Console History
+
+![Screenshot](https://github.com/adamguttentag/codevisualizer/blob/master/img/history.jpg)
 
 The console saves your history, just like the browser's JavaScript console or a terminal window. When the console has focus, pressing the up key on your keyboard fills the console with the last text you entered. You can scroll back and forth through your history with the up and down keys.
 
 ### Decluttering Your Workspace
 
+![Screenshot](https://github.com/adamguttentag/codevisualizer/blob/master/img/clutter.jpg)
+
 To temporarily slide the message box out of your way, click or tap on it. You can always bring it back into view by clicking or tapping on the tab that remains visible. It will always slide back out when it has new information for you.
 
 ### Errors
 
+![Screenshot](https://github.com/adamguttentag/codevisualizer/blob/master/img/error_var.jpg)
+![Screenshot](https://github.com/adamguttentag/codevisualizer/blob/master/img/alert.jpg)
+
+
 Error messages may appear in the console window if you try to do something silly like push() a variable that doesn't exist. Yellow text is simply advising you of an issue with the program. Red text suggests you may have entered invalid code.
 
 ### Pocket Guide
+
+![Screenshot](https://github.com/adamguttentag/codevisualizer/blob/master/img/guide.jpg)
 
 The Pocket Guide contains information about concepts you have learned. It's your own personalized reference guide and trophy case.
 
@@ -50,6 +62,23 @@ Click the Pocket Guide icon in the bottom right corner of the window to open it.
 
 (This feature not implemented yet)
 Once the Pocket Guide is open, click the printer icon to print it. If you're using Chrome, you can select "Save As PDF" in the print dialog to create a file that can be viewed on your computer, phone or tablet.
+
+### Predictive Visualization
+
+![Screenshot](https://github.com/adamguttentag/codevisualizer/blob/master/img/pv.jpg)
+
+Have you ever wished you could see how the browser was going to interpret your code before you wrote it? Back here in reality, we often take a stab at writing code, then save, load in the browser, tinker with the console and breakpoints, and maybe go back and insert a handful of console.log() lines and then try again until we get it right.
+
+Code Visualizer evaluates the code in the console as you type and tries to guess your intentions before you hit enter. If you've already created a variable named a and you type:
+```javascript
+var a =
+alert(s);
+```
+Code Visualizer guesses that you're probaby looking to do something with variable a. At that point, the box that represents variable a starts glowing, like a candle, to subtly let you know how the app sees your code. Change the a to a b and box a stops glowing.
+
+If you appear to be about to push a variable into the array, the variable box glows and a line connects it to the array, indicating what the app thinks you're trying to do.
+
+Like a classroom teacher, this kind of feedback encourages you to press on when you're on the right track, and gives you a blank anticipatory stare when your work doesn't make sense. This helps learn faster because you start to see the code the way the browser does.
 
 ### Settings
 
