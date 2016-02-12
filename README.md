@@ -48,7 +48,7 @@ To temporarily slide the message box out of your way, click or tap on it. You ca
 ![Screenshot](https://github.com/adamguttentag/codevisualizer/blob/master/img/alert.jpg)
 
 
-Error messages may appear in the console window if you try to do something silly like push() a variable that doesn't exist. Yellow text is simply advising you of an issue with the program. Red text suggests you may have entered invalid code.
+Error messages may appear in the console window if you try to do something silly like `push()` a variable that doesn't exist. Yellow text is simply advising you of an issue with the program. Red text suggests you may have entered invalid code. Underlined text provides a link to relevant documentation on [Mozilla Developer Network](https://developer.mozilla.org/en-US/).
 
 ### Pocket Guide
 
@@ -67,14 +67,11 @@ Once the Pocket Guide is open, click the printer icon to print it. If you're usi
 
 ![Screenshot](https://github.com/adamguttentag/codevisualizer/blob/master/img/pv.jpg)
 
-Have you ever wished you could see how the browser was going to interpret your code before you wrote it? Back here in reality, we often take a stab at writing code, then save, load in the browser, tinker with the console and breakpoints, and maybe go back and insert a handful of console.log() lines and then try again until we get it right.
+Have you ever wished you could see how the browser was going to interpret your code before you wrote it? Back here in reality, we often take a stab at writing code, then save, load in the browser, tinker with the console and breakpoints, and maybe go back and insert a handful of `console.log()` lines and then try again until we get it right.
 
-Code Visualizer evaluates the code in the console as you type and tries to guess your intentions before you hit enter. If you've already created a variable named a and you type:
-```javascript
-var a =
-alert(s);
-```
-Code Visualizer guesses that you're probaby looking to do something with variable a. At that point, the box that represents variable a starts glowing, like a candle, to subtly let you know how the app sees your code. Change the a to a b and box a stops glowing.
+Sound familiar?
+
+Code Visualizer evaluates the code in the console as you type and tries to guess your intentions before you hit enter. If you've already created a variable named `a` and you type `var a =` Code Visualizer guesses that you're probaby looking to do something with variable `a`. At that point, the box that represents `a` starts glowing, like a candle, to subtly let you know how the app sees your code. Change the `a` to a `b` and box `a` stops glowing.
 
 If you appear to be about to push a variable into the array, the variable box glows and a line connects it to the array, indicating what the app thinks you're trying to do.
 
@@ -95,7 +92,7 @@ The Code Visualizer guides a user through programming concepts, prompts them to 
 
 When a variable is created, a faux-3D box appears with labels for the variable name and its contents. When a variable is "pushed" into an array, the box slides up, drops into another box representing the array and acquires a third label representing its index in the array. When that variable is "popped" out of the array via arr.pop(), it quickly shoots up out of the array like superheated popcorn, loses its index label and acquires a new variable label.
 
-Alan Turing called push() and pop() BURY and UNBURY, and the concept of of an ordered LIFO collection of data has been called a stack since the 1950s. These were all named for visual concepts because they were meant to be visualized. This tool trains the user to do so as they learn.
+Alan Turing called `push()` and `pop()` `BURY` and `UNBURY`, and the concept of of an ordered LIFO collection of data has been called a stack since the 1950s. These were all named for visual concepts because they were meant to be visualized. This tool trains the user to do so as they learn.
 
 ### Motivation and Repetition
 
