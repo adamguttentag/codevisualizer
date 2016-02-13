@@ -1011,10 +1011,18 @@ var pv = {
 
 		console.log('Object: '+ object);
 		console.log((object.boxX+20) + ' ' + (object.boxY+130));
-		pv.activeLine = s.line((object.boxX+20),(object.boxY+130),80,100).attr({stroke:'#ff0',strokeDasharray:0.5,strokeWidth:0.5});
-		console.dir(pv.activeLine);
-		pv.activeLine.node.style.transition = 'all 10s ease';
-		pv.activeLine.node.style.strokeDashoffset = -25;
+		pv.activeLine = s.path('M' + (object.boxX+20) + ',' + (object.boxY+130) + ' ' + (object.boxX+20) + ',' + (object.boxY+130)).attr({
+			stroke: '#ff0',
+			strokeDasharray: 5,
+			strokeWidth: 2,
+			opacity: 0
+		});
+		pv.activeLine.animate({
+			d: 'M' + (object.boxX+20) + ',' + (object.boxY+130) + ' 80,100',
+			strokeDasharray: 1,
+			strokeWidth: 0.5,
+			opacity: 1
+			}, (1000), mina.bounce);
 	},
 	pushOff : function(object) {
 		//pv.activeLine.remove();
