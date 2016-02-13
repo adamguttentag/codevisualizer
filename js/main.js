@@ -218,7 +218,7 @@ var messages = [
 	],
 	[
 		'Popping Data Out Of An Array 2/3',
-		'<p>Some key points to remember:<p><em>pop()</em> adds to an array<li>lets you specify the source<li>does not let you specify the destination (always the end of the array)</p><p><p><em>pop()</em> adds removes from an array<li>lets you specify the destination<li>does not let you specify the source (always the end of the array)<ol><li>Pop another item out of the array and store its value in a new variable called <em>y</em></ol></p></p>',
+		'<p>Some key points to remember:<p><em>push()</em> adds to an array<li>lets you specify the source<li>does not let you specify the destination (always the end of the array)</p><p><p><em>pop()</em> adds removes from an array<li>lets you specify the destination<li>does not let you specify the source (always the end of the array)<ol><li>Pop another item out of the array and store its value in a new variable called <em>y</em></ol></p></p>',
 		'pop'
 	],
 	[
@@ -1025,7 +1025,9 @@ var pv = {
 			}, (1000), mina.bounce);
 	},
 	pushOff : function(object) {
-		//pv.activeLine.remove();
+		console.log('pushOff fired')
+		// pv.activeLine.remove();
+		// pv.activeLine = '';
 	},
 	popOn : function(object) {
 		pv.activeLine = s.line(80,100,(object.boxX+20),(object.boxY+130)).attr({stroke:'#ff0',strokeDasharray:0.5,strokeWidth:0.5});
