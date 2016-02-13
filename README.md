@@ -48,7 +48,7 @@ To temporarily slide the message box out of your way, click or tap on it. You ca
 ![Screenshot](https://github.com/adamguttentag/codevisualizer/blob/master/img/alert.jpg)
 
 
-Error messages may appear in the console window if you try to do something silly like `push()` a variable that doesn't exist. Yellow text is simply advising you of an issue with the program. Red text suggests you may have entered invalid code. Underlined text provides a link to relevant documentation on [Mozilla Developer Network](https://developer.mozilla.org/en-US/).
+Error messages may appear in the console window if you try to do something silly like `push()` a variable that doesn't exist. Red text suggests you may have entered invalid code. Underlined text provides a link to relevant documentation on [Mozilla Developer Network](https://developer.mozilla.org/en-US/). Yellow alerts advise you that your code is valid but may not produce the results you expected.
 
 ### Pocket Guide
 
@@ -112,7 +112,7 @@ When you learn a new coding skill, you inevitably turn to your notes, books, pri
 
 As a user completes tasks that demonstrate basic knowledge of concepts, they are rewarded with an entry in their virtual Pocket Guide. At first the entry might contain only the name of the concept... a placeholder that reminds them they learned the concept. As they grind through subsequent iterations of that concept, more detail is added to that concept's entry in the guide. An example of the syntax is added after the user has demonstrated x iterations, then an illustration after y iterations, then a list of applicable options after z iterations. The user anticipates a reward of a real tool that makes them more efficient, and that tool motivates them more than an abstract progress bar to continue while ensuring they truly commit the concept to memory.
 
-The Pocket Guide can be "printed" as a PDF in Chrome for those who like to keep their reference materials on the computer, phone or tablet. It can also be printed as a 4"x5.75" booklet. I'm a gadget guy, but I've learned that a small booklet in my back pocket with information important to me is a far more efficient reference than any of my gadgets. It's always at hand, doesn't need to be charged, turned on or powered up and I don't have to launch and search an app. I can look up the info I need in under 3 seconds without cluttering my workspace.
+The Pocket Guide can be "printed" as a PDF in Chrome for those who like to keep their reference materials on the computer, phone or tablet. It can also be printed as a 4"x5.75" booklet. I'm a gadget guy, but I've learned that a small booklet in my back pocket with information important to me is a far more efficient reference than any of my gadgets. It's always at hand, doesn't need to be charged, turned on or powered up and I don't have to launch and search an app. I can look up the info I need in under 3 seconds without disrupting my workflow.
 
 
 ## Authors
