@@ -217,10 +217,20 @@ var messages = [
 		'pop'
 	],
 	[
+		'Popping Data Out Of An Array 2/3',
+		'<p>Some key points to remember:<p><em>pop()</em> adds to an array<li>lets you specify the source<li>does not let you specify the destination (always the end of the array)</p><p><p><em>pop()</em> adds removes from an array<li>lets you specify the destination<li>does not let you specify the source (always the end of the array)<ol><li>Pop another item out of the array and store its value in a new variable called <em>y</em></ol></p></p>',
+		'pop'
+	],
+	[
+		'Popping Data Out Of An Array 3/3',
+		'<p>One left to go. You choose a variable name this time.<ol><li>Pop a third variable out of the array</ol></p>',
+		'pop'
+	],
+	[
 		'End of Line',
 		'<p>That\'s all the coding I have time for right now. Stay tuned for future updates which will go over <em>shift()</em>, <em>unshift()</em>, <em>splice()</em>, and other favorite JavaScript array methods.</p><p>Also, to avoid the need to grind in this demo to see what the Pocket Guide could offer, check out the debug section of the settings window.</p>',
 		'splice'
-	]
+	],
 ];
 /* TODO, add entries for:
 shift() popping from the bottom of the array
@@ -998,20 +1008,25 @@ var pv = {
 		object.pvOff();
 	},
 	pushOn : function(object) {
+
+		console.log('Object: '+ object);
+		console.log((object.boxX+20) + ' ' + (object.boxY+130));
 		pv.activeLine = s.line((object.boxX+20),(object.boxY+130),80,100).attr({stroke:'#ff0',strokeDasharray:0.5,strokeWidth:0.5});
+		console.dir(pv.activeLine);
 		pv.activeLine.node.style.transition = 'all 10s ease';
-		pv.activeLine.node.style.strokeDashoffset = -1000;
+		pv.activeLine.node.style.strokeDashoffset = -25;
 	},
 	pushOff : function(object) {
-		pv.activeLine.remove();
+		//pv.activeLine.remove();
 	},
 	popOn : function(object) {
 		pv.activeLine = s.line(80,100,(object.boxX+20),(object.boxY+130)).attr({stroke:'#ff0',strokeDasharray:0.5,strokeWidth:0.5});
 		pv.activeLine.node.style.transition = 'all 10s ease';
-		pv.activeLine.node.style.strokeDashoffset = -1000;
+		pv.activeLine.node.style.strokeDashoffset = 0;
+		pv.activeLine.node.style.strokeDashoffset = -25;
 	},
 	popOff : function(object) {
-		pv.activeLine.remove();
+		//pv.activeLine.remove();
 	}
 };
 
