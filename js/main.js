@@ -609,6 +609,16 @@ var cmd = {
 			}
 		}
 	},
+	undefine : {
+		exec : function() {
+			// parse the variable name, and remove the var prefix if it exists
+			arrayModel.var = cnsl.enteredValue.split(/ [=]+/)[0].replace('var ','');
+			//console.log(arrayModel.var);
+			ios[iosTable.indexOf(arrayModel.var)].group.remove();
+			iosTable.splice(1,1);
+			ios.splice(1,1);
+		}
+	}
 };
 
 var anim = {
@@ -695,6 +705,8 @@ function kd(evt) {
 		// handle var _ = '_' //creating a variable
 		} else if (/var .* = \'.*\'/.test(cnsl.enteredValue)) {
 			cmd.var.exec();
+		} else if (/.* = undefined/.test(cnsl.enteredValue)) {
+			cmd.undefine.exec();
 		}
 	}
 	// up arrow scrolls back through history array
@@ -1025,7 +1037,7 @@ var pv = {
 			}, (1000), mina.bounce);
 	},
 	pushOff : function(object) {
-		console.log('pushOff fired')
+		console.log('pushOff fired');
 		// pv.activeLine.remove();
 		// pv.activeLine = '';
 	},
