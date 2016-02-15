@@ -615,8 +615,8 @@ var cmd = {
 			arrayModel.var = cnsl.enteredValue.split(/ [=]+/)[0].replace('var ','');
 			//console.log(arrayModel.var);
 			ios[iosTable.indexOf(arrayModel.var)].group.remove();
-			iosTable.splice(1,1);
-			ios.splice(1,1);
+			ios.splice(iosTable.indexOf(arrayModel.var),1);
+			iosTable.splice(iosTable.indexOf(arrayModel.var),1);
 		}
 	}
 };
