@@ -328,18 +328,17 @@ var Box = function(vLabel,cLabel) {
 	this.group.animate({
 		opacity: 1
     }, (1000), mina.easeinout);
-	this.boxNumber = arrayModel.openSlot;
 	// hide the pv flame by default
 	this.group[0].node.style.visibility = 'hidden';
 	// turn pv animation on (1) or off (2)
 	this.pvOn = function() {
-		console.log('pvOn');
+		//console.log('pvOn');
 			this.group[0].node.style.visibility = 'visible';
 			this.glowAnimate = 1;
 			this.animWave();
 	};
 	this.pvOff = function() {
-		console.log('pvOff');
+		// console.log('pvOff');
 			this.group[0].node.style.visibility = 'hidden';
 			this.glowAnimate = 0;
 	};
@@ -524,6 +523,7 @@ var cmd = {
 			} else {
 				// increment arrayModel.boxNumber
 				arrayModel.boxNumber += 1;
+				console.log('boxNumber=' + arrayModel.boxNumber);
 				// if a previously-used spot exists on the board, fill it
 				if (arrayModel.pre.indexOf('') > -1) {
 					arrayModel.openSlot = arrayModel.pre.indexOf('');
@@ -531,8 +531,8 @@ var cmd = {
 				} else {
 					arrayModel.openSlot = arrayModel.pre.length;
 				}
-				// create a new Box in Instantiated ObjectS array, with variable name and variable content string
-				ios[arrayModel.boxNumber] = new Box(arrayModel.var, cmd.var.content);
+				// create a new Box in Instantiated ObjectS array, with variable name and variable content string-
+				ios.push(new Box(arrayModel.var, cmd.var.content));
 				// set currentObject to our new box, so functions in any scope can work with it
 				arrayModel.currentObject = ios[arrayModel.boxNumber];
 				// push the variable name into the pre-array portion of arrayModel so we know it's on the left side of the visual
@@ -613,10 +613,21 @@ var cmd = {
 		exec : function() {
 			// parse the variable name, and remove the var prefix if it exists
 			arrayModel.var = cnsl.enteredValue.split(/ [=]+/)[0].replace('var ','');
-			//console.log(arrayModel.var);
-			ios[iosTable.indexOf(arrayModel.var)].group.remove();
-			ios.splice(iosTable.indexOf(arrayModel.var),1);
-			iosTable.splice(iosTable.indexOf(arrayModel.var),1);
+			//locate variable in arrayModel.pre to free up its slot for new variables
+			if (arrayModel.pre.indexOf(arrayModel.var) > -1) {
+				arrayModel.pre.splice(arrayModel.pre.indexOf(arrayModel.var),1,'');
+			// otherwise it's in .post, so free up its slot there
+			} else {
+				arrayModel.post.splice(arrayModel.post.indexOf(arrayModel.var),1,'');
+			}
+			// track object location in ios and iosTable
+			loc = iosTable.indexOf(arrayModel.var);
+			// remove the visual of the variable from the SVG
+			ios[loc].group.remove();
+			// remove the object from the instantiated objects array
+			ios.splice(loc,1);
+			// remove the reference to the object from iosTable
+			iosTable.splice(loc,1);
 		}
 	}
 };
@@ -681,7 +692,7 @@ var anim = {
 
 // when the console box has focus and a key is pressed...
 function kd(evt) {
-	console.dir(evt);
+	//console.dir(evt);
 	cnsl.enteredValue = cnsl.in.value;
 	// if the key pressed is the return/enter key...
 	if (evt.keyCode == 13) {
@@ -958,7 +969,7 @@ var guide = {
 var pv = {
 	// cleans up any active PVs
 	clearVisuals : function() {
-		console.log('clearVisual fired');
+		// console.log('clearVisual fired');
 		if (pv.activeObject.length > 0) {
 			// [0] is the variable name,
 			// [1] is the type of visual,
@@ -974,10 +985,10 @@ var pv = {
 		}
 	},
 	varDetection : function(variable) {
-		console.log('var detection fired with variable: ' + variable);
+		// console.log('var detection fired with variable: ' + variable);
 		// filter out empty variables
 		if (variable.length > 0) {
-			console.log('pv.activeObject.length: ' + pv.activeObject.length);
+			// console.log('pv.activeObject.length: ' + pv.activeObject.length);
 			// if variable is the current active object, change nothing
 			if (variable === pv.activeObject[0]) {
 			// filter out variables that don't exist in the visualization
@@ -986,28 +997,28 @@ var pv = {
 				pv.variableOn(ios[iosTable.indexOf(variable)]);
 				// label this object as the currently-active PV
 				pv.activeObject = [variable,'var',ios[iosTable.indexOf(variable)]];
-				console.log('object found in ios at index: ' + iosTable.indexOf(variable));
+				// console.log('object found in ios at index: ' + iosTable.indexOf(variable));
 			} else {
 				pv.clearVisuals();
-			console.log('pv cleared because variable not found in ios');
+			// console.log('pv cleared because variable not found in ios');
 			}
 		// clear visuals
 		} else {
 			pv.clearVisuals();
-			console.log('cleared visuals because variable length 0 or pv.activeObject.length greater than 0');
+			// console.log('cleared visuals because variable length 0 or pv.activeObject.length greater than 0');
 		}
 	},
 	pushDetection : function(variable) {
-		console.log('push detection fired with variable: ' + variable);
+		// console.log('push detection fired with variable: ' + variable);
 		// if there isn't already an active PV event
 		if (pv.activeObject.length < 1) {
-			console.log('pv.activeObject.length: ' + pv.activeObject.length);
+			// console.log('pv.activeObject.length: ' + pv.activeObject.length);
 			if (iosTable.indexOf(variable) > -1) {
 				pv.variableOn(ios[iosTable.indexOf(variable)]);
 				pv.pushOn(ios[iosTable.indexOf(variable)]);
 				pv.pushOff();
 				pv.activeObject = ['var',ios[iosTable.indexOf(variable)],pv.activeLine];
-				console.log('object found in ios at index: ' + iosTable.indexOf(variable));
+				// console.log('object found in ios at index: ' + iosTable.indexOf(variable));
 			}
 		}
 	},
@@ -1021,8 +1032,8 @@ var pv = {
 	},
 	pushOn : function(object) {
 
-		console.log('Object: '+ object);
-		console.log((object.boxX+20) + ' ' + (object.boxY+130));
+		// console.log('Object: '+ object);
+		// console.log((object.boxX+20) + ' ' + (object.boxY+130));
 		pv.activeLine = s.path('M' + (object.boxX+20) + ',' + (object.boxY+130) + ' ' + (object.boxX+20) + ',' + (object.boxY+130)).attr({
 			stroke: '#ff0',
 			strokeDasharray: 5,
@@ -1037,7 +1048,7 @@ var pv = {
 			}, (1000), mina.bounce);
 	},
 	pushOff : function(object) {
-		console.log('pushOff fired');
+		// console.log('pushOff fired');
 		// pv.activeLine.remove();
 		// pv.activeLine = '';
 	},
