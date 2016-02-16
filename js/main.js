@@ -687,6 +687,43 @@ var anim = {
 				onmouseover: 'messageConsole.update(\'A variable named <em>' + arrayModel.var + '</em> containing the string <em>' + arrayModel.currentObject.cName.node.innerHTML + '</em>\', \'#fff\', \'mouseover\')'
 			});
 		}
+	},
+	line: {
+		draw : function(startX, startY, endX, endY) {
+			console.log('draw fired');
+			pv.activeLine = s.path('M' + startX + ',' + startY + ' ' + startX + ',' + startY).attr({
+				stroke: '#ff0',
+				strokeDasharray: 2,
+				strokeWidth: 4,
+				opacity: 0
+			});
+			pv.activeLine.animate({
+				d: 'M' + startX + ',' + startY + ' ' + endX + ',' + endY,
+				strokeWidth: 0.5,
+				opacity: 1
+			}, (300), mina.easeout);
+			anim.line.crawl();
+		},
+		crawl : function() {
+			console.log('crawl fired');
+			pv.activeLine.attr({strokeDashoffset: '100%'});
+			pv.activeLineAnim = pv.activeLine.animate({
+				strokeDashoffset: '90%',
+				opacity: '1',
+				}, (2000), mina.linear, anim.line.crawlRepeat);
+		},
+		crawlRepeat : function() {
+			console.log('crawl repeat fired');
+			pv.activeLine.attr({strokeDashoffset: '100%'});
+			pv.activeLineAnim = pv.activeLine.animate({
+				strokeDashoffset: '90%',
+				opacity: '0.3',
+				}, (2000), mina.linear, anim.line.crawl);
+		},
+		stop : function() {
+			console.log('stop fired');
+			pv.activeLineAnim.stop();
+		}
 	}
 };
 
@@ -971,6 +1008,7 @@ var pv = {
 	clearVisuals : function() {
 		// console.log('clearVisual fired');
 		if (pv.activeObject.length > 0) {
+			// console.log('clearVisuals fired');
 			// [0] is the variable name,
 			// [1] is the type of visual,
 			// [2][3] are DOM references to the visual(s)
@@ -1016,7 +1054,7 @@ var pv = {
 			if (iosTable.indexOf(variable) > -1) {
 				pv.variableOn(ios[iosTable.indexOf(variable)]);
 				pv.pushOn(ios[iosTable.indexOf(variable)]);
-				pv.pushOff();
+				// pv.pushOff();
 				pv.activeObject = ['var',ios[iosTable.indexOf(variable)],pv.activeLine];
 				// console.log('object found in ios at index: ' + iosTable.indexOf(variable));
 			}
@@ -1024,6 +1062,7 @@ var pv = {
 	},
 	activeObject : [],
 	activeLine : '',
+	activeLineAnim : '',
 	variableOn : function(object) {
 		object.pvOn();
 	},
@@ -1031,26 +1070,11 @@ var pv = {
 		object.pvOff();
 	},
 	pushOn : function(object) {
-
-		// console.log('Object: '+ object);
-		// console.log((object.boxX+20) + ' ' + (object.boxY+130));
-		pv.activeLine = s.path('M' + (object.boxX+20) + ',' + (object.boxY+130) + ' ' + (object.boxX+20) + ',' + (object.boxY+130)).attr({
-			stroke: '#ff0',
-			strokeDasharray: 5,
-			strokeWidth: 2,
-			opacity: 0
-		});
-		pv.activeLine.animate({
-			d: 'M' + (object.boxX+20) + ',' + (object.boxY+130) + ' 80,100',
-			strokeDasharray: 1,
-			strokeWidth: 0.5,
-			opacity: 1
-			}, (1000), mina.bounce);
+		anim.line.draw(object.boxX+20, object.boxY+130, 80, 100);
 	},
 	pushOff : function(object) {
-		// console.log('pushOff fired');
-		// pv.activeLine.remove();
-		// pv.activeLine = '';
+		anim.line.stop();
+		pv.activeLine.remove();
 	},
 	popOn : function(object) {
 		pv.activeLine = s.line(80,100,(object.boxX+20),(object.boxY+130)).attr({stroke:'#ff0',strokeDasharray:0.5,strokeWidth:0.5});
