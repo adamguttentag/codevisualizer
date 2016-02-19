@@ -61,9 +61,9 @@
 <g id="containerfront" onmouseout="messageConsole.clear()" onmouseover="messageConsole.update('An array named arr<br>Because arrays be like pirates; always collectin\' things they arr...', '#fff', 'mouseover')">
 	<linearGradient id="fl_10_" gradientUnits="userSpaceOnUse" x1="62" y1="103.6328" x2="80" y2="103.6328">
 		<stop  offset="0" style="stop-color:#B2B7BA"/>
-		<stop  offset="1.000000e-02" style="stop-color:#A2AFB5"/>
-		<stop  offset="3.000000e-02" style="stop-color:#8A949D"/>
-		<stop  offset="4.000000e-02" style="stop-color:#A4B0B5;stop-opacity:0"/>
+		<stop  offset="0.01" style="stop-color:#A2AFB5"/>
+		<stop  offset="0.03" style="stop-color:#8A949D"/>
+		<stop  offset="0.04" style="stop-color:#A4B0B5;stop-opacity:0"/>
 		<stop  offset="0.2" style="stop-color:#A7B1B6;stop-opacity:0"/>
 		<stop  offset="0.23" style="stop-color:#8A949D;stop-opacity:0.6"/>
 		<stop  offset="0.34" style="stop-color:#8A949D;stop-opacity:0.4"/>
@@ -140,14 +140,23 @@ An example of how to easily reuse an SVG that exists somewhere else in the page
 
 <div class="dock">
 	<div id="progressbars">
-		<div class="progressO" onmouseout="messageConsole.clear()" onmouseover="messageConsole.update('Progress Bar: var<br>Create variables to earn entries in your Pocket Guide', '#fff', 'mouseover')">
-			<div class="progressI" id="skillBar"></div>
+		<div>
+			<div class="progressO" onmouseout="messageConsole.clear()" onmouseover="messageConsole.update('Progress Bar: var<br>Create variables to earn entries in your Pocket Guide', '#fff', 'mouseover')">
+				<div class="progressI" id="skillBar"></div>
+			</div>
+			<svg class="progressIcon"><use x="0" y="0" xlink:href="#logo"/></svg>
 		</div>
-		<div class="progressO" onmouseout="messageConsole.clear()" onmouseover="messageConsole.update('Progress Bar: push()<br>Push variables to earn entries in your Pocket Guide', '#fff', 'mouseover')">
-			<div class="progressI" id="taskBar"></div>
+		<div>
+			<div class="progressO" onmouseout="messageConsole.clear()" onmouseover="messageConsole.update('Progress Bar: push()<br>Push variables to earn entries in your Pocket Guide', '#fff', 'mouseover')">
+				<div class="progressI" id="taskBar"></div>
+			</div>
+			<svg class="progressIcon"><use x="0" y="0" xlink:href="#logo"/></svg>
 		</div>
-		<div class="progressO" onmouseout="messageConsole.clear()" onmouseover="messageConsole.update('Progress Bar: pop()<br>Pop variables to earn entries in your Pocket Guide', '#fff', 'mouseover')">
-			<div class="progressI" id="levelBar"></div>
+		<div>
+			<div class="progressO" onmouseout="messageConsole.clear()" onmouseover="messageConsole.update('Progress Bar: pop()<br>Pop variables to earn entries in your Pocket Guide', '#fff', 'mouseover')">
+				<div class="progressI" id="levelBar"></div>
+			</div>
+			<svg class="progressIcon"><use x="0" y="0" xlink:href="#logo"/></svg>
 		</div>
 	</div>
 

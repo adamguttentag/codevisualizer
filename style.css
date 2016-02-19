@@ -91,6 +91,7 @@ body {
 	background-color: #333;
 	padding: 2px;
 	margin: 1px 0;
+	display: inline-block;
 }
 .progressI {
 	height: calc(100% - 2px);
@@ -327,6 +328,12 @@ em {
 }
 a {
 	color: skyblue;
+}
+.progressIcon {
+	height: 12px;
+	width: 12px;
+	margin-left: -11px;
+	margin-bottom: -2px;
 }
 @media print {
 
