@@ -232,6 +232,10 @@ var messages = [
 		'splice'
 	],
 ];
+
+//ovum pascha diripienda
+var ee = ['nkco knkcok','aWti , Inkwot ih sno.e..','vomup sahc aidiripnead','rTnalstadef or maLit:n" aEtsree ggs rcmalb.e "hWtaveret ah temna.s','vomup sahca','rTnalstadef or maLit:n" aEtsree gg".M su teba t py.o','umun sriereptrsu','rTnalstadef or maLit:n" nUidcsvoredef nutcoi.n "oWdnrew ah ttid eo.s','vee','awaaAAAAAAeleeee','simorohpcia glrotimhs','iB-oidigat laJzz ,am.n..','2r2d','ebpeb oo pebpe .ebpeb olpob ol plbee pobpo.','3cop',' Ies eoyrup iotn ,is.rI s guegtsa n wes rttage:yl tet ehW ooikeew ni.',' inkwoj lusev reen','O=W ah\'t sehl ki?e!','it cat cote','tSargn eagem .hT enoylw niingnm vo esin tot  olpya<.rbH>woa obtua n ci eagemo  fhcse?s','aetsregeg','hW yowlu dhtre eeba yno  fhtso eeher ?eLraingna dnf nua erm tuaull yxelcsuvi!e','ducatiy','hT eufutero  fdecutaoi.n','odcgwo','lCrasut ehd gooc wassyM oo!f'];
+
 /* TODO, add entries for:
 shift() popping from the bottom of the array
 unshift() pushing to the bottom of the array
@@ -240,33 +244,12 @@ join() converting the array to a string of values separated by a specified strin
 accessing by index with brackets fruits[0]= 'kiwi'
 deleting by index with brackets delete fruits[0]
 splice()
-
-
 */
-
-
 
 //create a Box class
 var Box = function(vLabel,cLabel) {
 	// create a group so we can animate this part of the SVG together
 	this.group = s.g();
-	// Clone the SVG digital flame... it's like "biodigital jazz, man."
-	// Set a new ID, to distinguish the clone from other clones.
-	this.glow = sGlow.clone().attr({id: 'glow' + arrayModel.boxNumber});
-	this.glow.node = sGlow.node.cloneNode(true);
-	sGlow.append(this.glow.node);
-	// resize the glow and line it up behind the box
-	this.glow.attr({
-		x: 3.9,
-		y: 5,
-		width: 32.3
-	});
-	this.wave = this.glow.select('#wave');
-	this.topOffset = this.glow.select('#topOffset');
-	this.shadowF = this.glow.filter(Snap.filter.shadow(-2, 0, 10,'#ff0'));
-	this.wave.attr({filter: this.shadowF});
-	this.glowAnimate = 0;
-	this.group.add(this.glow);
 
 	// create an array to store the six sides of the cube we generate in the for loop,
 	// drawing their geometry and fill colors from the boxPaths and boxGeometry arrays
@@ -328,55 +311,6 @@ var Box = function(vLabel,cLabel) {
 	this.group.animate({
 		opacity: 1
     }, (1000), mina.easeinout);
-	// hide the pv flame by default
-	this.group[0].node.style.visibility = 'hidden';
-	// turn pv animation on (1) or off (2)
-	this.pvOn = function() {
-		//console.log('pvOn');
-			this.group[0].node.style.visibility = 'visible';
-			this.glowAnimate = 1;
-			this.animWave();
-	};
-	this.pvOff = function() {
-		// console.log('pvOff');
-			this.group[0].node.style.visibility = 'hidden';
-			this.glowAnimate = 0;
-	};
-	var self = this;
-	this.animWave = function() {
-		self.wave.animate({
-			d: 'M103.5,98.5H0.5L0,2.2c0,0,1.3,47.3,32.8,47.3s31.3-90,70.7-25V98.5z',
-			}, (1000), mina.easeinout, self.animWave2);
-		self.topOffset.animate({
-			offset: 0.05,
-			}, (1000), mina.easeinout);
-	};
-	this.animWave2 = function() {
-		self.wave.animate({
-			d: 'M103.5,98.5H0.5v-64c0,0,20-34,51.5-34s5.5,73,51.5,24V98.5z',
-			}, (1000), mina.easeinout, self.animWave3);
-		self.topOffset.animate({
-			offset: 0,
-			}, (1000), mina.easeinout);
-	};
-	this.animWave3 = function() {
-		self.wave.animate({
-			d: 'M103,98.5H0v-74c0,0,25.2-55.7,48.8,7.3c12.6,33.6,52.4,21,54.8-29.7L103,98.5z',
-			}, (1000), mina.easeinout, self.animWave4);
-		self.topOffset.animate({
-			offset: 0.2,
-			}, (1000), mina.easeinout);
-	};
-	this.animWave4 = function() {
-		if (self.glowAnimate == 1) {
-			self.wave.animate({
-				d: 'M103.5,98.5H0.5v-64c0,0,20-34,51.5-34s5.5,73,51.5,24V98.5z',
-				}, (1000), mina.easeinout, self.animWave);
-			self.topOffset.animate({
-				offset: 0.35,
-				}, (1000), mina.easeinout);
-		}
-	};
 };
 
 // stores functions and references related to console messages
@@ -394,6 +328,10 @@ var messageConsole = {
 			setTimeout(messageConsole.clear, 10000);
 		} else if (type == 'alert') {
 			icon = '<svg style="height:12pt;width:12pt;margin:4px 3px -4 0;"><use x="0" y="0" xlink:href="#alerticon"/></svg>';
+			// no mouseOut event to clear the messageConsole, so clear after 10 seconds
+			setTimeout(messageConsole.clear, 10000);
+		} else if (type == 'ee') {
+			icon = '<svg style="height:12pt;width:12pt;margin:4px 3px -4 0;"><use x="0" y="0" xlink:href="#ee"/></svg>';
 			// no mouseOut event to clear the messageConsole, so clear after 10 seconds
 			setTimeout(messageConsole.clear, 10000);
 		}
@@ -537,7 +475,7 @@ var cmd = {
 				arrayModel.currentObject = ios[arrayModel.boxNumber];
 				// push the variable name into the pre-array portion of arrayModel so we know it's on the left side of the visual
 				arrayModel.pre.splice(arrayModel.openSlot, 1, arrayModel.var);
-				// push the variable name into the iosTable array (developed before the arrayModel, may deprecate/replace)
+				// push the variable name into the iosTable array
 				iosTable.push(arrayModel.var);
 				// increment the task in the messageBox if we just completed a task
 				messageBox.update('var');
@@ -607,6 +545,29 @@ var cmd = {
 				// update appropriate score and progress bar
 				score.update('pop',3.4);
 			}
+		}
+	},
+	ee : {
+		//ovum pascha
+		exec : function() {
+			arrayModel.var = cnsl.enteredValue.split(/\//)[2];
+			if (ee.indexOf(cmd.ee.unscramble(arrayModel.var)) > -1) {
+				messageConsole.update(cmd.ee.unscramble(ee[ee.indexOf(cmd.ee.unscramble(arrayModel.var)) + 1]), '#f6a926', 'ee');
+			}
+		},
+		//munus irrepertus
+		unscramble : function(thetext) {
+			var theOutput = '';
+			for (var i=0;i<thetext.length;i++) {
+ 				if (!thetext[i+1]) {
+ 					theOutput += thetext[i];
+ 				} else {
+ 					theOutput += thetext[i+1];
+ 					theOutput += thetext[i];
+ 				i++;
+ 				}
+			}
+			return theOutput;
 		}
 	},
 	undefine : {
@@ -688,24 +649,95 @@ var anim = {
 			});
 		}
 	},
+	flame: {
+		draw : function(x, y) {
+			console.log('x:' +x +'y:'+ y);
+			// use snap to create the vertical gradient (brief documentation of)
+			/*	Brief explanation of Snap gradient syntax follows:
+			 *	l indicates a linear gradient.
+			 *	Each hyphen-delimited string like this rgba(rrr,ggg,bbb,a):%% represents a color stop.
+			 *	r, g, and b are the values of red, green and blue between 0 and 255.
+			 *	a is the alpha channel, with 0 indicating transparent and 1 indicating opaque,
+			 *	or any decimal in between. The %% is the position of the each color stop as a percentage
+			 *	along the gradient. The first and last color stops are assumed to be 0 and 100 if unspecified.*/
+			pv.activeFlameGradientV = s.gradient('l(0,0,1,0)rgba(255,255,255,0.5)-rgba(136,136,136,0.5):02-rgba(136,136,136,0.5):25-rgba(255,255,255,0.8):50-rgba(136,136,136,0.5):75-rgba(136,136,136,0.5):98-rgba(255,255,255,0.5)');
+			// use snap to create the horizontal gradient
+			pv.activeFlameGradientH = s.gradient('l(0,0,0,1)rgba(0,0,0,0):100-rgba(255,255,255,1):100');
+			// use snap to create a rect with the horizontal gradient as fill
+			pv.activeFlameRect = s.rect(0, 0, 104, 99).attr({fill: pv.activeFlameGradientH});
+			// use snap to create a shadow filter that appears to glow because it's based on #ff0, not #000
+			pv.activeFlameShadow = s.filter(Snap.filter.shadow(-2, 0, 10,'#ff0'));
+			// use snap to create the path of the flame and position w/ vert gradient as fill and rect as mask
+			pv.activeFlame = s.path('M103.5,98.5H0.5v-64c0,0,20-34,51.5-34s5.5,73,51.5,24V98.5z').attr({id: 'wave', fill: pv.activeFlameGradientV, stroke: 'none', mask: pv.activeFlameRect, filter: pv.activeFlameShadow, transform: 'T' + x + ',' + y +'s0.311'});
+			// init flicker animation
+			anim.flame.flicker();
+			// animate the offset of the 1st color stop on the horiz gradient in the mask so the flame appears to rise on instantiation
+			pv.activeFlameGradientH.selectAll("*")[0].animate({offset: 0.75}, 1000);
+		},
+		flicker : function() {
+			console.log('flicker fired');
+			pv.activeFlameAnim = pv.activeFlame.animate({
+				d: 'M103.5,98.5H0.5L0,2.2c0,0,1.3,47.3,32.8,47.3s31.3-90,70.7-25V98.5z'
+				}, (1000), mina.easeinout, anim.flame.flicker2);
+			pv.activeFlameGradientAnim = pv.activeFlameGradientH.selectAll("*")[0].animate({
+				offset: 0.05
+				}, (1000), mina.easeinout);
+		},
+		flicker2 : function() {
+			console.log('flicker2 fired');
+			pv.activeFlameAnim = pv.activeFlame.animate({
+				d: 'M103.5,98.5H0.5v-64c0,0,20-34,51.5-34s5.5,73,51.5,24V98.5z'
+				}, (2000), mina.easeinout, anim.flame.flicker3);
+			pv.activeFlameGradientAnim = pv.activeFlameGradientH.selectAll("*")[0].animate({
+				offset: 0
+				}, (1000), mina.easeinout);
+		},
+		flicker3 : function() {
+			console.log('flicker3 fired');
+			pv.activeFlameAnim = pv.activeFlame.animate({
+				d: 'M103,98.5H0v-74c0,0,25.2-55.7,48.8,7.3c12.6,33.6,52.4,21,54.8-29.7L103,98.5z'
+				}, (1000), mina.easeinout, anim.flame.flicker4);
+			pv.activeFlameGradientAnim = pv.activeFlameGradientH.selectAll("*")[0].animate({
+				offset: 0.2
+				}, (1000), mina.easeinout);
+		},
+		flicker4 : function() {
+			console.log('flicker4 fired');
+			pv.activeFlameAnim = pv.activeFlame.animate({
+				d: 'M103.5,98.5H0.5v-64c0,0,20-34,51.5-34s5.5,73,51.5,24V98.5z'
+				}, (1000), mina.easeinout, anim.flame.flicker);
+			pv.activeFlameGradientAnim = pv.activeFlameGradientH.selectAll("*")[0].animate({
+				offset: 0.35
+				}, (1000), mina.easeinout);
+		},
+		stop : function() {
+			console.log('stop flame fired');
+			pv.activeFlameAnim.stop();
+			pv.activeFlameGradientAnim.stop();
+		}
+	},
 	line: {
 		draw : function(startX, startY, endX, endY) {
 			console.log('draw fired');
+			// draw the line from the object to itself (so we have two coordinates but no line yet)
 			pv.activeLine = s.path('M' + startX + ',' + startY + ' ' + startX + ',' + startY).attr({
 				stroke: '#ff0',
 				strokeDasharray: 2,
 				strokeWidth: 4,
 				opacity: 0
 			});
+			// change the second coordinates to the end point, so the line is drawn to it
 			pv.activeLine.animate({
 				d: 'M' + startX + ',' + startY + ' ' + endX + ',' + endY,
 				strokeWidth: 0.5,
 				opacity: 1
 			}, (300), mina.easeout);
+			// animate the dashArrayoffset loop
 			anim.line.crawl();
 		},
 		crawl : function() {
 			console.log('crawl fired');
+			// animate the dashArrayoffset loop, and call crawlRepeat after 2s
 			pv.activeLine.attr({strokeDashoffset: '100%'});
 			pv.activeLineAnim = pv.activeLine.animate({
 				strokeDashoffset: '90%',
@@ -714,6 +746,7 @@ var anim = {
 		},
 		crawlRepeat : function() {
 			console.log('crawl repeat fired');
+			// animate the dashArrayoffset loop, and call crawl after 2s
 			pv.activeLine.attr({strokeDashoffset: '100%'});
 			pv.activeLineAnim = pv.activeLine.animate({
 				strokeDashoffset: '90%',
@@ -721,7 +754,8 @@ var anim = {
 				}, (2000), mina.linear, anim.line.crawl);
 		},
 		stop : function() {
-			console.log('stop fired');
+			console.log('stop crawl fired');
+			// send stop animation signal to whichever line animation is active
 			pv.activeLineAnim.stop();
 		}
 	}
@@ -729,9 +763,10 @@ var anim = {
 
 // when the console box has focus and a key is pressed...
 function kd(evt) {
-	//console.dir(evt);
+	// store the value of the console box in cnsl.enteredValue
 	cnsl.enteredValue = cnsl.in.value;
-	// if the key pressed is the return/enter key...
+	// DETECT CERTAIN KEYPRESSES
+	// Enter key = command is being sent
 	if (evt.keyCode == 13) {
 		// clear PV visuals; they are invalid because the input box is changing
 		pv.clearVisuals();
@@ -746,18 +781,21 @@ function kd(evt) {
 		// handle arr.push() //pushing a value into the array
 		if (/arr\.push\(.*\)/.test(cnsl.enteredValue)) {
 			cmd.push.exec();
-
 		// handle _ = arr.pop() //popping a value out of the array and storing in a variable
 		} else if (/^[a-zA-Z\$_]* = arr\.pop\(\)/.test(cnsl.enteredValue)) {
 			cmd.pop.exec();
 		// handle var _ = '_' //creating a variable
 		} else if (/var .* = \'.*\'/.test(cnsl.enteredValue)) {
 			cmd.var.exec();
+		// handle var _ = undefined //'deleting' a variable from the visualization
 		} else if (/.* = undefined/.test(cnsl.enteredValue)) {
 			cmd.undefine.exec();
+		// ???
+		} else if (/^\/\//.test(cnsl.enteredValue)) {
+			cmd.ee.exec();
 		}
 	}
-	// up arrow scrolls back through history array
+	// Up Arrow key = scroll back through console history
 	if (evt.keyCode == 38) {
 		// clear PV visuals; they are invalid because the input box is changing
 		pv.clearVisuals();
@@ -779,7 +817,7 @@ function kd(evt) {
 			cnsl.hist.clearLabel();
 		}
 	}
-	// down arrow scrolls forward through history array
+	// Down Arrow key = scroll forward through console history
 	if (evt.keyCode == 40) {
 		// clear PV visuals; they are invalid because the input box is changing
 		pv.clearVisuals();
@@ -800,24 +838,32 @@ function kd(evt) {
 			// clear the input box label so it's clear we're not looking at data from our history
 			cnsl.hist.clearLabel();
 		}
-	// if user isn't sending a command or scrolling history, run PV tests
+	// Anything else = user still typing, run predictive visualization to guess user intent
 	} else {
-		// Predictive Visualization tests
-		// if a variable match is found
+		// user likely to send a PUSH command, highlight variable & draw line from it to array
 		if (/push\(.*\)/.test(cnsl.in.value)) {
-			// parse the variable name and pass it to pv.pushDetection
-			pv.pushDetection(cnsl.in.value.split(/[()]+/)[1]);
-		// if a pop match is found
+			// parse the variable name and task
+			pv.parsedVariable = cnsl.in.value.split(/[()]+/)[1];
+			pv.parsedTask = 'push';
+			// check to see if the variable and task are current
+			pv.checkActives(pv.parsedVariable, pv.parsedTask);
+		// user likely to send a POP command, highlight variable & draw line from it to post openslot
 		} else if (/^[a-zA-Z\$_]* = arr/.test(cnsl.in.value)) {
-			// parse the variable name and pass it to pv.popDetection
-			pv.popDetection(cnsl.in.value.split(/ [=]+/)[0]);
-		// if a variable match is found
+			//pv.parsedVariable = cnsl.in.value.split(/ [=]+/)[0];
+			pv.parsedVariable = arrayModel.in.length;
+			pv.parsedTask = 'pop';
+			// check to see if the variable and task are current
+			pv.checkActives(pv.parsedVariable, pv.parsedTask);
+		// user likely to send a VAR command, highlight variable
 		} else if (/var .* =.*/.test(cnsl.in.value)) {
-			// parse the variable name and pass it to pv.varDetection
-			pv.varDetection(cnsl.in.value.split(/var|[=\']+/)[1].trim());
-		// if no PV matches are found
+			pv.parsedVariable = cnsl.in.value.split(/var|[=\']+/)[1].trim();
+			pv.parsedTask = 'var';
+			console.log(pv.parsedVariable, pv.parsedTask);
+			// check to see if the variable and task are current
+			pv.checkActives(pv.parsedVariable, pv.parsedTask);
+		// no clear intent detected
 		} else {
-			// clear PV visuals
+			// clear pv because nothing matched
 			pv.clearVisuals();
 		}
 	}
@@ -1002,89 +1048,99 @@ var guide = {
 };
 
 // Predictive Visualization object
-// contains functions specific to the PV features of the app
+// contains functions and variables specific to the PV features of the app
 var pv = {
 	// cleans up any active PVs
 	clearVisuals : function() {
-		// console.log('clearVisual fired');
-		if (pv.activeObject.length > 0) {
-			// console.log('clearVisuals fired');
-			// [0] is the variable name,
-			// [1] is the type of visual,
-			// [2][3] are DOM references to the visual(s)
-			if ((pv.activeObject[1] === 'push') || (pv.activeObject[1] === 'pop')) {
-				pv.pushOff(pv.activeObject[2]);
-				pv.activeObject = [];
-				pv.activeLine = '';
-			} else if (pv.activeObject[1] === 'var') {
-				pv.variableOff(pv.activeObject[2]);
-				pv.activeObject = [];
-			}
+		console.log('clearVisual fired: checking for active task');
+		// only fire if there is an active pv task
+		if (pv.activeObject[1]) {
+			// loop through active PVs and turn them off
+			/*for (var i=0;i < pv.activeObject.length;i+=2) {
+				pv[(pv.activeObject[i+1] + 'Off')]();
+			}*/
+			// call function that turns off pv for this task
+			pv[(pv.activeObject[1] + 'Off')]();
+			// reset active object to
+			pv.activeObject = ['', ''];
 		}
 	},
-	varDetection : function(variable) {
-		// console.log('var detection fired with variable: ' + variable);
-		// filter out empty variables
-		if (variable.length > 0) {
-			// console.log('pv.activeObject.length: ' + pv.activeObject.length);
-			// if variable is the current active object, change nothing
-			if (variable === pv.activeObject[0]) {
-			// filter out variables that don't exist in the visualization
-			} else if (iosTable.indexOf(variable) > -1) {
-				// turn on animation for the variable's object
-				pv.variableOn(ios[iosTable.indexOf(variable)]);
-				// label this object as the currently-active PV
-				pv.activeObject = [variable,'var',ios[iosTable.indexOf(variable)]];
-				// console.log('object found in ios at index: ' + iosTable.indexOf(variable));
-			} else {
-				pv.clearVisuals();
-			// console.log('pv cleared because variable not found in ios');
-			}
-		// clear visuals
-		} else {
+	// Check to see if the variable exists and matches the current active PV.
+	// It serves as gatekeeper for PV to filter out false positives and limit work
+	// done on each keystroke unless there really is a need to generate a new PV.
+	checkActives : function(variable, task) {
+		console.log('checkActives fired: old var "' + pv.activeObject[0] + '" new var "' + variable + '" old task "' + pv.activeObject[1] +'" new task "' + task + '"');
+		// if the variable or task are not the currently active pv, replace with new pv
+		if ((pv.activeObject[0] !== variable) || (pv.activeObject[1] !== task)) {
+			console.log('variable or task is not already running');
+			// clear the old pv since it is no longer active
 			pv.clearVisuals();
-			// console.log('cleared visuals because variable length 0 or pv.activeObject.length greater than 0');
-		}
-	},
-	pushDetection : function(variable) {
-		// console.log('push detection fired with variable: ' + variable);
-		// if there isn't already an active PV event
-		if (pv.activeObject.length < 1) {
-			// console.log('pv.activeObject.length: ' + pv.activeObject.length);
+			// if the new variable exists in iosTable
 			if (iosTable.indexOf(variable) > -1) {
-				pv.variableOn(ios[iosTable.indexOf(variable)]);
-				pv.pushOn(ios[iosTable.indexOf(variable)]);
-				// pv.pushOff();
-				pv.activeObject = ['var',ios[iosTable.indexOf(variable)],pv.activeLine];
-				// console.log('object found in ios at index: ' + iosTable.indexOf(variable));
+			console.log('variable exists in iosTable');
+				console.log('variable ' + variable + ' and task ' + task + ' are new and exist in iosTable. Now resetting pv.activeObject and calling pv.' + task + 'On()');
+				// set activeObject to the new variable and task
+				pv.activeObject = [variable, task];
+				// call function that turns on pv for this task; pass in the variable object
+				pv[(task + 'On')](ios[iosTable.indexOf(variable)]);
 			}
 		}
 	},
-	activeObject : [],
+	parsedVariable : '',
+	parsedTask : '',
+	activeObject : ['', ''],
 	activeLine : '',
 	activeLineAnim : '',
-	variableOn : function(object) {
-		object.pvOn();
+	activeFlame : '',
+	activeFlameAnim : '',
+	activeFlameGradientAnim : '',
+	activeFlameGradientH : '',
+	activeFlameGradientV : '',
+	activeFlameRect : '',
+	activeFlameShadow : '',
+	activeFlamePath : '',
+	varOn : function(object) {
+		// call flame.draw and pass coordinates
+		anim.flame.draw(object.boxX-32, object.boxY+55.1);
 	},
-	variableOff : function(object) {
-		object.pvOff();
+	varOff : function(object) {
+		// stop the animation
+		pv.activeFlameAnim.stop();
+		// remove the flame
+		pv.activeFlame.remove();
 	},
 	pushOn : function(object) {
+		// call flame.draw and pass coordinates
+		anim.flame.draw(object.boxX-32, object.boxY+55.1);
+		// call line.draw and pass coordinates
 		anim.line.draw(object.boxX+20, object.boxY+130, 80, 100);
 	},
 	pushOff : function(object) {
+		// stop the line animation
 		anim.line.stop();
+		// remove the line
 		pv.activeLine.remove();
+		// stop the flame animation
+		pv.activeFlameAnim.stop();
+		// remove the flame
+		pv.activeFlame.remove();
 	},
 	popOn : function(object) {
-		pv.activeLine = s.line(80,100,(object.boxX+20),(object.boxY+130)).attr({stroke:'#ff0',strokeDasharray:0.5,strokeWidth:0.5});
-		pv.activeLine.node.style.transition = 'all 10s ease';
-		pv.activeLine.node.style.strokeDashoffset = 0;
-		pv.activeLine.node.style.strokeDashoffset = -25;
+		// call flame.draw and pass coordinates
+		anim.flame.draw(object.boxX-32, object.boxY+55.1);
+		// call line.draw and pass coordinates
+		anim.line.draw(object.boxX+20, object.boxY+130, 120, 100);
 	},
 	popOff : function(object) {
-		//pv.activeLine.remove();
-	}
+		// stop the line animation
+		anim.line.stop();
+		// remove the line
+		pv.activeLine.remove();
+		// stop the flame animation
+		pv.activeFlameAnim.stop();
+		// remove the flame
+		pv.activeFlame.remove();
+	},
 };
 
 // Code Sample: Countdown Functionality
