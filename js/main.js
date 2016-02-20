@@ -234,7 +234,7 @@ var messages = [
 ];
 
 //ovum pascha diripienda
-var ee = ['nkco knkcok','aWti , Inkwot ih sno.e..','vomup sahc aidiripnead','rTnalstadef or maLit:n" aEtsree ggs rcmalb.e "hWtaveret ah temna.s','vomup sahca','rTnalstadef or maLit:n" aEtsree gg".M su teba t py.o','umun sriereptrsu','rTnalstadef or maLit:n" nUidcsvoredef nutcoi.n "oWdnrew ah ttid eo.s','vee','awaaAAAAAAeleeee','simorohpcia glrotimhs','iB-oidigat laJzz ,am.n..','2r2d','ebpeb oo pebpe .ebpeb olpob ol plbee pobpo.','3cop',' Ies eoyrup iotn ,is.rI s guegtsa n wes rttage:yl tet ehW ooikeew ni.',' inkwoj lusev reen','O=W ah\'t sehl ki?e!','it cat cote','tSargn eagem .hT enoylw niingnm vo esin tot  olpya<.rbH>woa obtua n ci eagemo  fhcse?s','aetsregeg','hW yowlu dhtre eeba yno  fhtso eeher ?eLraingna dnf nua erm tuaull yxelcsuvi!e','ducatiy','hT eufutero  fdecutaoi.n','odcgwo','lCrasut ehd gooc wassyM oo!f'];
+var ee = ['nkco knkcok','aWti , Inkwot ih sno.e..','vomup sahc aidiripnead','rTnalstadef or maLit:n" aEtsree ggs rcmalb.e "hWtaveret ah temna.s','vomup sahca','rTnalstadef or maLit:n" aEtsree gg".M su teba t py.o','umun sriereptrsu','rTnalstadef or maLit:n" nUidcsvoredef nutcoi.n "oWdnrew ah ttid eo.s','vee','awaaAAAAAAeleeee','simorohpcia glrotimhs','iB-oidigat laJzz ,am.n..','2r2d','ebpeb oo pebpe .ebpeb olpob ol plbee pobpo.','3cop',' Ies eoyrup iotn ,is.rI s guegtsa n wes rttage:yl tet ehW ooik ew ni.',' inkwoj lusev reen','O=W ah\'t sehl ki?e!','it cat cote','tSargn eagem .hT enoylw niingnm vo esin tot  olpya<.rbH>woa obtua n ci eagemo  fhcse?s','aetsregeg','hW yowlu dhtre eeba yno  fhtso eeher ?eLraingna dnf nua erm tuaull yxelcsuvi!e','ducatiy','hT eufutero  fdecutaoi.n','odcgwo','lCrasut ehd gooc wassyM oo!f'];
 
 /* TODO, add entries for:
 shift() popping from the bottom of the array
@@ -1113,7 +1113,7 @@ var pv = {
 		// call flame.draw and pass coordinates
 		anim.flame.draw(object.boxX-32, object.boxY+55.1);
 		// call line.draw and pass coordinates
-		anim.line.draw(object.boxX+20, object.boxY+130, 80, 100);
+		anim.line.draw(object.boxX+20, object.boxY+130, 80, (-20*(arrayModel.in.length -1)+110)); //was 80/100
 	},
 	pushOff : function(object) {
 		// stop the line animation
