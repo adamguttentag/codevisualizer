@@ -37,6 +37,19 @@ var arrayModel = {
 				onmouseover: 'messageConsole.update(\'An object in array "arr" at index <em>' + arrayModel.currentObject.iName.node.innerHTML + '</em> containing the string <em>' + arrayModel.currentObject.cName.node.innerHTML + '</em>\', \'#fff\', \'mouseover\')'
 			});
 		}
+	},
+	// reset the mouseover attribute of the object to reflect the new variable
+	objectContentReplace : function(variable, content, color) {
+		// display a message alerting user that they're replacing the content, not adding a new variable
+		messageConsole.update('Variable <em>' + arrayModel.var + '</em> already in use. Replacing content (<em>' + ios[iosTable.indexOf(arrayModel.var)].cName.node.innerHTML + '</em>) of existing variable with your new content (<em>' + cmd.var.content + '</em>).', 'yellow', 'alert');
+		// update the visible label of the object
+		ios[iosTable.indexOf(arrayModel.var)].cName.node.innerHTML = content;
+		// change the color of the label
+		ios[iosTable.indexOf(variable)].cName.attr({fill: color});
+		// animate the color of the label to off-white with a bounce timing function
+		ios[iosTable.indexOf(variable)].cName.animate({fill: '#f1f2f2'},2000, mina.bounce);
+		// redefine the object's mouseover function to reflect the new content
+		ios[iosTable.indexOf(arrayModel.var)].group.attr({onmouseover: 'messageConsole.update(\'A variable named <em>' + variable + '</em> containing the string <em>' + content + '</em>\', \'#fff\', \'mouseover\')'});
 	}
 };
 
@@ -248,7 +261,7 @@ var messages = [
 ];
 
 //ovum pascha diripienda
-var ee = ['nkco knkcok','aWti , Inkwot ih sno.e..','vomup sahc aidiripnead','rTnalstadef or maLit:n" aEtsree ggs rcmalb.e "hWtaveret ah temna.s','vomup sahca','rTnalstadef or maLit:n" aEtsree gg".M su teba t py.o','umun sriereptrsu','rTnalstadef or maLit:n" nUidcsvoredef nutcoi.n "oWdnrew ah ttid eo.s','vee','awaaAAAAAAeleeee','simorohpcia glrotimhs','iB-oidigat laJzz ,am.n..','2r2d','ebpeb oo pebpe .ebpeb olpob ol plbee pobpo.','3cop',' Ies eoyrup iotn ,is.rI s guegtsa n wes rttage:yl tet ehW ooik ew ni.',' inkwoj lusev reen','O=W ah\'t sehl ki?e!','it cat cote','tSargn eagem .hT enoylw niingnm vo esin tot  olpya<.rbH>woa obtua n ci eagemo  fhcse?s','√','nOecP ilpa aotdlu  sbauo triaritnolan muebsra—dnI r memeeb roh w Ircei,dI b ae tymf sisto  nht eatlb ena dablwde :I"d  oon tawtn√ 1- !aTeki  tuo tfom ,et ih s-√!1<"rb(> Aocpmturet aehcni gamhti  nW",e "ht eabnnden volet ah tnipsride1 89)4','aetsregeg','hW yowlu dhtre eeba yno  fhtso eeher ?eLraingna dnf nua erm tuaull yxelcsuvi!e','ducatiy','hT eufutero  fdecutaoi.n','odcgwo','lCrasut ehd gooc wassyM oo!f'];
+var ee = ['nkco knkcok','aWti , Inkwot ih sno.e..','vomup sahc aidiripnead','rTnalstadef or maLit:n" aEtsree ggs rcmalb.e "hWtaveret ah temna.s','vomup sahca','rTnalstadef or maLit:n" aEtsree gg".M su teba t py.o','umun sriereptrsu','rTnalstadef or maLit:n" nUidcsvoredef nutcoi.n "oWdnrew ah ttid eo.s','vee','awaaAAAAAAeleeee','simorohpcia glrotimhs','iB-oidigat laJzz ,am.n..','2r2d','ebpeb oo pebpe .ebpeb olpob ol plbee pobpo.','3cop',' Ies eoyrup iotn ,is.rI s guegtsa n wes rttage:yl tet ehW ooik ew ni.',' inkwoj lusev reen','O=W ah\'t sehl ki?e!','it cat cote','tSargn eagem .hT enoylw niingnm vo esin tot  olpya<.rbH>woa obtua n ci eagemo  fhcse?s','√','nI1 29 0eYgvne yaZymtaniw oreta d syotipnan volet ah talet rnipsrideO wrle,lV noenug tna dopssbiylH xuel.yI  nhcpaet r 8 aocpmturet aehcses utedtn sbauo triaritnolan muebsr ,na dht ecserma sfo"  Iodn tow na t-√!1T ka etio tuo  fem ,htsi√ 1-"!t uahg tht euahtroo  fhtsia ppt ah tdecutaoi nsit eha tro  famikgnt ehi rrtaoian laritnola.','aetsregeg','hW yowlu dhtre eeba yno  fhtso eeher ?eLraingna dnf nua erm tuaull yxelcsuvi!e','ducatiy','hT eufutero  fdecutaoi.n','odcgwo','lCrasut ehd gooc wassyM oo!f'];
 
 /* TODO, add entries for:
 shift() popping from the bottom of the array
@@ -444,16 +457,6 @@ var messageBox = {
 var cmd = {
 	var : {
 		content : '',
-		cNameUpdate : function(variable, content, color) {
-			// update the visible label of the object
-			ios[iosTable.indexOf(arrayModel.var)].cName.node.innerHTML = content;
-			// change the color of the label
-			ios[iosTable.indexOf(variable)].cName.attr({fill: color});
-			// animate the color of the label to off-white with a bounce timing function
-			ios[iosTable.indexOf(variable)].cName.animate({fill: '#f1f2f2'},2000, mina.bounce);
-			// redefine the object's mouseover function to reflect the new content
-			ios[iosTable.indexOf(arrayModel.var)].group.attr({onmouseover: 'messageConsole.update(\'A variable named <em>' + variable + '</em> containing the string <em>' + content + '</em>\', \'#fff\', \'mouseover\')'});
-		},
 		exec : function() {
 			arrayModel.var = cnsl.enteredValue.split(/var|[=\']+/)[1].trim();
 			cmd.var.content = cnsl.enteredValue.split(/var|[=\']+/)[3];
@@ -463,8 +466,7 @@ var cmd = {
 			// Block variable creation if variable name already in use to avoid duplicates.
 			// Replace content of existing variable object and alert user.
 			} else if (iosTable.indexOf(arrayModel.var) > -1) {
-				messageConsole.update('Variable <em>' + arrayModel.var + '</em> already in use. Replacing content (<em>' + ios[iosTable.indexOf(arrayModel.var)].cName.node.innerHTML + '</em>) of existing variable with your new content, <em>' + cmd.var.content + '</em>.', 'yellow', 'alert');
-				cmd.var.cNameUpdate(arrayModel.var, cmd.var.content, 'skyblue');
+				arrayModel.objectContentReplace(arrayModel.var, cmd.var.content, 'skyblue');
 			// Block variables that start with illegal characters.
 			// The first ^ matches the beginning of the string, but the second ^ negates
 			// the pattern, so any character not in that set matches and triggers this.
@@ -539,6 +541,11 @@ var cmd = {
 			} else {
 				// parse the variable name
 				arrayModel.var = cnsl.enteredValue.split(/ [=]+/)[0];
+				// if variable name already exists, undefine it so this can take its place
+				if (iosTable.indexOf(arrayModel.var) > -1) {
+					cmd.undefine.exec();
+					messageConsole.update('Variable ' + arrayModel.var + ' already in use. It will be replaced by the object you are popping out of the array.', 'yellow', 'alert');
+				}
 				// delete indicated variable from arrayModel.in (an empty slot would interfere with push emulation)
 				arrayModel.in.pop();
 				// look up the index of object in iosTable, and use that index to set it as the currentObject
@@ -619,6 +626,7 @@ var cmd = {
 			ios.splice(loc,1);
 			// remove the reference to the object from iosTable
 			iosTable.splice(loc,1);
+			messageConsole.update('Variable ' + arrayModel.var + ' undefined. It\'s gone. That <i>is</i> what you meant to do, right?.', 'yellow', 'alert');
 		}
 	}
 };
