@@ -23,6 +23,20 @@ var arrayModel = {
 		console.log(arrayModel.pre);
 		console.log(arrayModel.in);
 		console.log(arrayModel.post);
+	},
+	// reset the mouseover attribute of the object to reflect the new variable
+	objectRename : function() {
+		// if object does not have an index assigned, update mouseover label to reflect variable
+		if (!arrayModel.currentObject.iName.node.innerHTML) {
+			arrayModel.currentObject.group.attr({
+				onmouseover: 'messageConsole.update(\'A variable named <em>' + arrayModel.var + '</em> containing the string <em>' + arrayModel.currentObject.cName.node.innerHTML + '</em>\', \'#fff\', \'mouseover\')'
+			});
+		// else update mouseover label to reflect the index
+		} else {
+			arrayModel.currentObject.group.attr({
+				onmouseover: 'messageConsole.update(\'An object in array "arr" at index <em>' + arrayModel.currentObject.iName.node.innerHTML + '</em> containing the string <em>' + arrayModel.currentObject.cName.node.innerHTML + '</em>\', \'#fff\', \'mouseover\')'
+			});
+		}
 	}
 };
 
@@ -629,6 +643,8 @@ var anim = {
 			// note: possibly also available: .attr({'#text':'new text'})
 			// todo: test and compare them to see if one has a performance advantage
 			arrayModel.currentObject.iName.node.innerHTML = '[' + (arrayModel.in.length -1) + ']';
+			// reset the mouseover attribute of the object to reflect the new index
+			arrayModel.objectRename();
 		},
 	},
 	pop : {
@@ -649,9 +665,7 @@ var anim = {
 			// change the variable label of this object
 			arrayModel.currentObject.vName.node.innerHTML = arrayModel.var;
 			// reset the mouseover attribute of the object to reflect the new variable
-			arrayModel.currentObject.group.attr({
-				onmouseover: 'messageConsole.update(\'A variable named <em>' + arrayModel.var + '</em> containing the string <em>' + arrayModel.currentObject.cName.node.innerHTML + '</em>\', \'#fff\', \'mouseover\')'
-			});
+			arrayModel.objectRename();
 		},
 	},
 	flame: {
