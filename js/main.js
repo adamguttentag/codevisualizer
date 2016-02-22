@@ -234,7 +234,7 @@ var messages = [
 ];
 
 //ovum pascha diripienda
-var ee = ['nkco knkcok','aWti , Inkwot ih sno.e..','vomup sahc aidiripnead','rTnalstadef or maLit:n" aEtsree ggs rcmalb.e "hWtaveret ah temna.s','vomup sahca','rTnalstadef or maLit:n" aEtsree gg".M su teba t py.o','umun sriereptrsu','rTnalstadef or maLit:n" nUidcsvoredef nutcoi.n "oWdnrew ah ttid eo.s','vee','awaaAAAAAAeleeee','simorohpcia glrotimhs','iB-oidigat laJzz ,am.n..','2r2d','ebpeb oo pebpe .ebpeb olpob ol plbee pobpo.','3cop',' Ies eoyrup iotn ,is.rI s guegtsa n wes rttage:yl tet ehW ooik ew ni.',' inkwoj lusev reen','O=W ah\'t sehl ki?e!','it cat cote','tSargn eagem .hT enoylw niingnm vo esin tot  olpya<.rbH>woa obtua n ci eagemo  fhcse?s','√','i<p>il-alpaip-il-astshsh<hi/<>rb"> Iodn tow na t-√!1T ka etio tuo  fem ,htsi√ 1-"!','aetsregeg','hW yowlu dhtre eeba yno  fhtso eeher ?eLraingna dnf nua erm tuaull yxelcsuvi!e','ducatiy','hT eufutero  fdecutaoi.n','odcgwo','lCrasut ehd gooc wassyM oo!f'];
+var ee = ['nkco knkcok','aWti , Inkwot ih sno.e..','vomup sahc aidiripnead','rTnalstadef or maLit:n" aEtsree ggs rcmalb.e "hWtaveret ah temna.s','vomup sahca','rTnalstadef or maLit:n" aEtsree gg".M su teba t py.o','umun sriereptrsu','rTnalstadef or maLit:n" nUidcsvoredef nutcoi.n "oWdnrew ah ttid eo.s','vee','awaaAAAAAAeleeee','simorohpcia glrotimhs','iB-oidigat laJzz ,am.n..','2r2d','ebpeb oo pebpe .ebpeb olpob ol plbee pobpo.','3cop',' Ies eoyrup iotn ,is.rI s guegtsa n wes rttage:yl tet ehW ooik ew ni.',' inkwoj lusev reen','O=W ah\'t sehl ki?e!','it cat cote','tSargn eagem .hT enoylw niingnm vo esin tot  olpya<.rbH>woa obtua n ci eagemo  fhcse?s','√','nOecP ilpa aotdlu  sbauo triaritnolan muebsra—dnI r memeeb roh w Ircei,dI b ae tymf sisto  nht eatlb ena dablwde :I"d  oon tawtn√ 1- !aTeki  tuo tfom ,et ih s-√!1<"rb(> Aocpmturet aehcni gamhti  nW",e "ht eabnnden volet ah tnipsride1 89)4','aetsregeg','hW yowlu dhtre eeba yno  fhtso eeher ?eLraingna dnf nua erm tuaull yxelcsuvi!e','ducatiy','hT eufutero  fdecutaoi.n','odcgwo','lCrasut ehd gooc wassyM oo!f'];
 
 /* TODO, add entries for:
 shift() popping from the bottom of the array
@@ -525,16 +525,13 @@ var cmd = {
 			} else {
 				// parse the variable name
 				arrayModel.var = cnsl.enteredValue.split(/ [=]+/)[0];
-				// delete indicated variable from arrayModel.in (do not leave an empty slot, that would interfere with push emulation)
+				// delete indicated variable from arrayModel.in (an empty slot would interfere with push emulation)
 				arrayModel.in.pop();
 				// look up the index of object in iosTable, and use that index to set it as the currentObject
 				arrayModel.currentObject = ios[iosTable.indexOf(arrayModel.in.length)];
+				// find the first open slot in arrayModel.post
+				cmd.pop.findOpenSlot();
 				// push variable into arrayModel.post
-				if (arrayModel.post.indexOf('') > -1) {
-					arrayModel.openSlot = arrayModel.post.indexOf('');
-				} else {
-					arrayModel.openSlot = arrayModel.post.length;
-				}
 				arrayModel.post.splice(arrayModel.openSlot, 1, arrayModel.var);
 				// fire the pop animation (and change the variable label)
 				anim.pop.up();
@@ -544,6 +541,25 @@ var cmd = {
 				messageBox.update('pop');
 				// update appropriate score and progress bar
 				score.update('pop',3.4);
+			}
+		},
+		findOpenSlot : function() {
+			// find the index of the first open slot in arrayModel.post
+			if (arrayModel.post.indexOf('') > -1) {
+				arrayModel.openSlot = arrayModel.post.indexOf('');
+			} else {
+				arrayModel.openSlot = arrayModel.post.length;
+			}
+			// based on the slot's index, determine its coordinates
+			if (arrayModel.openSlot > 5) {
+				arrayModel.xOffset = 100;
+				arrayModel.yOffset = arrayModel.openSlot-6;
+			} else if (arrayModel.openSlot > 2) {
+				arrayModel.xOffset = 50;
+				arrayModel.yOffset = arrayModel.openSlot-3;
+			} else {
+				arrayModel.xOffset = 0;
+				arrayModel.yOffset = arrayModel.openSlot;
 			}
 		}
 	},
@@ -626,17 +642,6 @@ var anim = {
 		out : function() {
 			// clear the array index label of this object
 			arrayModel.currentObject.iName.node.innerHTML = '';
-			// determine placement of object in an open slot
-			if (arrayModel.openSlot > 5) {
-				arrayModel.xOffset = 100;
-				arrayModel.yOffset = arrayModel.openSlot-6;
-			} else if (arrayModel.openSlot > 2) {
-				arrayModel.xOffset = 50;
-				arrayModel.yOffset = arrayModel.openSlot-3;
-			} else {
-				arrayModel.xOffset = 0;
-				arrayModel.yOffset = arrayModel.openSlot;
-			}
 			// move the object to the open slot
 			arrayModel.currentObject.group.animate({
 				transform: 't' + (120+arrayModel.xOffset) + ','+(-40*(arrayModel.yOffset))
@@ -647,7 +652,7 @@ var anim = {
 			arrayModel.currentObject.group.attr({
 				onmouseover: 'messageConsole.update(\'A variable named <em>' + arrayModel.var + '</em> containing the string <em>' + arrayModel.currentObject.cName.node.innerHTML + '</em>\', \'#fff\', \'mouseover\')'
 			});
-		}
+		},
 	},
 	flame: {
 		draw : function(x, y) {
@@ -1129,11 +1134,12 @@ var pv = {
 		// call flame.draw and pass coordinates
 		console.log(object);
 		console.log('flame init at ' + object.boxX+28 + ' ' + object.boxY+55.1);
-		anim.flame.draw(object.boxX+28, object.boxY+55.1);
+		anim.flame.draw(28, (55-((arrayModel.in.length -1)*20)));
+		// find the first open slot in arrayModel.post (dest coordinates of the line)
+		cmd.pop.findOpenSlot();
 		// call line.draw and pass coordinates
 		// TODO calculate column based first openslot '' in arraymodel.post
-		console.log('flame init from ' + 80 + ' ' + (object.boxY+130) + ' to ' + (140+arrayModel.xOffset) + ' ' + (-40 * arrayModel.yOffset + 140));
-		anim.line.draw(80, (object.boxY+130-((arrayModel.in.length -1)*20)), (140+arrayModel.xOffset), (-40 * arrayModel.yOffset + 130)); //each col is 60px
+		anim.line.draw(80, (130-((arrayModel.in.length -1)*20)), (140+arrayModel.xOffset), (-40 * arrayModel.yOffset + 130));
 	},
 	popOff : function(object) {
 		// stop the line animation
