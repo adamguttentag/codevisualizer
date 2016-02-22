@@ -234,7 +234,7 @@ var messages = [
 ];
 
 //ovum pascha diripienda
-var ee = ['nkco knkcok','aWti , Inkwot ih sno.e..','vomup sahc aidiripnead','rTnalstadef or maLit:n" aEtsree ggs rcmalb.e "hWtaveret ah temna.s','vomup sahca','rTnalstadef or maLit:n" aEtsree gg".M su teba t py.o','umun sriereptrsu','rTnalstadef or maLit:n" nUidcsvoredef nutcoi.n "oWdnrew ah ttid eo.s','vee','awaaAAAAAAeleeee','simorohpcia glrotimhs','iB-oidigat laJzz ,am.n..','2r2d','ebpeb oo pebpe .ebpeb olpob ol plbee pobpo.','3cop',' Ies eoyrup iotn ,is.rI s guegtsa n wes rttage:yl tet ehW ooik ew ni.',' inkwoj lusev reen','O=W ah\'t sehl ki?e!','it cat cote','tSargn eagem .hT enoylw niingnm vo esin tot  olpya<.rbH>woa obtua n ci eagemo  fhcse?s','aetsregeg','hW yowlu dhtre eeba yno  fhtso eeher ?eLraingna dnf nua erm tuaull yxelcsuvi!e','ducatiy','hT eufutero  fdecutaoi.n','odcgwo','lCrasut ehd gooc wassyM oo!f'];
+var ee = ['nkco knkcok','aWti , Inkwot ih sno.e..','vomup sahc aidiripnead','rTnalstadef or maLit:n" aEtsree ggs rcmalb.e "hWtaveret ah temna.s','vomup sahca','rTnalstadef or maLit:n" aEtsree gg".M su teba t py.o','umun sriereptrsu','rTnalstadef or maLit:n" nUidcsvoredef nutcoi.n "oWdnrew ah ttid eo.s','vee','awaaAAAAAAeleeee','simorohpcia glrotimhs','iB-oidigat laJzz ,am.n..','2r2d','ebpeb oo pebpe .ebpeb olpob ol plbee pobpo.','3cop',' Ies eoyrup iotn ,is.rI s guegtsa n wes rttage:yl tet ehW ooik ew ni.',' inkwoj lusev reen','O=W ah\'t sehl ki?e!','it cat cote','tSargn eagem .hT enoylw niingnm vo esin tot  olpya<.rbH>woa obtua n ci eagemo  fhcse?s','√','i<p>il-alpaip-il-astshsh<hi/<>rb"> Iodn tow na t-√!1T ka etio tuo  fem ,htsi√ 1-"!','aetsregeg','hW yowlu dhtre eeba yno  fhtso eeher ?eLraingna dnf nua erm tuaull yxelcsuvi!e','ducatiy','hT eufutero  fdecutaoi.n','odcgwo','lCrasut ehd gooc wassyM oo!f'];
 
 /* TODO, add entries for:
 shift() popping from the bottom of the array
@@ -461,7 +461,7 @@ var cmd = {
 			} else {
 				// increment arrayModel.boxNumber
 				arrayModel.boxNumber += 1;
-				console.log('boxNumber=' + arrayModel.boxNumber);
+				//console.log('boxNumber=' + arrayModel.boxNumber);
 				// if a previously-used spot exists on the board, fill it
 				if (arrayModel.pre.indexOf('') > -1) {
 					arrayModel.openSlot = arrayModel.pre.indexOf('');
@@ -651,7 +651,7 @@ var anim = {
 	},
 	flame: {
 		draw : function(x, y) {
-			console.log('x:' +x +'y:'+ y);
+			console.log('flame drawing at x:' +x +'y:'+ y);
 			// use snap to create the vertical gradient (brief documentation of)
 			/*	Brief explanation of Snap gradient syntax follows:
 			 *	l indicates a linear gradient.
@@ -847,10 +847,10 @@ function kd(evt) {
 			pv.parsedTask = 'push';
 			// check to see if the variable and task are current
 			pv.checkActives(pv.parsedVariable, pv.parsedTask);
-		// user likely to send a POP command, highlight variable & draw line from it to post openslot
+		// user likely to send a POP command, highlight variable & draw line from it to openslot
 		} else if (/^[a-zA-Z\$_]* = arr/.test(cnsl.in.value)) {
 			//pv.parsedVariable = cnsl.in.value.split(/ [=]+/)[0];
-			pv.parsedVariable = arrayModel.in.length;
+			pv.parsedVariable = arrayModel.in.length -1;
 			pv.parsedTask = 'pop';
 			// check to see if the variable and task are current
 			pv.checkActives(pv.parsedVariable, pv.parsedTask);
@@ -1127,9 +1127,13 @@ var pv = {
 	},
 	popOn : function(object) {
 		// call flame.draw and pass coordinates
-		anim.flame.draw(object.boxX-32, object.boxY+55.1);
+		console.log(object);
+		console.log('flame init at ' + object.boxX+28 + ' ' + object.boxY+55.1);
+		anim.flame.draw(object.boxX+28, object.boxY+55.1);
 		// call line.draw and pass coordinates
-		anim.line.draw(object.boxX+20, object.boxY+130, 120, 100);
+		// TODO calculate column based first openslot '' in arraymodel.post
+		console.log('flame init from ' + 80 + ' ' + (object.boxY+130) + ' to ' + (140+arrayModel.xOffset) + ' ' + (-40 * arrayModel.yOffset + 140));
+		anim.line.draw(80, (object.boxY+130-((arrayModel.in.length -1)*20)), (140+arrayModel.xOffset), (-40 * arrayModel.yOffset + 130)); //each col is 60px
 	},
 	popOff : function(object) {
 		// stop the line animation
