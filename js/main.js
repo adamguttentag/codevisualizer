@@ -134,7 +134,7 @@ var score = {
 		// show points earned by the object
 		setTimeout(anim.points, 200, newValue, color);
 		// increment score by the amount to be added
-		score.tasks[selectedScore].score += newValue;
+		score.tasks[selectedScore].score += Number(newValue);
 		// update displayed score in progress bar
 		score.tasks[selectedScore].bar.innerHTML = score.tasks[selectedScore].name[score.tasks[selectedScore].level] + ' [' + score.tasks[selectedScore].score + '/' + score.tasks[selectedScore].goal[score.tasks[selectedScore].level] + ']';
 		// if the user reaches their goal for the selected score...
@@ -177,9 +177,24 @@ var score = {
 			score.progressbarAnimate(selectedScore);
 		}
 	},
-	progressbarAnimate : function (selectedScore) {
+	progressbarAnimate : function(selectedScore) {
 		// set width of progress bar to the percentage of the goal represented by the current score
 		score.tasks[selectedScore].bar.style.width = ((score.tasks[selectedScore].score / score.tasks[selectedScore].goal[score.tasks[selectedScore].level]) * 100) + '%';
+	},
+	randomizer : function(baseScore) {
+		// Randomly add or subtract an amount no greater than 10% to or from the base score.
+		// This breaks the monotony of a fixed reward and create anticipation.
+
+		// I once had an unpleasant, repetitive task I needed employees to perform, so I created
+		// a very simple JavaScript game that rewarded them with a random piece of candy every 10th
+		// time they performed it (and kept the candies displayed until the end of their shift when
+		// they could collect them), but they had a slim chance of winning a small candy bar instead.
+		// Over the course of a month, the group's performance of this task improved 18%.
+		// It was too difficult to earn at first... people were frustrated chasing after the candy bar
+		// when they had a 1-2% chance of winning, but at 30% it was no longer novel. They seemed most
+		// motivated to chase after that candy bar at 8%. This is different, but I think 10% up or down,
+		// or maybe 5%, is in the right ballpark to create enough motivational anticipation for the task.
+		return (1+(Math.random()*(0.21)-0.1)*baseScore + baseScore).toFixed(0);
 	}
 
 };
@@ -503,7 +518,7 @@ var cmd = {
 				// increment the task in the messageBox if we just completed a task
 				messageBox.update('var');
 				// update appropriate score and progress bar
-				score.update('var', 34, '#def7ff');
+				score.update('var', score.randomizer(30), '#def7ff');
 			}
 		}
 	},
@@ -535,7 +550,7 @@ var cmd = {
 				// increment the task in the messageBox if we just completed a task
 				messageBox.update('push');
 				// update appropriate score and progress bar
-				score.update('push', 40, 'red');
+				score.update('push', score.randomizer(33), 'red');
 			}
 		}
 	},
@@ -568,7 +583,7 @@ var cmd = {
 				// increment the task in the messageBox if we just completed a task
 				messageBox.update('pop');
 				// update appropriate score and progress bar
-				score.update('pop', 44, 'lime');
+				score.update('pop', score.randomizer(35), 'lime');
 			}
 		},
 		findOpenSlot : function() {
