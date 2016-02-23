@@ -40,7 +40,11 @@ The console saves your history, just like the browser's JavaScript console or a 
 
 ![Screenshot](https://github.com/adamguttentag/codevisualizer/blob/master/img/clutter.jpg)
 
-To temporarily slide the message box out of your way, click or tap on it. You can always bring it back into view by clicking or tapping on the tab that remains visible. It will always slide back out when it has new information for you.
+To temporarily slide the message box out of your way, click or tap on it. You can bring it back into view by clicking or tapping on the tab that remains visible. It will always slide back out when it has new information for you.
+
+![Screenshot](https://github.com/adamguttentag/codevisualizer/blob/master/img/undefine.jpg)
+
+Have too many variables on the screen? You can't really delete a variable, but you can undefine it. If you want to make variable a go away, type `a = undefined` in the console. A tear will form in the fabric of space-time, consume the variable and seal itself up. It may be a slightly extreme workaround, but it works.
 
 ### Errors
 

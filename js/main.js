@@ -7,6 +7,7 @@ if ((navigator.userAgent.indexOf('Safari') > -1) && (navigator.userAgent.indexOf
 	document.body.style.backgroundImage = "url('img/bokeh_safari.jpg')";
 }
 
+
 // an object containing 3 arrays representing what variables are inside the array, and which are on either side of it. This is useful for keeping track of where everything is so our visible model acts like a real array
 var arrayModel = {
 	pre : [],
@@ -81,12 +82,12 @@ var settings = {
 	},
 	variableLimitToggle : function(toggle) {
 		if (toggle === 'on') {
-			settings.variableLimit = 7;
+			settings.variableLimit = 8;
 		} else {
 			settings.variableLimit = 1000;
 		}
 	},
-	variableLimit : 7
+	variableLimit : 8
 };
 
 var help = {
@@ -484,7 +485,7 @@ var cmd = {
 			arrayModel.var = cnsl.enteredValue.split(/var|[=\']+/)[1].trim();
 			cmd.var.content = cnsl.enteredValue.split(/var|[=\']+/)[3];
 			// Block variables after 9 are already created (can be disabled in settings)
-			if (arrayModel.boxNumber > settings.variableLimit) {
+			if (ios.length > settings.variableLimit) {
 				messageConsole.update('This demo is limited to 9 variables due to screen space limitations.', 'yellow', 'alert');
 			// Block variable creation if variable name already in use to avoid duplicates.
 			// Replace content of existing variable object and alert user.
@@ -633,22 +634,20 @@ var cmd = {
 		exec : function() {
 			// parse the variable name, and remove the var prefix if it exists
 			arrayModel.var = cnsl.enteredValue.split(/ [=]+/)[0].replace('var ','');
-			//locate variable in arrayModel.pre to free up its slot for new variables
-			if (arrayModel.pre.indexOf(arrayModel.var) > -1) {
-				arrayModel.pre.splice(arrayModel.pre.indexOf(arrayModel.var),1,'');
-			// otherwise it's in .post, so free up its slot there
+			// throw an error message if user tries to undefine a nonexistent variable
+			if (iosTable.indexOf(arrayModel.var) == -1) {
+				messageConsole.update('Sorry, I can\'t find a variable named <em>' + arrayModel.var + '</em>', 'red', 'error');
 			} else {
-				arrayModel.post.splice(arrayModel.post.indexOf(arrayModel.var),1,'');
+				//locate variable in arrayModel.pre to free up its slot for new variables
+				if (arrayModel.pre.indexOf(arrayModel.var) > -1) {
+					arrayModel.pre.splice(arrayModel.pre.indexOf(arrayModel.var),1,'');
+				// otherwise it's in .post, so free up its slot there
+				} else {
+					arrayModel.post.splice(arrayModel.post.indexOf(arrayModel.var),1,'');
+				}
+				// run disposal animation
+				anim.porthole.appear();
 			}
-			// track object location in ios and iosTable
-			loc = iosTable.indexOf(arrayModel.var);
-			// remove the visual of the variable from the SVG
-			ios[loc].group.remove();
-			// remove the object from the instantiated objects array
-			ios.splice(loc,1);
-			// remove the reference to the object from iosTable
-			iosTable.splice(loc,1);
-			messageConsole.update('Variable ' + arrayModel.var + ' undefined. It\'s gone. That <i>is</i> what you meant to do, right?.', 'yellow', 'alert');
 		}
 	}
 };
@@ -811,6 +810,61 @@ var anim = {
 			opacity : 0,
 			transform : 't0,-10',
 		}, 2500, mina.backin);
+	},
+	porthole: {
+		draw : function(x, y) {
+			console.log('portholedraw fired');
+			// use snap to create a shadow filter
+			pv.portholeFilter = s.filter(Snap.filter.shadow(-2, 0, 10,'#000'));
+			// use snap to create a the path for the porthole mask (shows #fff areas, hides #000 areas)
+			pv.portholeMask = s.path('M433,356.5c0,0,0-236.5,0-295.5S383.5,0.5,383.5,0.5H217H50.5C50.5,0.5,1,2,1,61s0,295.5,0,295.5s-9.5,58,55,58s161,0,161,0s96.5,0,161,0C442.5,414.5,433,356.5,433,356.5z').attr({
+				fill : '#fff'
+			});
+			// use snap to create a the path for the porthole hole
+			pv.portholeHole = s.path('M433,356.5c0,0,0-236.5,0-295.5S383.5,0.5,383.5,0.5H217H50.5C50.5,0.5,1,2,1,61s0,295.5,0,295.5s-9.5,58,55,58s161,0,161,0s96.5,0,161,0C442.5,414.5,433,356.5,433,356.5z').attr({
+				fill : '#000'
+			});
+			// use snap to create a the path for the porthole cover, using the mask
+			pv.portholeCover = s.path('M433,356.5c0,0,0-236.5,0-295.5S383.5,0.5,383.5,0.5H217H50.5C50.5,0.5,1,2,1,61s0,295.5,0,295.5s-9.5,58,55,58s161,0,161,0s96.5,0,161,0C442.5,414.5,433,356.5,433,356.5z').attr({
+				mask : pv.portholeMask,
+				fill : '#92ce84',
+				opacity : 1,
+				transform : ''
+			});
+			pv.porthole = s.g(pv.portholeFilter, pv.portholeHole, pv.portholeCover).attr({
+				transform : 'T-197,-80s0.085',
+				opacity : 0
+			});
+			// init flicker animation
+			//anim.flame.flicker();
+		},
+		appear : function() {
+			pv.porthole.animate({
+				opacity:1
+			}, (300), mina.linear, anim.porthole.open);
+		},
+		open : function() {
+			pv.portholeCover.animate({transform:'T0,400'},400, mina.easeout, anim.porthole.dispose);
+		},
+		dispose : function() {
+			//sucks object visual off the screen like a vacuum cleaner
+			ios[iosTable.indexOf(arrayModel.var)].group.animate({transform:'s0,20,120'},500, mina.easein, anim.porthole.close);
+		},
+		close : function() {
+			pv.portholeCover.animate({transform:'T0,0'},400, mina.easeout, anim.porthole.disappear);
+		},
+		disappear : function() {
+			pv.porthole.animate({opacity:0},300);
+			// track object location in ios and iosTable
+			loc = iosTable.indexOf(arrayModel.var);
+			// remove the visual of the variable from the SVG
+			ios[loc].group.remove();
+
+			// remove the object from the instantiated objects array
+			ios.splice(loc,1);
+			// remove the reference to the object from iosTable
+			iosTable.splice(loc,1);
+		}
 	}
 };
 
@@ -970,8 +1024,8 @@ function animWave4 () {
 
 window.onload = function () {
 	window.s = Snap("#sandbox");
-	runFlag = 1;
-	animWave1();
+	// draw a transparent hole in the background first so it's behind everything else
+	anim.porthole.draw(0,0);
 
 	messageBox.update();
 	score.tasks.var.bar.innerHTML = score.tasks.var.name[0];
