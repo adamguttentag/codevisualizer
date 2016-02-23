@@ -176,7 +176,7 @@ An example of how to easily reuse an SVG that exists somewhere else in the page
 
 <div class="console">
 	Console: <label for="console"></label><br>
-	<input id="console" onkeyup="kd(event)"><br>
+	<input id="console" autocorrect="off" onkeyup="kd(event)"><br>
 	<div id="messageConsole"></div>
 </div>
 
@@ -243,7 +243,7 @@ An example of how to easily reuse an SVG that exists somewhere else in the page
 <div id="settings">
 	<div style="text-align: right;"><svg onclick="settings.hide()" id="settingsClose" viewBox="0 0 10 10"><path stroke="#fff" stroke-width="0.5" d="M0,0 10,10 M0,10 10,0"/></svg></div>
 	<h2>Settings</h2>
-	Background Image URL: <input id="bgImgUrl" value="img/bokeh.svg" onchange="settings.background()">
+	Background Image URL: <input id="bgImgUrl" value="img/bokeh.svg" autocorrect="off" onchange="settings.background()">
 	Limit to 9 Variables:
 	<select onchange="settings.variableLimitToggle.call(this, value)">
 		<option value="on">on</option>
