@@ -19,11 +19,6 @@ var arrayModel = {
 	openSlot : 0,
 	xOffset : 0,
 	yOffset : 0,
-	debug : function() {
-		console.log(arrayModel.pre);
-		console.log(arrayModel.in);
-		console.log(arrayModel.post);
-	},
 	// reset the mouseover attribute of the object to reflect the new variable
 	objectRename : function() {
 		// if object does not have an index assigned, update mouseover label to reflect variable
@@ -112,7 +107,7 @@ var score = {
 			name : ['var definition','var syntax','var compatibility',''],
 			score : 0,
 			level : 0,
-			goal : [10, 10, 10, 1000],
+			goal : [100, 100, 100, 1000],
 			bar : document.getElementById('skillBar'),
 			contentIndex : 0
 		},
@@ -120,7 +115,7 @@ var score = {
 			name : ['push() definition','push() syntax','push() compatibility'],
 			score : 0,
 			level : 0,
-			goal : [10, 10, 10, 1000],
+			goal : [100, 100, 100, 1000],
 			bar : document.getElementById('taskBar'),
 			contentIndex : 2
 		},
@@ -128,16 +123,20 @@ var score = {
 			name : ['pop() definition','pop() syntax','pop() compatibility'],
 			score : 0,
 			level : 0,
-			goal : [10, 10, 10, 1000],
+			goal : [100, 100, 100, 1000],
 			bar : document.getElementById('levelBar'),
 			contentIndex : 4
 		}
 	},
 	levelledUp : '',
 	currTaskLevel : '',
-	update : function(selectedScore, newValue) {
+	update : function(selectedScore, newValue, color) {
+		// show points earned by the object
+		setTimeout(anim.points, 200, newValue, color);
 		// increment score by the amount to be added
 		score.tasks[selectedScore].score += newValue;
+		// update displayed score in progress bar
+		score.tasks[selectedScore].bar.innerHTML = score.tasks[selectedScore].name[score.tasks[selectedScore].level] + ' [' + score.tasks[selectedScore].score + '/' + score.tasks[selectedScore].goal[score.tasks[selectedScore].level] + ']';
 		// if the user reaches their goal for the selected score...
 		if (score.tasks[selectedScore].score >= score.tasks[selectedScore].goal[score.tasks[selectedScore].level]) {
 			// store selectedScore in score.levelledUp so it will be available outside this scope
@@ -309,6 +308,15 @@ var Box = function(vLabel,cLabel) {
 	});
 	this.group.add(this.iName);
 
+	// add a blank label for points awarded
+	this.points = s.text(14, 112, '').attr({
+		fill : 'none',
+		fontFamily : 'helvetica',
+		fontSize : 8,
+		opacity: 0
+	});
+	this.group.add(this.points);
+
 	// add a label for the content
 	this.cName = s.text(22, 136, cLabel).attr({
 		fill : '#f1f2f2',
@@ -477,7 +485,6 @@ var cmd = {
 			} else {
 				// increment arrayModel.boxNumber
 				arrayModel.boxNumber += 1;
-				//console.log('boxNumber=' + arrayModel.boxNumber);
 				// if a previously-used spot exists on the board, fill it
 				if (arrayModel.pre.indexOf('') > -1) {
 					arrayModel.openSlot = arrayModel.pre.indexOf('');
@@ -496,7 +503,7 @@ var cmd = {
 				// increment the task in the messageBox if we just completed a task
 				messageBox.update('var');
 				// update appropriate score and progress bar
-				score.update('var',3.4);
+				score.update('var', 34, '#def7ff');
 			}
 		}
 	},
@@ -528,7 +535,7 @@ var cmd = {
 				// increment the task in the messageBox if we just completed a task
 				messageBox.update('push');
 				// update appropriate score and progress bar
-				score.update('push',3.4);
+				score.update('push', 40, 'red');
 			}
 		}
 	},
@@ -561,7 +568,7 @@ var cmd = {
 				// increment the task in the messageBox if we just completed a task
 				messageBox.update('pop');
 				// update appropriate score and progress bar
-				score.update('pop',3.4);
+				score.update('pop', 44, 'lime');
 			}
 		},
 		findOpenSlot : function() {
@@ -678,7 +685,6 @@ var anim = {
 	},
 	flame: {
 		draw : function(x, y) {
-			console.log('flame drawing at x:' +x +'y:'+ y);
 			// use snap to create the vertical gradient (brief documentation of)
 			/*	Brief explanation of Snap gradient syntax follows:
 			 *	l indicates a linear gradient.
@@ -702,7 +708,6 @@ var anim = {
 			pv.activeFlameGradientH.selectAll("*")[0].animate({offset: 0.75}, 1000);
 		},
 		flicker : function() {
-			console.log('flicker fired');
 			pv.activeFlameAnim = pv.activeFlame.animate({
 				d: 'M103.5,98.5H0.5L0,2.2c0,0,1.3,47.3,32.8,47.3s31.3-90,70.7-25V98.5z'
 				}, (1000), mina.easeinout, anim.flame.flicker2);
@@ -711,7 +716,6 @@ var anim = {
 				}, (1000), mina.easeinout);
 		},
 		flicker2 : function() {
-			console.log('flicker2 fired');
 			pv.activeFlameAnim = pv.activeFlame.animate({
 				d: 'M103.5,98.5H0.5v-64c0,0,20-34,51.5-34s5.5,73,51.5,24V98.5z'
 				}, (2000), mina.easeinout, anim.flame.flicker3);
@@ -720,7 +724,6 @@ var anim = {
 				}, (1000), mina.easeinout);
 		},
 		flicker3 : function() {
-			console.log('flicker3 fired');
 			pv.activeFlameAnim = pv.activeFlame.animate({
 				d: 'M103,98.5H0v-74c0,0,25.2-55.7,48.8,7.3c12.6,33.6,52.4,21,54.8-29.7L103,98.5z'
 				}, (1000), mina.easeinout, anim.flame.flicker4);
@@ -729,7 +732,6 @@ var anim = {
 				}, (1000), mina.easeinout);
 		},
 		flicker4 : function() {
-			console.log('flicker4 fired');
 			pv.activeFlameAnim = pv.activeFlame.animate({
 				d: 'M103.5,98.5H0.5v-64c0,0,20-34,51.5-34s5.5,73,51.5,24V98.5z'
 				}, (1000), mina.easeinout, anim.flame.flicker);
@@ -738,14 +740,12 @@ var anim = {
 				}, (1000), mina.easeinout);
 		},
 		stop : function() {
-			console.log('stop flame fired');
 			pv.activeFlameAnim.stop();
 			pv.activeFlameGradientAnim.stop();
 		}
 	},
 	line: {
 		draw : function(startX, startY, endX, endY) {
-			console.log('draw fired');
 			// draw the line from the object to itself (so we have two coordinates but no line yet)
 			pv.activeLine = s.path('M' + startX + ',' + startY + ' ' + startX + ',' + startY).attr({
 				stroke: '#ff0',
@@ -763,7 +763,6 @@ var anim = {
 			anim.line.crawl();
 		},
 		crawl : function() {
-			console.log('crawl fired');
 			// animate the dashArrayoffset loop, and call crawlRepeat after 2s
 			pv.activeLine.attr({strokeDashoffset: '100%'});
 			pv.activeLineAnim = pv.activeLine.animate({
@@ -772,7 +771,6 @@ var anim = {
 				}, (2000), mina.linear, anim.line.crawlRepeat);
 		},
 		crawlRepeat : function() {
-			console.log('crawl repeat fired');
 			// animate the dashArrayoffset loop, and call crawl after 2s
 			pv.activeLine.attr({strokeDashoffset: '100%'});
 			pv.activeLineAnim = pv.activeLine.animate({
@@ -781,10 +779,23 @@ var anim = {
 				}, (2000), mina.linear, anim.line.crawl);
 		},
 		stop : function() {
-			console.log('stop crawl fired');
 			// send stop animation signal to whichever line animation is active
 			pv.activeLineAnim.stop();
 		}
+	},
+	points : function(pointValue, color) {
+		// set the points label to the passed pointValue
+		arrayModel.currentObject.points.node.innerHTML = pointValue;
+		// set label color based on the color of the associated progressbar
+		arrayModel.currentObject.points.attr({
+			fill : color,
+			opacity : 1
+		});
+		// animate the opacity to fade out and transform to drift up
+		arrayModel.currentObject.points.animate({
+			opacity : 0,
+			transform : 't0,-10',
+		}, 2500, mina.backin);
 	}
 };
 
@@ -885,7 +896,6 @@ function kd(evt) {
 		} else if (/var .* =.*/.test(cnsl.in.value)) {
 			pv.parsedVariable = cnsl.in.value.split(/var|[=\']+/)[1].trim();
 			pv.parsedTask = 'var';
-			console.log(pv.parsedVariable, pv.parsedTask);
 			// check to see if the variable and task are current
 			pv.checkActives(pv.parsedVariable, pv.parsedTask);
 		// no clear intent detected
@@ -964,8 +974,8 @@ var levelup = {
 		levelup.slot.innerHTML = content;
 		levelup.modal.style.opacity = 0.8;
 		levelup.toolIcon.style.visibility = 'visible';
-		setTimeout(levelup.acquireTool, 3000);
-		setTimeout(levelup.hide, 6000);
+		setTimeout(levelup.acquireTool, 2000);
+		setTimeout(levelup.hide, 4000);
 	},
 	acquireTool : function() {
 		levelup.toolIcon.style.transform = 'scale(0)';
@@ -973,13 +983,13 @@ var levelup = {
 		levelup.toolIcon.style.right = 0;
 	},
 	hide : function() {
-		levelup.modal.style.transition = 'opacity 3s, visibility 4s';
+		levelup.modal.style.transition = 'opacity 1s, visibility 2s';
 		levelup.modal.style.opacity = 0;
 		levelup.modal.style.visibility = 'hidden';
 		// update and animate progress bar to empty its container
 		score.progressbarAnimate(score.levelledUp);
 		// change the name of the progress bar to indicate the new goal
-		score.tasks[score.levelledUp].bar.innerHTML = score.tasks[score.levelledUp].name[score.tasks[score.levelledUp].level];
+		score.tasks[score.levelledUp].bar.innerHTML = score.tasks[score.levelledUp].name[score.tasks[score.levelledUp].level] + ' [' + score.tasks[score.levelledUp].score + '/' + score.tasks[score.levelledUp].goal[score.tasks[score.levelledUp].level] + ']';
 		// reset tool icon to initial state
 		levelup.toolIcon.style.visibility = 'hidden';
 		levelup.toolIcon.style.transform = 'scale(1)';
@@ -1051,6 +1061,7 @@ var guide = {
 	content : {
 		// an array of entries for var in the order they are added
 		// NOTE: since we reference an external SVG file in these entries, the <image> tag is required, as the <use> tag seen elsewhere in this code can only reference SVG fragments, not entire external files. Basically, within an SVG file, use <image> to pull in an entire file from somewhere else, or <use> to pull in a fragment of an SVG file locally or externally.
+		// TODO: build the HTML for these pages dynamically.  Once I've settled on the structure and types of content in the guide I'll go back and refactor this, but for now it's easier to tinker with static code.
 		var : [
 			'<h2>var</h2>Declare a new local variable<svg class="guideIllustration"><image width="100%" height="100%" x="0" y="0" xlink:href="img/var.svg"/></svg><br><br>',
 			'<code>var identifier = value</code><br><br>The var statement declares a variable in its current scope. Never declare a variable without var.<br><br>The identifier can contain digits, letters, $, or _, but may not start with a digit.<br><br>The value can be any legal expression, like a string, number, array, object, function, etc.',
@@ -1079,13 +1090,8 @@ var guide = {
 var pv = {
 	// cleans up any active PVs
 	clearVisuals : function() {
-		console.log('clearVisual fired: checking for active task');
 		// only fire if there is an active pv task
 		if (pv.activeObject[1]) {
-			// loop through active PVs and turn them off
-			/*for (var i=0;i < pv.activeObject.length;i+=2) {
-				pv[(pv.activeObject[i+1] + 'Off')]();
-			}*/
 			// call function that turns off pv for this task
 			pv[(pv.activeObject[1] + 'Off')]();
 			// reset active object to
@@ -1096,16 +1102,12 @@ var pv = {
 	// It serves as gatekeeper for PV to filter out false positives and limit work
 	// done on each keystroke unless there really is a need to generate a new PV.
 	checkActives : function(variable, task) {
-		console.log('checkActives fired: old var "' + pv.activeObject[0] + '" new var "' + variable + '" old task "' + pv.activeObject[1] +'" new task "' + task + '"');
 		// if the variable or task are not the currently active pv, replace with new pv
 		if ((pv.activeObject[0] !== variable) || (pv.activeObject[1] !== task)) {
-			console.log('variable or task is not already running');
 			// clear the old pv since it is no longer active
 			pv.clearVisuals();
 			// if the new variable exists in iosTable
 			if (iosTable.indexOf(variable) > -1) {
-			console.log('variable exists in iosTable');
-				console.log('variable ' + variable + ' and task ' + task + ' are new and exist in iosTable. Now resetting pv.activeObject and calling pv.' + task + 'On()');
 				// set activeObject to the new variable and task
 				pv.activeObject = [variable, task];
 				// call function that turns on pv for this task; pass in the variable object
@@ -1154,8 +1156,6 @@ var pv = {
 	},
 	popOn : function(object) {
 		// call flame.draw and pass coordinates
-		console.log(object);
-		console.log('flame init at ' + object.boxX+28 + ' ' + object.boxY+55.1);
 		anim.flame.draw(28, (55-((arrayModel.in.length -1)*20)));
 		// find the first open slot in arrayModel.post (dest coordinates of the line)
 		cmd.pop.findOpenSlot();
@@ -1174,20 +1174,3 @@ var pv = {
 		pv.activeFlame.remove();
 	},
 };
-
-// Code Sample: Countdown Functionality
-// If a visual countdown followed by a callback is needed,
-// this could do the trick. Perhaps for a timed exercise.
-// This is a little-known feature of Snap. Saving it here
-// during development in case I decide to use it later.
-/*
-var theCallback = function () { alert('done'); };
-function countdown(label, seconds) {
-	var t = s.text(50,50,0);
-	Snap.animate(seconds, 0, function (value) {
-	    t.attr({
-	    	text: label + Math.round(value)
-	    });
-	}, (seconds*1000), theCallback);
-}
-*/
