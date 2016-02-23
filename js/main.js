@@ -975,82 +975,51 @@ function kd(evt) {
 	}
 }
 
-window.sGlow = Snap("#glow");
-var wave = Snap.select('#wave');
-var vertical_grad = Snap.select('#vertical_grad');
-var topOffset = Snap.select('#topOffset');
-var shadowF = sGlow.filter(Snap.filter.shadow(-2, 0, 10,'#ff0'));
-var runFlag = 0;
-
-wave.attr({
-	filter: shadowF
-	});
-
-function animWave1 () {
-	if (runFlag == 1) {
-		wave.animate({
-			d: 'M103.5,98.5H0.5L0,2.2c0,0,1.3,47.3,32.8,47.3s31.3-90,70.7-25V98.5z'
-			}, (1000), mina.easeinout, animWave2);
-		topOffset.animate({
-			offset: 0.05,
-			}, (1000), mina.easeinout);
-	}
-}
-function animWave2 () {
-	wave.animate({
-		d: 'M103.5,98.5H0.5v-64c0,0,20-34,51.5-34s5.5,73,51.5,24V98.5z',
-		}, (1000), mina.easeinout, animWave3);
-	topOffset.animate({
-		offset: 0,
-		}, (1000), mina.easeinout);
-}
-function animWave3 () {
-	wave.animate({
-		d: 'M103,98.5H0v-74c0,0,25.2-55.7,48.8,7.3c12.6,33.6,52.4,21,54.8-29.7L103,98.5z',
-		}, (1000), mina.easeinout, animWave4);
-	topOffset.animate({
-		offset: 0.2,
-		}, (1000), mina.easeinout);
-}
-function animWave4 () {
-	wave.animate({
-		d: 'M103.5,98.5H0.5v-64c0,0,20-34,51.5-34s5.5,73,51.5,24V98.5z',
-		}, (1000), mina.easeinout, animWave1);
-	topOffset.animate({
-		offset: 0.35,
-		}, (1000), mina.easeinout);
-}
-
-
+// init: things to do when the window loads
 window.onload = function () {
+	// enable snap to access the main SVG sandbox area
 	window.s = Snap("#sandbox");
-	// draw a transparent hole in the background first so it's behind everything else
+	// draw a transparent hole in the background before instantiating any boxes
+	// so it appears to be behind them (SVG layers are determined by instantiation
+	// order, not z-index like CSS)
 	anim.porthole.draw(0,0);
-
+	// load the first task and slide the messageBox in
 	messageBox.update();
+	// set the labels of the progress bars to their task categories
 	score.tasks.var.bar.innerHTML = score.tasks.var.name[0];
 	score.tasks.push.bar.innerHTML = score.tasks.push.name[0];
 	score.tasks.pop.bar.innerHTML = score.tasks.pop.name[0];
 };
 
+// an object containing functions and variables pertaining to level up events
 var levelup = {
+	// set a reference to the level up modal div
 	modal : document.getElementById('levelup'),
+	// set a reference to the container for level up message content
 	slot : document.getElementById('levelupSlot'),
+	// set a reference to the tool icon, animates when new guide entries are made
 	toolIcon : document.getElementById('tool'),
+	// show the level up modal
 	show : function(content) {
 		levelup.modal.style.visibility = 'visible';
 		levelup.modal.style.transition = 'opacity 1s, visibility 0s';
 		levelup.slot.innerHTML = content;
 		levelup.modal.style.opacity = 0.8;
 		levelup.toolIcon.style.visibility = 'visible';
+		// animate the tool icon after 2 seconds
 		setTimeout(levelup.acquireTool, 2000);
+		// hide the modal window after 4 seconds
 		setTimeout(levelup.hide, 4000);
 	},
+	// animate the tool icon
 	acquireTool : function() {
+		// scale the tool icon to 0 so it appears to vanish
 		levelup.toolIcon.style.transform = 'scale(0)';
+		// translate the icon to the bottom right corner, indicating the guide
 		levelup.toolIcon.style.bottom = 0;
 		levelup.toolIcon.style.right = 0;
 	},
+	// hide the level up modal, reset tool icon position, update scores
 	hide : function() {
 		levelup.modal.style.transition = 'opacity 1s, visibility 2s';
 		levelup.modal.style.opacity = 0;
@@ -1067,16 +1036,21 @@ var levelup = {
 	},
 };
 
+// an object containing functions and variables pertaining to the about box
 var about = {
+	// set a reference to the about modal
 	modal : document.getElementById('about'),
+	// show the about modal
 	show : function(content) {
 		about.modal.style.visibility = 'visible';
 	},
+	// hide the about modal
 	hide : function() {
 		about.modal.style.visibility = 'hidden';
 	}
 };
 
+// an object containing functions and variables pertaining to the guide
 var guide = {
 	// reference to the guide modal div
 	modal : document.getElementById('guide'),
