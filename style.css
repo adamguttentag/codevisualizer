@@ -32,12 +32,10 @@ body {
     left: -30vw;
     top: 5vw;
 	width: 25vw;
-
 	color: #fff;
 	font: 10pt arial, courier;
 	opacity: 0.7;
 	transition: left 0.5s ease;
-
 }
 .messageBox:hover {
 	border-color: #666;
@@ -85,7 +83,7 @@ body {
     overflow-y: scroll;
 }
 .progressO {
-	width: 400px;
+	width: 40vw;
 	height: 10px;
 	border-radius: 12px;
 	background-color: #333;
@@ -335,6 +333,71 @@ a {
 	margin-left: -11px;
 	margin-bottom: -2px;
 }
-@media print {
 
+@media screen and (max-width: 375px) {
+	body {
+		background-size: auto 100vh;
+	}
+	.messageBox {
+		border-width: 1px 1px 1px 0;
+		padding: 2px;
+		font: 8pt arial, courier;
+	}
+	code {
+		border: none;
+		font-size: 8pt;
+		padding: 1px 1px;
+	}
+	#logo {
+	    height: 3vh;
+	}
+	#sandbox {
+		width: 90vw;
+	}
+	.console {
+		border-width: 2px;
+		padding: 2px;
+		width: 90vw;
+		font-size: 8pt;
+	}
+	#about, #help, #settings {
+		width: 90vw;
+		font-size: 8pt;
+	}
+}
+
+@media screen and (min-width: 376px) and (max-width: 800px) {
+	body {
+		background-size: auto 100vh;
+	}
+	.messageBox {
+		border-width: 1px 1px 1px 0;
+		padding: 4px;
+		font: 9pt arial, courier;
+	}
+	code {
+		border: none;
+		font-size: 9pt;
+		padding: 1px 1px;
+	}
+	#logo {
+	    height: 5vh;
+	}
+	#sandbox {
+		width: 90vw;
+	}
+	.console {
+		border-width: 4px;
+		padding: 4px;
+		width: 90vw;
+		font-size: 9pt;
+	}
+	#about, #help, #settings {
+		width: 90vw;
+		font-size: 9pt;
+	}
+}
+
+
+@media print {
 }

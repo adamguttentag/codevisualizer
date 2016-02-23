@@ -456,7 +456,7 @@ var messageBox = {
 	},
 	// minimizes the messageBox so it is out of the way, but still displays enough to be restored onclick
 	min : function() {
-		messageBox.box.style.left = '-26vw';
+		messageBox.box.style.left = '-23vw';
 	},
 	// shows the messageBox and replaces its contents
 	show : function() {
@@ -951,6 +951,7 @@ function kd(evt) {
 		if (/push\(.*\)/.test(cnsl.in.value)) {
 			// parse the variable name and task
 			pv.parsedVariable = cnsl.in.value.split(/[()]+/)[1];
+			// set parsed task value so other functions know what we detected here
 			pv.parsedTask = 'push';
 			// check to see if the variable and task are current
 			pv.checkActives(pv.parsedVariable, pv.parsedTask);
@@ -958,12 +959,14 @@ function kd(evt) {
 		} else if (/^[a-zA-Z\$_]* = arr/.test(cnsl.in.value)) {
 			//pv.parsedVariable = cnsl.in.value.split(/ [=]+/)[0];
 			pv.parsedVariable = arrayModel.in.length -1;
+			// set parsed task value so other functions know what we detected here
 			pv.parsedTask = 'pop';
 			// check to see if the variable and task are current
 			pv.checkActives(pv.parsedVariable, pv.parsedTask);
 		// user likely to send a VAR command, highlight variable
 		} else if (/var .* =.*/.test(cnsl.in.value)) {
 			pv.parsedVariable = cnsl.in.value.split(/var|[=\']+/)[1].trim();
+			// set parsed task value so other functions know what we detected here
 			pv.parsedTask = 'var';
 			// check to see if the variable and task are current
 			pv.checkActives(pv.parsedVariable, pv.parsedTask);
