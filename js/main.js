@@ -8,17 +8,27 @@ if ((navigator.userAgent.indexOf('Safari') > -1) && (navigator.userAgent.indexOf
 }
 
 
-// an object containing 3 arrays representing what variables are inside the array, and which are on either side of it. This is useful for keeping track of where everything is so our visible model acts like a real array
+// an object containing 3 arrays representing what variables are inside the array, and which are on either side of it. This is useful for tracking the locations of variables whether they are inside or outside the visual array.
 var arrayModel = {
+	// contains variables that are to the left of the array
 	pre : [],
+	// contains variables that are inside the array
 	in : [],
+	// contains variables that are to the right of the array
 	post : [],
+	// increments with each new box so it can have its own unique serial number
 	boxNumber : -1,
+	// various functions will store and share a reference to their working object here
 	currentObject : '',
+	// various functions will store and share the working variable name here
 	var : '',
+	// flag indicating thether the working object is in pre or post
 	currentLocation : '',
+	// indicates the index of the next open slot in an array. Usually equals array.length-1, but it may be a different value if a variable is undefined and removed from the model so the next new variable can take its place.
 	openSlot : 0,
+	// indicates x offset of a variable so additional columns may be created
 	xOffset : 0,
+	// indicates y offset of a variable so additional rows may be created
 	yOffset : 0,
 	// reset the mouseover attribute of the object to reflect the new variable
 	objectRename : function() {
@@ -49,7 +59,9 @@ var arrayModel = {
 	}
 };
 
+// an object containing functions and variables pertaining to the settings box
 var settings = {
+	// set a reference to the settings modal
 	modal : document.getElementById('settings'),
 	show : function(content) {
 		settings.modal.style.visibility = 'visible';
