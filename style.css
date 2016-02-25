@@ -368,12 +368,16 @@ a {
 
 @media screen and (min-width: 376px) and (max-width: 800px) {
 	body {
-		background-size: auto 100vh;
+		background-size: 100vw 100vh;
 	}
 	.messageBox {
-		border-width: 1px 1px 1px 0;
+		top: 0;
+		width: 50vw;
+		height: 85vh;
+		border-width: 0;
 		padding: 4px;
 		font: 9pt arial, courier;
+	    overflow-y: scroll;
 	}
 	code {
 		border: none;
@@ -381,16 +385,34 @@ a {
 		padding: 1px 1px;
 	}
 	#logo {
-	    height: 5vh;
+	    height: 10vh;
+	    position: fixed;
+	    left: 46vw;
+	    top: 2vh;
 	}
 	#sandbox {
-		width: 90vw;
+	    position: fixed;
+	    left: 50vw;
+		width: 50vw;
 	}
 	.console {
-		border-width: 4px;
+		border-width: 0;
 		padding: 4px;
-		width: 90vw;
-		font-size: 9pt;
+	    position: fixed;
+	    left: 51vw;
+	    bottom: 18vh;
+		width: 48vw;
+		height: 26vh;
+		font-size: 8pt;
+		border-radius: 0;
+	}
+	.dock {
+	    width: 98vw;
+	    height: 15vh;
+	}
+	.dockButtons {
+	    height: 13vh;
+	    width: 13vh;
 	}
 	#about, #help, #settings {
 		width: 90vw;
