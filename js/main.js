@@ -281,6 +281,11 @@ var messages = [
 		'pop'
 	],
 	[
+		'Clearing Variables',
+		'<p>Since this demo has a limited amount of space, you may want to delete some variables to make room for new ones. JavaScript doesn\'t provide a way to delete variables, but you can "undefine" them.<ol><li>Undefine <em>x</em></ol></p><p><code>x = undefined</code></p>',
+		'undefine'
+	],
+	[
 		'End of Line',
 		'<p>That\'s all the coding I have time for right now. Stay tuned for future updates which will go over <em>shift()</em>, <em>unshift()</em>, <em>splice()</em>, and other favorite JavaScript array methods.</p><p>Also, to avoid the need to grind in this demo to see what the Pocket Guide could offer, check out the debug section of the settings window.</p>',
 		'splice'
@@ -657,6 +662,8 @@ var cmd = {
 				} else {
 					arrayModel.post.splice(arrayModel.post.indexOf(arrayModel.var),1,'');
 				}
+				// increment the task in the messageBox if we just completed a task
+				messageBox.update('undefine');
 				// run disposal animation
 				anim.porthole.appear();
 			}
