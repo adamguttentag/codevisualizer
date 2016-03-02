@@ -286,6 +286,11 @@ var messages = [
 		'undefine'
 	],
 	[
+		'Replacing Variables',
+		'<p>If you pop() an item out of the array and give it the same name as an existing variable, it will replace the existing variable.<ol><li>Create a new variable <em>d</em> with the value <em>lemon</em><li>Push <em>d</em> into <em>arr</em><li>Pop <em>lemon</em> out of the array and call it <em>y</em><li>Watch as the existing variable <em>y</em> is replaced</ol></p>',
+		'undefine'
+	],
+	[
 		'End of Line',
 		'<p>That\'s all the coding I have time for right now. Stay tuned for future updates which will go over <em>shift()</em>, <em>unshift()</em>, <em>splice()</em>, and other favorite JavaScript array methods.</p><p>Also, to avoid the need to grind in this demo to see what the Pocket Guide could offer, check out the debug section of the settings window.</p>',
 		'splice'
